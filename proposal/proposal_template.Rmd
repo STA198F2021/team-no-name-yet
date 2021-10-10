@@ -12,6 +12,7 @@ subtitle: 'due October 11, 2021 by 11:59 PM '
 
 ```{r load-packages, message = FALSE, warning = FALSE}
 library(tidyverse) 
+#gender_stats <- readr::read_csv("")
 ``` 
 
 # Load Data
