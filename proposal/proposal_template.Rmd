@@ -11,12 +11,16 @@ subtitle: 'due October 11, 2021 by 11:59 PM '
 # Load Packages
 
 ```{r load-packages, message = FALSE, warning = FALSE}
-library(tidyverse) 
-#gender_stats <- readr::read_csv("")
+library(tidyverse)
 ``` 
 
 # Load Data
 ```{r load-data, message = F}
+load(data, hdi1)
+load(data, hdi4)
+load(data, hdi5)
+load(data, contraceptives)
+load(data, adolescent_births)
 ```
 
 # Introduction and Data, including Research Questions
@@ -26,6 +30,13 @@ library(tidyverse)
 # Glimpse
 
 (Please use `glimpse` for your data, uploaded into the data folder, here.)
+```{r glimpse datasets}
+glimpse(hdi1)
+glimpse(hdi4)
+glimpse(hdi5)
+glimpse(contraceptives)
+glimpse(adolescent_births)
+```
 
 # Data Analysis Plan
 
