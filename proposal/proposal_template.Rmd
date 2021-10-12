@@ -3,6 +3,7 @@ title: "Project Proposal"
 author: 'INSERT TEAM NAME: Isabel, Franklin, & Kaylin'
 date: "October 11th, 2021"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 subtitle: 'due October 11, 2021 by 11:59 PM '
@@ -26,7 +27,44 @@ library(tidyverse)
 
 # Introduction and Data, including Research Questions
 
-(The introduction should introduce your general research question and your data (where it came from, how it was collected, what are the cases, what are the variables, etc.). Your research questions should be clearly specified. The motivation for your research question should be clear, with citations to relevant literature as appropriate.)
+## Topic: Teen Pregnancy
+## Research question 
+How does a country’s quality of life influence the birth rates for teenagers 
+aged 15 to 19 years old? In other words, how does a country’s human and 
+economic resources affect the rate of premature births? We will define how we 
+are choosing to define quality of life later in the proposal. 
+
+Our group is very interested in looking into teenage pregnancies because we 
+feel that adolescent pregnancies are one of the most significant factors that 
+contribute to the status of development and prosperity a country has. Often 
+defined as a social problem, many studies like this one have found links 
+between teenage pregnancies and “economic well-being,” which could indirectly 
+impact the labor market and economy of a country in the long term if the 
+proportion of adolescent mothers is large enough. 
+
+We are trying to see the correlation between assumed “quality of life” factors 
+and teenage pregnancies for girls aged 15-19. To do this, we pulled data on 
+adolescent birth rate (WHO dataset), which was collected through a variety of 
+national and international surveys and country reports. We also pulled data on 
+female educational attainment, GNI, life expectancy at birth, HDI, Labor force 
+participation rate, and gender inequality index (Human Development Index), 
+which is from the 2020 Human Development Report provided by the United Nations. 
+We chose to look at these factors based on common risk factors that influence 
+teenage pregnancies, which broadly relate to the individual, family, and 
+community (Risk and Protective Factors). 
+
+## Variables:
+Adolescent birth rate (proportion out of population)
+Country
+Year / (3.5) Mean years of schooling
+Prevalence of contraceptives / (4.5) Maternal Mortality Rate
+Educational attainment (female)
+GNI (Gross National Income)
+Life expectancy at birth
+HDI 
+Labour Force Participation Rate
+Gender inequality index 
+
 
 # Glimpse
 
