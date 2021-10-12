@@ -16,11 +16,12 @@ library(tidyverse)
 
 # Load Data
 ```{r load-data, message = F}
-load(data, hdi1)
-load(data, hdi4)
-load(data, hdi5)
-load(data, contraceptives)
-load(data, adolescent_births)
+#load("~/team-no-name-yet/data",env = hdi1)
+#load(data, hdi1)
+#load(data, hdi4)
+#load(data, hdi5)
+#load(data, contraceptives)
+#load(data, adolescent_births)
 ```
 
 # Introduction and Data, including Research Questions
@@ -34,8 +35,9 @@ load(data, adolescent_births)
 glimpse(hdi1)
 glimpse(hdi4)
 glimpse(hdi5)
-glimpse(contraceptives)
+#glimpse(contraceptives)
 glimpse(adolescent_births)
+print(hdi1, hdi4, hdi5, adolescent_births)
 ```
 
 # Data Analysis Plan
