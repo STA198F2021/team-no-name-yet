@@ -3,9 +3,9 @@ title: "Project Proposal"
 author: 'INSERT TEAM NAME: Isabel, Franklin, & Kaylin'
 date: "October 11th, 2021"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 subtitle: 'due October 11, 2021 by 11:59 PM '
 ---
 
@@ -79,6 +79,8 @@ Gender inequality index
 #print(hdi4)
 #print(hdi5)
 #print(adolescent_births)
+
+#We are unable to load in the packages so to knit we have commented out this
 ```
 
 # Data Analysis Plan
