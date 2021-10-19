@@ -21,43 +21,51 @@ The codebook for your data file(s) using the following format.
 |variable         |description |
 |:----------------|:-----------|
 |country        | These are the countries that data was collected for the HDI.  |
-|human development index (hdi)        | An overall "ranking" weighted on a compliation of various factors |
-|gross national income (GNI) per capita        | The Gross National Income (GNI) is a key economic indicator of a country's wealth. This variable divides GNI into per capita measures|
-|life expectancy at birth        | The expected life expectancy of an individual at birth in years  |
+|human_development_index        | An overall "ranking" weighted on a compliation of various factors |
+|life_expectancy_birth        | The expected life expectancy of an individual at birth in years  |
 
 
 ## hdi4
 
 |variable         |description |
 |:----------------|:-----------|
-|life expectancy at birth by gender        | The expected life expectancy of an individual at birth in years, separated into male and female genders  |
-|expected years of schooling by gender        | The expected years of schooling of an individual at birth in years, separated into male and female genders  |
+|expected_years_schooling       | The expected years of schooling of an individual at birth in years, separated into male and female genders  |
 
 
 ## hdi5
 
 |variable         |description |
 |:----------------|:-----------|
-|gender inequality index        | An index that measures inequalities among the factors of reproductive health, empowerment, and economic status. |
-|maternal mortality ratio        | The number of maternal deaths per 100,000 live births |
-|adolescent birth rate        | The number of births per 1,000 for women between the ages of 15-19 |
-|population with at least some secondary education        | The percentage of individuals age 25 and older that have some secondary education, separated into male and female genders |
-|labour force participation rate        | The percentage of individuals age 15 and older that have employment experience, separated into male and female genders  |
+|gender_inequality_index        | An index that measures inequalities among the factors of reproductive health, empowerment, and economic status |
+|maternal_mortality        | The number of maternal deaths per 100,000 live births |
+|labour_participation        | The percentage of individuals age 15 and older that have employment experience, separated into male and female genders  |
 
+## hdi8
+
+|variable         |description |
+|:----------------|:-----------|
+|mortality_infant        | The number of infant deaths per 1,000 live births |
+
+## hdi10
+
+|variable         |description |
+|:----------------|:-----------|
+|gdp        | An calculation of the gross domestic product of a country. This is one of the best measurements for a country's wealth and economic status  |
 
 ## contraceptives
 
 |variable         |description |
 |:----------------|:-----------|
-|contraceptive prevalence, any methods (% of women ages 15-49)     | The percentage of women ages 15-49 that use at least one method of contraceptives  |
+|contraceptive_prevalence    | The percentage of women ages 15-49 that use at least one method of contraceptives  |
 
 ## adolescent_births
 
 |variable         |description |
 |:----------------|:-----------|
-|indicator        | The number of births per 1,000 for women between the ages of 15-19 |
-|period        | The years that observations were collected, from 2000-2019 |
+|adolescent_births        | The number of births per 1,000 for women between the ages of 15-19 |
+|year        | The years that observations were collected, from 2000-2019 |
+|country        | Most countries around the world |
 
-#The two dataframes above are having trouble being imported since they do not have an external link to reference back to.
+##Note: There are more than 10 variables present because we would like to maximize our flexibility in terms of selecting and visualizing different variables with each other.
 
 

@@ -3,71 +3,80 @@ title: "Project Proposal"
 author: 'Isabel Siebrecht, Franklin Feng, & Kaylin Hernandez'
 date: "October 11th, 2021"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
-subtitle: 'due October 11, 2021 by 11:59 PM '
+subtitle: 'due October 11, 2021 by 11:59 PM. Resumbitted October 18, 2021'
 ---
 
 # Load Packages
 
 ```{r load-packages, message = FALSE, warning = FALSE}
 library(tidyverse)
+library(dplyr)
 ``` 
 
 # Load Data
 ```{r load-data, message = FALSE}
 hdi1 <- read.csv("../data/HDI_Table1.csv")
-hdi3 <- read.csv("../data/HDI_Table3.csv")
 hdi4 <- read.csv("../data/HDI_Table4.csv")
 hdi5 <- read.csv("../data/HDI_Table5.csv")
-hdi7 <- read.csv("../data/HDI_Table7.csv")
 hdi8 <- read.csv("../data/HDI_Table8.csv")
-hdi9 <- read.csv("../data/HDI_Table9.csv")
 hdi10 <- read.csv("../data/HDI_Table10.csv")
 adolescent_births <- read.csv("../data/Adolescent_Births.csv")
 contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
 ```
 
+
 # Introduction and Data, including Research Questions
 
 ## Topic: Teen Pregnancy
+
 ## Research question 
 How does a country’s quality of life influence the birth rates for teenagers 
-aged 15 to 19 years old? In other words, how does a country’s human and 
-economic resources affect the rate of premature births? We will define how we 
-are choosing to define quality of life later in the proposal. 
+aged 15 to 19 years old? In other words, how does a country’s human and economic
+resources affect the rate of premature births? We will define how we are 
+choosing to define quality of life later in the proposal. 
 
-Our group is very interested in looking into teenage pregnancies because we 
-feel that adolescent pregnancies are one of the most significant factors that 
+Our group is very interested in looking into teenage pregnancies because we feel
+that adolescent pregnancies are one of the most significant factors that 
 contribute to the status of development and prosperity a country has. Often 
-defined as a social problem, many studies like this one have found links 
-between teenage pregnancies and “economic well-being,” which could indirectly 
-impact the labor market and economy of a country in the long term if the 
-proportion of adolescent mothers is large enough. 
+defined as a social problem, many studies have found links between teenage 
+pregnancies and “economic well-being,” which could indirectly impact the labor 
+market and economy of a country in the long term if the proportion of adolescent
+mothers is large enough. 
 
 We are trying to see the correlation between assumed “quality of life” factors 
 and teenage pregnancies for girls aged 15-19. To do this, we pulled data on 
 adolescent birth rate (WHO dataset), which was collected through a variety of 
 national and international surveys and country reports. We also pulled data on 
-female educational attainment, GNI, life expectancy at birth, HDI, Labor force 
-participation rate, and gender inequality index (Human Development Index), 
-which is from the 2020 Human Development Report provided by the United Nations. 
-We chose to look at these factors based on common risk factors that influence 
+female educational attainment, GDP, life expectancy at birth, HDI, labour force 
+participation rate, and gender inequality index (Human Development Index), which
+is from the 2020 Human Development Report provided by the United Nations. We 
+chose to look at these factors based on common risk factors that influence 
 teenage pregnancies, which broadly relate to the individual, family, and 
-community (Risk and Protective Factors). 
+community (Risk and Protective Factors).
 
 ## Variables:
 Adolescent birth rate (proportion out of population)
+
 Country
-Year / (3.5) Mean years of schooling
-Prevalence of contraceptives / (4.5) Maternal Mortality Rate
-Educational attainment (female)
-GNI (Gross National Income)
-Life expectancy at birth
-HDI 
+
+Year
+
+Prevalence of contraceptives / (4.5) Mortality Rates, By Infants and Mothers
+
+Educational Attainment (Female)
+
+GDP (Gross Domestic Product)
+
+Life Expectancy at Birth
+
+HDI (Human Development Index)
+
 Labour Force Participation Rate
-Gender inequality index 
+
+Gender Inequality Index
 
 
 # Glimpse
@@ -75,70 +84,77 @@ Gender inequality index
 (Please use `glimpse` for your data, uploaded into the data folder, here.)
 ```{r glimpse datasets}
 glimpse(hdi1)
-glimpse(hdi3)
 glimpse(hdi4)
 glimpse(hdi5)
-glimpse(hdi7)
 glimpse(hdi8)
-glimpse(hdi9)
 glimpse(hdi10)
 glimpse(adolescent_births)
 glimpse(contraceptive_prevalence)
+
+#hdi1 <- slice(hdi1, -c(1:7, 223:263))
+#names(hdi1) <- c("test", "test3")
 ```
 
-# Data Analysis Plan
+Note: The datasets in the glimpse setting seem to be a little messy. However, 
+with our feedback from Jackie Du we will use some data-wrangling and dplyr to
+make this a more manageable and clean output. The commented out code is where we 
+are looking to begin to clean up each dataset.
 
-(Specify the outcome (response, Y) and predictor (explanatory, X) variables you will use to answer your question, as well as the comparison groups you will use, if applicable. You may include very preliminary exploratory data analysis, including some summary statistics and visualizations, along with some explanation on how they help you learn more about your data. Note the statistical method(s) that you believe will be useful in answering your question(s). 
-What results from these specific statistical methods are needed to support your hypothesized answer?)
+
+# Data Analysis Plan
 
 Since the repercussions of teenage pregnancy can spread into many aspects of 
 life, we have chosen a few different explanatory variables to compare how these 
 differences may look in different settings. For the first part of our project, 
 our explanatory variables will be year and country, while the response variable 
 will be adolescent birth rates. This will give us a good idea of the 
-prevalence/proportion of birth rates around the world. For the second part of 
-the project, we will try to find factors that could correlate to higher birth 
-rates (birth rates as the response variable), so the explanatory  variables 
-would be adolescent birth rate, prevalence of contraceptives, educational 
-attainment (female v. male), GDP, life expectancy at birth, HDI, women 
-inequality index and women in the workforce. We chose to look at the prevalence 
-of contraceptives because we are assuming a country that has better access to 
-contraceptives will have lower rates of teen pregnancies. We chose GDP, life 
-expectancy and level of education attainment because we wanted to measure 
-quality of life in countries and a country's economy and level of education are 
-both great indicators of the quality of life for the citizens. HDI, human 
-development index, is another way of measuring quality of life that looks at 
-the index of life expectancy, education, and per capita income. The women 
-inequality index and women in the workforce rate are both good ways to measure 
-the effect of adolescent pregnancy on a country because they focus on the 
-wellbeing of women, the people most affected by teen pregnancy. 
+prevalence/proportion of birth rates around the world. 
 
-As a side note, we are worried that the contraceptive prevalence data will be 
-tricky to use because it is from a different set and the data isn’t as clean as 
-the other data we found so we have chosen a backup variable incase once we start 
-to wrangle our data it looks to be too complicated. We have chosen maternal 
-mortality rate because we hypothesize that with women starting their 
-childbearing at a younger age, they will have more medical complications and 
-will be more likely to have more children, thus increasing the risk of dying 
-from childbirth. 
-We want to make ten graphs. The first nine will all have the same x variables 
-but the y variables will differ so that we can compare. The tenth will have the 
-prevalence of contraceptives as x and birth rate as y. For the level of 
-education it will be important to make a distinction between female and male 
-because teen pregnancies tend to hold back women’s education more than men’s. 
-We can do this using a filter on color by gender. 
-For analysing our data we want to look at conditional probability to test for 
-correlation. We want to see if there is a correlation between GDP, level of 
-education, prevalence of contraceptives and life expectancy and test each one 
-against adolescent birth rate. To do this, we can utilize linear regression 
-models and check the strength of the correlation with r – we would also have 
-to find the best line of fit, working with r2 as well. 
-We also want to check our assumptions about possible correlators, so we plan 
-to use hypothesis testing, we will use a two sided t-test, and analyze  p-values 
-for our data sets. The p-value is a conditional probability that tells us how 
-likely it is to get our data again (or a more extreme version) given our null 
-hypothesis is true. If our reasoning is correct, we expect there to be a 
-correlation between the four variables above and adolescent birth rate. This 
-means that we will need to reject the null hypothesis, with statistical evidence
-that there is no correlation between these variables.
+For the second part of the project, we will try to find factors that could 
+correlate to higher birth rates (birth rates as the response variable), so the 
+explanatory variables would be adolescent birth rate, prevalence of 
+contraceptives, educational attainment (female v. male), GDP, life expectancy at
+birth, HDI, gender inequality index and labour force participation rate 
+(female v. male). We chose to look at the prevalence of contraceptives because 
+we are assuming a country that has better access to contraceptives will have 
+lower rates of teen pregnancies. We chose GDP, life expectancy and level of 
+education attainment because we wanted to measure quality of life in countries 
+and a country's economy and level of education are both great indicators of the 
+quality of life for the citizens. HDI, the Human Development Index, is another 
+way of measuring quality of life that looks at the index of life expectancy, 
+education, and per capita income. The gender inequality index and labour force 
+participation rate are both good ways to measure the effect of adolescent 
+pregnancy on a country because they focus on the wellbeing of women, the people 
+most affected by teen pregnancy. 
 
+As a side note, we are worried that the 
+contraceptive prevalence data will be tricky to use because it is from a 
+different set and the data isn’t as clean as the other data we found so we have 
+chosen a backup variable incase once we start to wrangle our data it looks to be
+too complicated. We have chosen mortality rates among infants and mothers 
+because we hypothesize that with women starting their childbaring at a younger 
+age, they will have more medical complications and will be more likely to have 
+more children, thus increasing the risk of dying from childbirth. The mortality 
+rate among infants is another added variable that we can explore to observe the 
+safety and resources of a country for the newborn child.
+
+We want to make ten visualizations in total. The first nine will all have the 
+same x variables but the y variables will differ so that we can compare. The 
+tenth will have the prevalence of contraceptives as x and birth rate as y. For 
+the level of education it will be important to make a distinction between female
+and male because teen pregnancies tend to hold back women’s education more than 
+men’s. We can do this using a filter on color by gender. For analysing our data 
+we want to look at conditional probability to test for correlation. We want to 
+see if there is a correlation between GDP, level of education, prevalence of 
+contraceptives and life expectancy and test each one against adolescent birth 
+rate. To do this, we can utilize linear regression models and check the strength
+of the correlation with r – we would also have to find the best line of fit, 
+working with R2 as well. We also want to check our assumptions about possible 
+correlators, so we plan to use hypothesis testing, we will use a two sided 
+t-test, and analyze p-values for our data sets. The p-value is a conditional 
+probability that tells us how likely it is to get our data again 
+(or a more extreme version) given our null hypothesis is true. If our reasoning 
+is correct, we expect there to be a correlation between the four variables above
+and adolescent birth rate. This means that we will need to reject the null 
+hypothesis, with statistical evidence that there is no correlation between these
+variables.
