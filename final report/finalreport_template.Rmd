@@ -1,7 +1,25 @@
 ---
 title: "Final Report"
 subtitle: "due November 16, 2021 by 11:59 PM "
-author: "Your names and team name here"
-date: ""
+author: "Kaylin, Franklin, Isabel"
+date: "11/16/21"
 output: pdf_document
 ---
+
+# Load Packages
+
+```{r load-packages, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(dplyr)
+``` 
+
+# Load Data
+```{r load-data, message = FALSE}
+hdi1 <- read.csv("../data/HDI_Table1.csv")
+hdi4 <- read.csv("../data/HDI_Table4.csv")
+hdi5 <- read.csv("../data/HDI_Table5.csv")
+hdi8 <- read.csv("../data/HDI_Table8.csv")
+hdi10 <- read.csv("../data/HDI_Table10.csv")
+adolescent_births <- read.csv("../data/Adolescent_Births.csv")
+contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
+```
