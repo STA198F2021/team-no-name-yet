@@ -23,3 +23,9 @@ hdi10 <- read.csv("../data/HDI_Table10.csv")
 adolescent_births <- read.csv("../data/Adolescent_Births.csv")
 contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
 ```
+
+#Figure 1
+```{r fig1}
+
+```
+
