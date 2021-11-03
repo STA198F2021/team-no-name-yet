@@ -3,10 +3,10 @@ title: "Project Proposal"
 author: 'Isabel Siebrecht, Franklin Feng, & Kaylin Hernandez'
 date: "October 11th, 2021"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
-subtitle: 'due October 11, 2021 by 11:59 PM. Resumbitted October 18, 2021'
+  pdf_document: default
+subtitle: 'due October 11, 2021 by 11:59 PM. Resubmitted October 18, 2021'
 ---
 
 # Load Packages
@@ -90,9 +90,6 @@ glimpse(hdi8)
 glimpse(hdi10)
 glimpse(adolescent_births)
 glimpse(contraceptive_prevalence)
-
-#hdi1 <- slice(hdi1, -c(1:7, 223:263))
-#names(hdi1) <- c("test", "test3")
 ```
 
 Note: The datasets in the glimpse setting seem to be a little messy. However, 

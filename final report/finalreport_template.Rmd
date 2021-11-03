@@ -1,9 +1,11 @@
 ---
 title: "Final Report"
-subtitle: "due November 16, 2021 by 11:59 PM "
-author: "Kaylin, Franklin, Isabel"
+author: "Isabel Siebrecht, Franklin Feng, & Kaylin Hernandez"
 date: "11/16/21"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
+subtitle: 'due November 16, 2021 by 11:59 PM '
 ---
 
 # Load Packages
@@ -11,10 +13,12 @@ output: pdf_document
 ```{r load-packages, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(dplyr)
+
+knitr::opts_chunk$set(eval = TRUE, echo = FALSE, message = FALSE, warning = FALSE)
 ``` 
 
 # Load Data
-```{r load-data, message = FALSE}
+```{r load-data}
 hdi1 <- read.csv("../data/HDI_Table1.csv")
 hdi4 <- read.csv("../data/HDI_Table4.csv")
 hdi5 <- read.csv("../data/HDI_Table5.csv")
@@ -24,8 +28,12 @@ adolescent_births <- read.csv("../data/Adolescent_Births.csv")
 contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
 ```
 
-#Figure 1
-```{r fig1}
+#Clean Datasets
+```{r clean-data}
+hdi1_clean <- slice(hdi1, -c(1:7, 74, 128, 166, 200, 207:270))
+hdi1_clean <- select(hdi1_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11))
+names(hdi1_clean) <- c("HDI Rank", "Country", "HDI Value 2019", "Life Expectancy at Birth", "Expected Years of Schooling", "Mean Years of Schooling", "GNI Per Capita", "GNI Per Capita Minus HDI", "HDI Value 2018")
+
 
 ```
 
