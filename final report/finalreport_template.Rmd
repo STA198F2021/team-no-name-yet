@@ -32,8 +32,26 @@ contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
 ```{r clean-data}
 hdi1_clean <- slice(hdi1, -c(1:7, 74, 128, 166, 200, 207:270))
 hdi1_clean <- select(hdi1_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11))
-names(hdi1_clean) <- c("HDI Rank", "Country", "HDI Value 2019", "Life Expectancy at Birth", "Expected Years of Schooling", "Mean Years of Schooling", "GNI Per Capita", "GNI Per Capita Minus HDI", "HDI Value 2018")
+names(hdi1_clean) <- c("HDI Rank", "Country", "HDI 2019", "Life Expectancy Birth", "Expected Years Schooling", "Mean Years Schooling", "GNI Per Capita", "GNI Per Capita Minus HDI", "HDI 2018")
 
+hdi4_clean <- slice(hdi4, -c(1:7, 74, 128, 166, 200, 207:264))
+hdi4_clean <- select(hdi4_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17, X.19, X.21, X.23))
+names(hdi4_clean) <- c("HDI Rank", "Country", "Gender Development Index", "Gender Development Index Group", "HDI Female", "HDI Male", "Life Expectancy Birth Female", "Life Expectancy Birth Male", "Expected Years Schooling Female", "Expected Years Schooling Male", "Mean Years Schooling Female", "Mean Years Schooling Male", "Estimated GNI per Capita Female", "Estimated GNI per Capita Male")
 
+hdi5_clean <- slice(hdi5, -c(1:7, 74, 128, 166, 200, 207:270))
+hdi5_clean <- select(hdi5_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17))
+names(hdi5_clean) <- c("HDI Rank", "Country", "Gender Development Index", "Gender Development Index Rank", "Maternal Mortality Ratio", "Adolescent Birth Rate", "Seats Parliament Female", "Secondary Education Female", "Secondary Education Male", "Labour Participation Female", "Labour Participation Male")
+
+hdi8_clean <- slice(hdi8, -c(1:7, 74, 128, 166, 200, 207:264))
+hdi8_clean <- select(hdi8_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17, X.19, X.21, X.23, X.25, X.27, X.29 : X.33))
+names(hdi8_clean) <- c("HDI Rank", "Country", "Infants Breastfed", "Lack DTP Immunization", "Lack Measles Immunization", "Child Malnutrition", "Mortality Rate Infant", "Mortality Rate Under 5", "Mortality Rate Female", "Mortality Rate Male", "Mortality Rate Noncommunicable Female", "Mortality Rate Noncommunicable Male", "Malaria Incidence", "TB Incidence", "HIV Prevalence", "Healthy Life Expectancy at Birth", "Health Expenditure of GDP")
+
+hdi10_clean <- slice(hdi10, -c(1:7, 74, 128, 166, 200, 207:260))
+hdi10_clean <- select(hdi10_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17, X.19, X.21, X.23))
+names(hdi10_clean) <- c("HDI Rank", "Country", "GDP", "GDP per Capita", "GDP Annual Growth", "Labour Share", "Gross Fixed Capital Formation of GDP", "General Government Consumption of GDP", "General Government Consumption Annual Growth", "Total Tax Revenue of GDP", "Taxes Income Profits Capital Gains of TTR", "External Debt Stock of GNI", "Total Debt Service of GNI", "Consumer Price Index")
+
+#adolescent_births_clean <- slice(adolescent_births, -c(1:7, 74, 128, 166, 200, 207:270))
+#adolescent_births_clean <- select(adolescent_births_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11))
+#names(adolescent_births_clean) <- c("HDI Rank", "Country", "HDI 2019", "Life Expectancy Birth", "Expected Years Schooling", "Mean Years Schooling", "GNI Per Capita", "GNI Per Capita Minus HDI", "HDI 2018")
 ```
 
