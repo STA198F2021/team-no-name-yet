@@ -50,8 +50,11 @@ hdi10_clean <- slice(hdi10, -c(1:7, 74, 128, 166, 200, 207:260))
 hdi10_clean <- select(hdi10_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17, X.19, X.21, X.23))
 names(hdi10_clean) <- c("HDI Rank", "Country", "GDP", "GDP per Capita", "GDP Annual Growth", "Labour Share", "Gross Fixed Capital Formation of GDP", "General Government Consumption of GDP", "General Government Consumption Annual Growth", "Total Tax Revenue of GDP", "Taxes Income Profits Capital Gains of TTR", "External Debt Stock of GNI", "Total Debt Service of GNI", "Consumer Price Index")
 
-#adolescent_births_clean <- slice(adolescent_births, -c(1:7, 74, 128, 166, 200, 207:270))
-#adolescent_births_clean <- select(adolescent_births_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11))
-#names(adolescent_births_clean) <- c("HDI Rank", "Country", "HDI 2019", "Life Expectancy Birth", "Expected Years Schooling", "Mean Years Schooling", "GNI Per Capita", "GNI Per Capita Minus HDI", "HDI 2018")
+adolescent_births_clean <- select(adolescent_births, select = c(ParentLocation, Location, Period, IsLatestYear, FactValueNumeric, Value))
+names(adolescent_births_clean) <- c("World Region", "Country", "Period", "Is Latest Year", "Adolescent Births", "Adolescent Births Text")
+
+contraceptive_prevalence_clean <- slice(contraceptive_prevalence, -c(1:8))
+contraceptive_prevalence_clean <- select(contraceptive_prevalence_clean, select = c(X, X.2, X.3, X.4, X.5, X.6, X.19))
+names(contraceptive_prevalence_clean) <- c("Country", "Survey Start Year", "Survey End Year", "Age Group", "Contraceptive Any Method", "Contraceptive Modern Method", "Contraceptive Traditional Method")
 ```
 
