@@ -60,7 +60,17 @@ names(contraceptive_prevalence_clean) <- c("Country", "Survey Start Year", "Surv
 
 #Join
 ```{r}
-join(hdi1_clean, hdi10_clean, by = "HDI Rank", type = "inner")
+data_joined <- hdi1_clean %>%
+  inner_join(hdi1_clean, hdi10_clean, by = "HDI Rank")
+
+data_joined <- data_joined %>%
+  inner_join(data_joined, hdi4_clean, by = "HDI Rank")
+
+data_joined <- data_joined %>%
+  inner_join(data_joined, hdi5_clean, by = "HDI Rank")
+
+data_joined <- data_joined %>%
+  inner_join(data_joined, hdi8_clean, by = "HDI Rank")
 ```
 
 #fig1
