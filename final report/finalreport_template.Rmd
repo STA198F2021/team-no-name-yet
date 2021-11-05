@@ -60,7 +60,7 @@ names(contraceptive_prevalence_clean) <- c("Country", "Survey Start Year", "Surv
 
 #Join
 ```{r}
-
+join(hdi1_clean, hdi10_clean, by = "HDI Rank", type = "inner")
 ```
 
 #fig1
