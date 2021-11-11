@@ -94,7 +94,15 @@ ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`),
 **Is female educational attainment related to adolescent birth rate?**
 #fig4
 ```{r fem-education, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-
+country_joined %>%
+  ggplot(aes(x= as.numeric(`Expected Years Schooling Female`), 
+             y= as.numeric(`Adolescent Birth Rate`))) +
+  geom_point() +
+  labs(
+    title= "Is Female Educational Attainment Related to Adolescent Birth Rate?",
+    x="Expected Years Schooling Female",
+    y="Adolescent Birth Rate"
+  )
 ```
 
 **Is GDP related to adolescent birth rate?**
