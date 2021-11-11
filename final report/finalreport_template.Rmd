@@ -85,6 +85,9 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 #fig3
 **Is maternal mortality ratio related to adolescent birth rate?**
 ```{r maternal-mortality, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
+ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`), 
+                           y = as.numeric(`Adolescent Birth Rate`))) +
+  geom_point()
 
 ```
 
