@@ -72,6 +72,7 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 ```
 
 #fig1
+
 ```{r}
 
 ```
@@ -82,22 +83,44 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 ```
 
 #fig3
-```{r}
+**Is maternal mortality ratio related to adolescent birth rate?**
+```{r maternal-mortality, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 
 ```
 
+**Is female educational attainment related to adolescent birth rate?**
 #fig4
-```{r}
+```{r fem-education, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 
 ```
 
+**Is GDP related to adolescent birth rate?**
 #fig5
-```{r}
+```{r GDP, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 
 ```
 
+**Is life expectancy at birth related to adolescent birth rate?**
 #fig6
-```{r}
+```{r life-exp, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
+
+```
+
+**Is HDI related to adolescent birth rate?**
+#fig7
+```{r HDI, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
+
+```
+
+**Is labor force participation rate related to adolescent birth rate?**
+#fig8
+```{r labor-force, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
+
+```
+
+**Is the gender inequality index related to adolescent birth rate?**
+#fig9
+```{r gender-inequality, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 
 ```
 
