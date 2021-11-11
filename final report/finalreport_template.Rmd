@@ -118,10 +118,18 @@ country_joined %>%
 
 ```
 
-**Is HDI related to adolescent birth rate?**
+**Is HDI in 2019 related to adolescent birth rate?**
 #fig7
 ```{r HDI, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-
+country_joined %>%
+  ggplot(aes(x= as.numeric(`HDI 2019`), 
+             y= as.numeric(`Adolescent Birth Rate`))) +
+  geom_point() +
+  labs(
+    title= "Is HDI in 2019 Related to Adolescent Birth Rate?",
+    x="2019 HDI",
+    y="Adolescent Birth Rate"
+  )
 ```
 
 **Is labor force participation rate related to adolescent birth rate?**
