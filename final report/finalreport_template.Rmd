@@ -62,7 +62,7 @@ names(contraceptive_prevalence_clean) <- c("Country", "Survey Start Year", "Surv
 #Join
 ```{r join-datasets}
 
-hdi_joined <- hdi1_clean %>%
+country_joined <- hdi1_clean %>%
   inner_join(hdi10_clean, by = "Country")%>%
   inner_join(hdi4_clean, by = "Country")%>%
   inner_join(hdi5_clean, by = "Country")%>%
@@ -97,7 +97,8 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 **Is GDP related to adolescent birth rate?**
 #fig5
 ```{r GDP, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-
+#country_joined %>%
+  #filter(is.na())
 ```
 
 **Is life expectancy at birth related to adolescent birth rate?**
