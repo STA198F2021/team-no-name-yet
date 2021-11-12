@@ -138,9 +138,17 @@ country_joined %>%
 
 ```
 
-**Is the gender inequality index related to adolescent birth rate?**
+**Is the gender develop index related to adolescent birth rate?**
 #fig9
 ```{r gender-inequality, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-
+country_joined %>%
+  ggplot(aes(x= as.numeric(`Gender Development Index.y`), 
+             y= as.numeric(`Adolescent Birth Rate`))) +
+  geom_point() +
+  labs(
+    title= "Is Gender Development Index Related to Adolescent Birth Rate?",
+    x="Gender Development Index",
+    y="Adolescent Birth Rate"
+  )
 ```
 
