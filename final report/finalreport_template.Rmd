@@ -94,14 +94,24 @@ ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`),
 **Is female educational attainment related to adolescent birth rate?**
 #fig4
 ```{r fem-education, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-
+country_joined %>%
+  ggplot(aes(x= as.numeric(`Expected Years Schooling Female`), 
+             y= as.numeric(`Adolescent Birth Rate`))) +
+  geom_point() +
+  labs(
+    title= "Is Female Educational Attainment Related to Adolescent Birth Rate?",
+    x="Expected Years Schooling Female",
+    y="Adolescent Birth Rate"
+  )
 ```
 
 **Is GDP related to adolescent birth rate?**
 #fig5
 ```{r GDP, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-#country_joined %>%
-  #filter(is.na())
+ggplot(country_joined, aes(x = as.numeric(`GDP`), 
+                           y = as.numeric(`Adolescent Birth Rate`), color = as.numeric(`HDI Rank.x`))) +
+  geom_point() +
+  geom_smooth()
 ```
 
 **Is life expectancy at birth related to adolescent birth rate?**
@@ -115,10 +125,18 @@ ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`),
   geom_point()
 ```
 
-**Is HDI related to adolescent birth rate?**
+**Is HDI in 2019 related to adolescent birth rate?**
 #fig7
 ```{r HDI, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-
+country_joined %>%
+  ggplot(aes(x= as.numeric(`HDI 2019`), 
+             y= as.numeric(`Adolescent Birth Rate`))) +
+  geom_point() +
+  labs(
+    title= "Is HDI in 2019 Related to Adolescent Birth Rate?",
+    x="2019 HDI",
+    y="Adolescent Birth Rate"
+  )
 ```
 
 **Is labor force participation rate related to adolescent birth rate?**
@@ -127,9 +145,17 @@ ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`),
 
 ```
 
-**Is the gender inequality index related to adolescent birth rate?**
+**Is the gender develop index related to adolescent birth rate?**
 #fig9
 ```{r gender-inequality, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-
+country_joined %>%
+  ggplot(aes(x= as.numeric(`Gender Development Index.y`), 
+             y= as.numeric(`Adolescent Birth Rate`))) +
+  geom_point() +
+  labs(
+    title= "Is Gender Development Index Related to Adolescent Birth Rate?",
+    x="Gender Development Index",
+    y="Adolescent Birth Rate"
+  )
 ```
 
