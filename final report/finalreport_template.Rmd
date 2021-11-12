@@ -107,7 +107,12 @@ ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`),
 **Is life expectancy at birth related to adolescent birth rate?**
 #fig6
 ```{r life-exp, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-
+ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Male`), 
+                           y = as.numeric(`Adolescent Birth Rate`))) +
+  geom_point()
+ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`), 
+                           y = as.numeric(`Adolescent Birth Rate`))) +
+  geom_point()
 ```
 
 **Is HDI related to adolescent birth rate?**
