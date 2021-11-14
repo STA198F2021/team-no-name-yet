@@ -220,7 +220,7 @@ adolescent birth rate.
 
 **Which variable has the strongest correlation to adolescdent birth rate?**
 ```{r}
-linear_reg() %>% 
+mainfit_2 <- linear_reg() %>% 
   set_engine("lm") %>%
   fit(`Adolescent Birth Rate` ~ `Gender Development Index.y` + `Labour Participation Female` + `HDI 2019` + `Life Expectancy Birth Female` + `GDP` + `HDI Rank.x` + `Expected Years Schooling Female` + `Maternal Mortality Ratio`, data = country_joined)
-
+tidy(mainfit_2)
