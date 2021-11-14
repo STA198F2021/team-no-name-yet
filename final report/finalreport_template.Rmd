@@ -72,6 +72,17 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
   inner_join(adolescent_births_clean, by = "Country")
 ```
 
+Our group is very interested in looking into teenage pregnancies because we feel
+that adolescent pregnancies are one of the most significant factors that 
+contribute to the status of development and prosperity a country has. The questions
+we will attempt to answer are: How does a country’s quality of life influence the
+birth rates for teenagers aged 15 to 19 years old? In other words, how does a 
+country’s human and economic resources affect the rate of premature births? Since
+the repercussions of teenage pregnancy can spread into many aspects of life, we 
+have chosen a few different explanatory variables to compare how these differences
+may look in different settings. 
+
+
 #fig1
 
 ```{r}
@@ -87,9 +98,13 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 ```{r maternal-mortality, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
-  geom_point()
+  geom_point() +
+  labs(x = "Maternal Mortality Ratio", y = "Adolescent Birth Rate")
 
 ```
+
+This data shows a positive trend, as maternal mortality increases, so too does
+adolescent bith rate across countries in 2019.
 
 **Is female educational attainment related to adolescent birth rate?**
 #fig4
