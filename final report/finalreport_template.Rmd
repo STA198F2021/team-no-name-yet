@@ -72,15 +72,16 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
   inner_join(adolescent_births_clean, by = "Country")
 ```
 
-Our group is very interested in looking into teenage pregnancies because we feel
-that adolescent pregnancies are one of the most significant factors that 
-contribute to the status of development and prosperity a country has. The questions
-we will attempt to answer are: How does a country’s quality of life influence the
-birth rates for teenagers aged 15 to 19 years old? In other words, how does a 
-country’s human and economic resources affect the rate of premature births? Since
-the repercussions of teenage pregnancy can spread into many aspects of life, we 
-have chosen a few different explanatory variables to compare how these differences
-may look in different settings. 
+# Introduction
+Our group chose to research what influences the rates of teenage pregnancies because we consider premature pregnancies one of the most significant indicators of a country’s development and prosperity. Therefore, we hope our findings can encourage governments to reduce the rate of teenage pregnancies, especially considering the repercussions of lost economic contributions and increased dependency on costly public programs [https://www.ncbi.nlm.nih.gov/books/NBK219229/]. 
+
+In essence, we attempt to answer how a country’s quality of life, measured by human and economic resources, correlates to the birth rates for teenagers aged 15 to 19 years old. To answer our question, our explanatory variables of adolescent pregnancy rates are female educational attainment, GDP, life expectancy at birth, HDI, labor force participation rate, and gender inequality index. 
+Information provided by Youth.gov supports our predictors because they broadly encompass the individual, family, and community that influence teenage pregnancies [https://youth.gov/youth-topics/pregnancy-prevention/risk-and-protective-factors].
+
+We pulled our data on adolescent birth rate from the World Health Organization who collected the results via various national and international surveys and country reports. We also pulled data from the 2020 Human Development Report provided by the United Nations. This data consisted of female educational attainment (number of years of schooling), GDP, life expectancy at birth, HDI, labor force participation rate, and gender inequality index. The gender equality index measures the gender disparity in a country on a scale from 0 to 1. The greater the value, the greater the measure of inequality. 
+
+As a disclaimer, we acknowledge that our findings are based on preconceived, Western assumptions of what qualifies as a global indicator of “status.” Thus, we conducted this report on our assumptions of what defines a country’s prosperity and development.
+
 
 
 #fig1
