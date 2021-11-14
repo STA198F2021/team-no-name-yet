@@ -132,7 +132,8 @@ ggplot(country_joined, aes(x = as.numeric(`GDP`),
   labs(
     title= "Is GDP Related to Adolescent Birth Rates?",
     x="GDP Level",
-    y="Adolescent Birth Rate")
+    y="Adolescent Birth Rate",
+    color = "HDI Rank") 
 ```
 
 **Is life expectancy at birth related to adolescent birth rate?**
