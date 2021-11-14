@@ -13,7 +13,11 @@ subtitle: 'due November 16, 2021 by 11:59 PM '
 ```{r load-packages, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(dplyr)
+library(tidyr)
+library(readr)
 library(ggplot2)
+library(infer)
+library(tidymodels)
 
 knitr::opts_chunk$set(eval = TRUE, echo = FALSE, message = FALSE, warning = FALSE)
 ``` 
@@ -136,12 +140,24 @@ ggplot(country_joined, aes(x = as.numeric(`GDP`),
     color = "HDI Rank") 
 ```
 
+```{r gdp-linear-regression}
+gdp_linreg <- country_joined %>%
+  select(`Adolescent Birth Rate`, `GDP`, `HDI Rank.x`, `GNI Per Capita`, `GDP Annual Growth`) %>%
+  filter(!`GDP` == "..") %>%
+  filter(!`Adolescent Birth Rate` == "..")
+         
+mainfit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(as.numeric(`Adolescent Birth Rate`) ~ as.numeric(`GDP`) + as.numeric(`HDI Rank.x`) + as.numeric(`GNI Per Capita`), data = gdp_linreg)
+tidy(mainfit)
+```
+
+
 **Is life expectancy at birth related to adolescent birth rate?**
 #fig6
 ```{r life-exp, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 country_pivot <- country_joined %>%
-  pivot_wider(
-    col = ("Life Expectancy Birth Male" and "Life Expectancy Birth Female"),
+  pivot_wider( cols = c("Life Expectancy Birth Male", "Life Expectancy Birth Female"),
     names_from = gender,
     values_from = "Adolescent Birth Rate"
   )
