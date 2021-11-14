@@ -29,7 +29,7 @@ adolescent_births <- read.csv("../data/Adolescent_Births.csv")
 contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
 ```
 
-#Clean Datasets
+Clean Datasets:
 ```{r clean-data}
 hdi1_clean <- slice(hdi1, -c(1:7, 74, 128, 166, 200, 207:270))
 hdi1_clean <- select(hdi1_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11))
@@ -59,7 +59,7 @@ contraceptive_prevalence_clean <- select(contraceptive_prevalence_clean, select 
 names(contraceptive_prevalence_clean) <- c("Country", "Survey Start Year", "Survey End Year", "Age Group", "Contraceptive Any Method", "Contraceptive Modern Method", "Contraceptive Traditional Method")
 ```
 
-#Join
+Join:
 ```{r join-datasets}
 
 country_joined <- hdi1_clean %>%
