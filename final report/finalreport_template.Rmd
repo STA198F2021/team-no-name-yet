@@ -139,6 +139,15 @@ ggplot(country_joined, aes(x = as.numeric(`GDP`),
 **Is life expectancy at birth related to adolescent birth rate?**
 #fig6
 ```{r life-exp, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
+# country_pivot <- country_joined %>%
+#   pivot_wider( cols = c("Life Expectancy Birth Male", "Life Expectancy Birth Female"),
+#     names_from = gender,
+#     values_from = "Adolescent Birth Rate"
+#   )
+
+ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Male`), 
+                           y = as.numeric(`Adolescent Birth Rate`))) +
+  geom_point()
 
 ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
@@ -198,9 +207,15 @@ As gender development index increases there is also a trending increase in
 adolescent birth rate. 
 
 
-**Which variable has the strongest correlation to adolescdent birth rate?**
+**Which variable has the strongest correlation to adolescent birth rate?**
 ```{r}
-mainfit_2 <- linear_reg() %>% 
-  set_engine("lm") %>%
-  fit(`Adolescent Birth Rate` ~ `Gender Development Index.y` + `Labour Participation Female` + `HDI 2019` + `Life Expectancy Birth Female` + `GDP` + `HDI Rank.x` + `Expected Years Schooling Female` + `Maternal Mortality Ratio`, data = country_joined)
-tidy(mainfit_2)
+# mainfit_2 <- linear_reg() %>% 
+#   set_engine("lm") %>%
+#   fit(`Adolescent Birth Rate` ~ `Gender Development Index.y` + `Labour Participation Female` + `HDI 2019` + `Life Expectancy Birth Female` + `GDP` + `HDI Rank.x` + `Expected Years Schooling Female` + `Maternal Mortality Ratio`, data = country_joined)
+# tidy(mainfit_2)
+```
+
+```{r}
+
+```
+
