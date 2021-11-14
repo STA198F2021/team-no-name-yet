@@ -6,6 +6,8 @@ output:
   html_document:
     df_print: paged
 subtitle: 'due November 16, 2021 by 11:59 PM '
+bibliography: references.bib
+link-citations: TRUE
 ---
 
 # Load Packages
@@ -73,34 +75,35 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 ```
 
 # Introduction
-Our group chose to research what influences the rates of teenage pregnancies because we consider premature pregnancies one of the most significant indicators of a country’s development and prosperity. Therefore, we hope our findings can encourage governments to reduce the rate of teenage pregnancies, especially considering the repercussions of lost economic contributions and increased dependency on costly public programs [https://www.ncbi.nlm.nih.gov/books/NBK219229/]. 
+Our group chose to research what influences the rates of teenage pregnancies because we consider premature pregnancies one of the most significant indicators of a country’s development and prosperity. Considering the repercussions of lost economic contributions and increased dependency on costly public programs [https://www.ncbi.nlm.nih.gov/books/NBK219229/], we hope our findings can encourage governments to reduce the rate of teenage pregnancies by focusing on the strongest predictor variables we identify in this report.  
 
-In essence, we attempt to answer how a country’s quality of life, measured by human and economic resources, correlates to the birth rates for teenagers aged 15 to 19 years old. To answer our question, our explanatory variables of adolescent pregnancy rates are female educational attainment, GDP, life expectancy at birth, HDI, labor force participation rate, and gender inequality index. 
+In essence, we attempt to answer how a country’s quality of life, measured by human and economic resources, correlates to the birth rates for teenagers aged 15 to 19 years old. To answer our question, our explanatory variables of adolescent pregnancy rates are female educational attainment, GDP, life expectancy at birth, HDI, labor force participation rate, and gender inequality index.  
 Information provided by Youth.gov supports our predictors because they broadly encompass the individual, family, and community that influence teenage pregnancies [https://youth.gov/youth-topics/pregnancy-prevention/risk-and-protective-factors].
 
-We pulled our data on adolescent birth rate from the World Health Organization who collected the results via various national and international surveys and country reports. We also pulled data from the 2020 Human Development Report provided by the United Nations. This data consisted of female educational attainment (number of years of schooling), GDP, life expectancy at birth, HDI, labor force participation rate, and gender inequality index. The gender equality index measures the gender disparity in a country on a scale from 0 to 1. The greater the value, the greater the measure of inequality. 
+We pulled our data on adolescent birth rate from the World Health Organization who collected the results via various national and international surveys and country reports. We also pulled data from the 2020 Human Development Report provided by the United Nations. This data consisted of female educational attainment (number of years of schooling), GDP, life expectancy at birth, HDI, labor force participation rate, and gender inequality index. The gender equality index measures the gender disparity in a country on a scale from 0 to 1. The greater the value, the greater the measure of inequality.  
 
-As a disclaimer, we acknowledge that our findings are based on preconceived, Western assumptions of what qualifies as a global indicator of “status.” Thus, we conducted this report on our assumptions of what defines a country’s prosperity and development.
+As a disclaimer, we acknowledge that our findings are based on preconceived, Western assumptions of what qualifies as a global indicator of “status.” Thus, we conducted this report on our assumptions of what defines a country’s prosperity and development.  
 
+# Methodology
 
-
-#fig1
+## fig1
 
 ```{r}
 ```
 
-#fig2
+## fig2
 ```{r}
 
 ```
 
-#fig3
+## fig3
 **Is maternal mortality ratio related to adolescent birth rate?**
 ```{r maternal-mortality, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
   geom_point() +
-  labs(x = "Maternal Mortality Ratio", y = "Adolescent Birth Rate")
+  labs(title= "Is Maternal Mortality Ratio Related to Adolescent Birth Rate",
+       x = "Maternal Mortality Ratio", y = "Adolescent Birth Rate")
 
 ```
 
@@ -108,7 +111,7 @@ This data shows a positive trend, as maternal mortality increases, so too does
 adolescent birth rate across countries in 2019.
 
 **Is female educational attainment related to adolescent birth rate?**
-#fig4
+## fig4
 ```{r fem-education, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 country_joined %>%
   ggplot(aes(x= as.numeric(`Expected Years Schooling Female`), 
@@ -124,7 +127,7 @@ This graph highlights a trend that with more average years of schooling for wome
 there is a lower rate of adolescent births. 
 
 **Is GDP related to adolescent birth rate?**
-#fig5
+## fig5
 ```{r GDP, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 ggplot(country_joined, aes(x = as.numeric(`GDP`), 
                            y = as.numeric(`Adolescent Birth Rate`), color = as.numeric(`HDI Rank.x`))) +
@@ -137,8 +140,10 @@ ggplot(country_joined, aes(x = as.numeric(`GDP`),
     color = "HDI Rank") 
 ```
 
+
+
 **Is life expectancy at birth related to adolescent birth rate?**
-#fig6
+## fig6
 ```{r life-exp, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
@@ -150,9 +155,20 @@ ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`),
   )
 
 ```
+```{r}
+ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Male`), 
+                           y = as.numeric(`Adolescent Birth Rate`))) +
+  geom_point()+
+  labs(
+    title= "Is Male Life Expectacy at Birth Related to Adolescent Birth Rate?",
+    x="Male Life Expectacy at Birth",
+    y="Adolescent Birth Rate"
+  )
+```
+
 
 **Is HDI in 2019 related to adolescent birth rate?**
-#fig7
+## fig7
 ```{r HDI, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 country_joined %>%
   ggplot(aes(x= as.numeric(`HDI 2019`), 
@@ -166,7 +182,7 @@ country_joined %>%
 ```
 
 **Is labor force participation rate related to adolescent birth rate?**
-#fig8
+## fig8
 ```{r labor-force, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 country_joined %>%
   ggplot(aes(x= as.numeric(`Labour Participation Female`), 
@@ -180,7 +196,7 @@ country_joined %>%
 ```
 
 **Is the gender develop index related to adolescent birth rate?**
-#fig9
+## fig9
 
 ```{r gender-inequality, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 country_joined %>%
@@ -197,7 +213,7 @@ country_joined %>%
 As gender development index increases there is also a trending increase in
 adolescent birth rate. 
 
-
+# Linear regression
 **Which variable has the strongest correlation to adolescent birth rate?**
 ```{r}
 # mainfit_2 <- linear_reg() %>% 
@@ -213,3 +229,6 @@ adolescent birth rate.
 Ho: Β1 = 0, There is no correlation between __ and teenage birthrate. 
 
 Ha: Β1 ≠ 0, There is a correlation between __ and teenage birthrate. 
+
+# Summary & Next Steps
+
