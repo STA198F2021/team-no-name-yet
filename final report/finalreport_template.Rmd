@@ -189,3 +189,5 @@ country_joined %>%
   )
 ```
 
+As gender development index increases there is also a trending increase in
+adolescent bith rate. 
