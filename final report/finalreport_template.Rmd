@@ -139,16 +139,6 @@ ggplot(country_joined, aes(x = as.numeric(`GDP`),
 **Is life expectancy at birth related to adolescent birth rate?**
 #fig6
 ```{r life-exp, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-# country_pivot <- country_joined %>%
-#   pivot_wider( cols = c("Life Expectancy Birth Male", "Life Expectancy Birth Female"),
-#     names_from = gender,
-#     values_from = "Adolescent Birth Rate"
-#   )
-
-ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Male`), 
-                           y = as.numeric(`Adolescent Birth Rate`))) +
-  geom_point()
-
 ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
   geom_point()+
@@ -219,3 +209,6 @@ adolescent birth rate.
 
 ```
 
+Ho: Β1 = 0, There is no correlation between __ and teenage birthrate. 
+
+Ha: Β1 ≠ 0, There is a correlation between __ and teenage birthrate. 
