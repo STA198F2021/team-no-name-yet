@@ -176,7 +176,7 @@ country_joined %>%
     title= "Is Female Labor Participation Related to Adolescent Birth Rate?",
     x="Female Labor Participation",
     y="Adolescent Birth Rate"
-  ) %>%
+  )
 ```
 
 **Is the gender develop index related to adolescent birth rate?**
