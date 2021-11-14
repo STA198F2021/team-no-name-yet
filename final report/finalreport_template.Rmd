@@ -104,7 +104,7 @@ ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`),
 ```
 
 This data shows a positive trend, as maternal mortality increases, so too does
-adolescent bith rate across countries in 2019.
+adolescent birth rate across countries in 2019.
 
 **Is female educational attainment related to adolescent birth rate?**
 #fig4
@@ -115,10 +115,12 @@ country_joined %>%
   geom_point() +
   labs(
     title= "Is Female Educational Attainment Related to Adolescent Birth Rate?",
-    x="Expected Years Schooling Female",
+    x="Expected Years Schooling for Women",
     y="Adolescent Birth Rate"
   )
 ```
+This graph highlights a trend that with more average years of schooling for women,
+there is a lower rate of adolescent births. 
 
 **Is GDP related to adolescent birth rate?**
 #fig5
