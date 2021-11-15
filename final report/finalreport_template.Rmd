@@ -12,7 +12,7 @@ link-citations: TRUE
 
 # Load Packages
 
-```{r load-packages, message = FALSE, warning = FALSE}
+```{r load-packages, error=FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(eval = TRUE, echo = FALSE, message = FALSE, warning = FALS
 ``` 
 
 # Load Data
-```{r load-data}
+```{r load-data, error=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
 hdi1 <- read.csv("../data/HDI_Table1.csv")
 hdi4 <- read.csv("../data/HDI_Table4.csv")
 hdi5 <- read.csv("../data/HDI_Table5.csv")
@@ -32,7 +32,7 @@ contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
 ```
 
 Clean Datasets:
-```{r clean-data}
+```{r clean-data, error=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
 hdi1_clean <- slice(hdi1, -c(1:7, 74, 128, 166, 200, 207:270))
 hdi1_clean <- select(hdi1_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11))
 names(hdi1_clean) <- c("HDI Rank", "Country", "HDI 2019", "Life Expectancy Birth", "Expected Years Schooling", "Mean Years Schooling", "GNI Per Capita", "GNI Per Capita Minus HDI", "HDI 2018")
@@ -62,7 +62,7 @@ names(contraceptive_prevalence_clean) <- c("Country", "Survey Start Year", "Surv
 ```
 
 Join:
-```{r join-datasets}
+```{r join-datasets, echo=FALSE}
 
 country_joined <- hdi1_clean %>%
   inner_join(hdi10_clean, by = "Country")%>%
@@ -86,20 +86,20 @@ As a disclaimer, we acknowledge that our findings are based on preconceived, Wes
 
 # Methodology
 
-## fig1
+## Intro to data
+For context purposes, we found data on 195 countries, and this is what the density plot for adolescent birth rate in our sample looks like. Additionally, throughout the report, adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.
+```{r total-rate, warning=FALSE, message=FALSE, error=FALSE, echo=FALSE, fig.height=3, fig.width=7}
+hdi_joined %>%
+  ggplot(aes(x= as.numeric(`Adolescent Birth Rate`))) +
+  geom_boxplot() +
+  labs(title= "International Adolsecent Birth Rates, 2019",
+       x= "Adolescent Birth Rate (per 1,000 women aged 15-19)")
 
-```{r}
-
-country_joined %>%
-  ggplot(aes(x = as.numeric(`Adolescent Birth Rate`)))+
-  geom_density()
 ```
-
-## fig2
-```{r}
+From this, we see that the middle 50% of countries have a teenage birth rate between __ and __. Considering a high birth rate is 40-50 births per 1,000 women, our boxplot shows a distribution of relatively low and high rates. We also have a few outliers, including __, ___, and ___.
+```{r quantile}
 country_joined %>%
-  ggplot(aes(x = as.numeric(`HDI Rank.x`)))+
-  geom_density()
+quantile(as.numeric(`Adolescent Birth Rate`), probs = seq(0, 1, 0.25))
 ```
 
 ## fig3
@@ -146,16 +146,26 @@ ggplot(country_joined, aes(x = as.numeric(`GDP`),
     color = "HDI Rank") 
 ```
 
-<<<<<<< HEAD
 ```{r GDP-linreg}
-gdp_linreg <- country_joined %>%
-  select(`Adolescent Birth Rate`, `GDP`, `HDI Rank.x`, `GNI Per Capita`, `GDP Annual Growth`) %>%
+country_joined <- country_joined %>%
   filter(!`GDP` == "..") %>%
-  filter(!`Adolescent Birth Rate` == "..")
+  filter(!`Adolescent Birth Rate` == "..") %>%
+  #filter(!`GNI Per Capita` == "..") %>%
+  filter(!`GDP per Capita` == "..") %>%
+  mutate(GDP = as.numeric(`GDP`)) %>%
+  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`)) %>%
+  mutate(HDI_Rank = as.factor(`HDI Rank.x`)) %>%
+  #mutate(GNI_Per_Capita = as.numeric(`GNI per Capita`)) %>%
+  mutate(`GDP per Capita` = str_replace(`GDP per Capita`, ",", "")) %>%
+  mutate(GDP_Per_Capita = as.numeric(`GDP per Capita`))
+  
+
+gdp_linreg <- country_joined %>%
+  select(Adolescent_Birth_Rate, GDP, HDI_Rank, GDP_Per_Capita)
          
 mainfit <- linear_reg() %>%
   set_engine("lm") %>%
-  fit(as.numeric(`Adolescent Birth Rate`) ~ as.numeric(`GDP`) + as.numeric(`HDI Rank.x`) + as.numeric(`GNI Per Capita`), data = gdp_linreg)
+  fit(Adolescent_Birth_Rate ~ GDP + HDI_Rank + GDP_Per_Capita, data = gdp_linreg)
 tidy(mainfit)
 ```
 
@@ -163,50 +173,12 @@ tidy(mainfit)
 **Is life expectancy at birth related to adolescent birth rate?**
 #fig6
 ```{r life-exp, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-# country_pivot <- country_joined %>%
-#   pivot_wider( cols = c("Life Expectancy Birth Male", "Life Expectancy Birth Female"),
-#     names_from = gender,
-#     values_from = "Adolescent Birth Rate"
-#   )
-=======
->>>>>>> 6cf5209ec2f9702cfa8f18c26debe74a7fc1787a
-
-
-**Is life expectancy at birth related to adolescent birth rate?**
-## fig6
-```{r life-exp, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
   geom_point()+
   labs(
     title= "Is Female Life Expectacy at Birth Related to Adolescent Birth Rate?",
     x="Female Life Expectacy at Birth",
-    y="Adolescent Birth Rate"
-  )
-
-```
-```{r}
-ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Male`), 
-                           y = as.numeric(`Adolescent Birth Rate`))) +
-  geom_point()+
-  labs(
-    title= "Is Male Life Expectacy at Birth Related to Adolescent Birth Rate?",
-    x="Male Life Expectacy at Birth",
-    y="Adolescent Birth Rate"
-  )
-```
-
-
-**Is HDI in 2019 related to adolescent birth rate?**
-## fig7
-```{r HDI, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-country_joined %>%
-  ggplot(aes(x= as.numeric(`HDI 2019`), 
-             y= as.numeric(`Adolescent Birth Rate`))) +
-  geom_point() +
-  labs(
-    title= "Is HDI in 2019 Related to Adolescent Birth Rate?",
-    x="2019 HDI",
     y="Adolescent Birth Rate"
   )
 ```
