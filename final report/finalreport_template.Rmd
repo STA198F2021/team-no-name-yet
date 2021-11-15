@@ -173,6 +173,26 @@ mainfit <- linear_reg() %>%
 tidy(mainfit)
 ```
 
+```{r HDI Grouping}
+country_joined %>%
+  mutate(HDI_final = as.numeric(`HDI Rank.x`)) %>%
+  mutate(gdp_linreg = cut(
+    HDI_final,
+    breaks = c(-Inf, 66, 119, 156, 189, Inf),
+    labels = c(
+      "Very High", "High", "Medium", "Low", "Other"
+    )
+    # labels = c(
+    #   "Very High Human Development",
+    #   "High Human Development",
+    #   "Medium Human Development",
+    #   "Low Human Development",
+    #   "Other Human Development",
+    # ),
+    # right = TRUE
+  ))
+```
+
 
 **Is life expectancy at birth related to adolescent birth rate?**
 #fig6
