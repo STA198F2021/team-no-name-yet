@@ -41,7 +41,7 @@ names(hdi4_clean) <- c("HDI Rank", "Country", "Gender Development Index", "Gende
 
 hdi5_clean <- slice(hdi5, -c(1:7, 74, 128, 166, 200, 207:270))
 hdi5_clean <- select(hdi5_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17))
-names(hdi5_clean) <- c("HDI Rank", "Country", "Gender Development Index", "Gender Development Index Rank", "Maternal Mortality Ratio", "Adolescent Birth Rate", "Seats Parliament Female", "Secondary Education Female", "Secondary Education Male", "Labour Participation Female", "Labour Participation Male")
+names(hdi5_clean) <- c("HDI Rank", "Country", "Gender Inequality Index", "Gender Inequality Index Rank", "Maternal Mortality Ratio", "Adolescent Birth Rate", "Seats Parliament Female", "Secondary Education Female", "Secondary Education Male", "Labour Participation Female", "Labour Participation Male")
 
 hdi8_clean <- slice(hdi8, -c(1:7, 74, 128, 166, 200, 207:264))
 hdi8_clean <- select(hdi8_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17, X.19, X.21, X.23, X.25, X.27, X.29 : X.33))
@@ -135,6 +135,19 @@ ggplot(country_joined, aes(x = as.numeric(`GDP`),
     y="Adolescent Birth Rate",
     color = "HDI Rank") 
 ```
+
+```{r GDP-linreg}
+gdp_linreg <- country_joined %>%
+  select(`Adolescent Birth Rate`, `GDP`, `HDI Rank.x`, `GNI Per Capita`, `GDP Annual Growth`) %>%
+  filter(!`GDP` == "..") %>%
+  filter(!`Adolescent Birth Rate` == "..")
+         
+mainfit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(as.numeric(`Adolescent Birth Rate`) ~ as.numeric(`GDP`) + as.numeric(`HDI Rank.x`) + as.numeric(`GNI Per Capita`), data = gdp_linreg)
+tidy(mainfit)
+```
+
 
 **Is life expectancy at birth related to adolescent birth rate?**
 #fig6
