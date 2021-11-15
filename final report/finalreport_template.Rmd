@@ -89,11 +89,17 @@ As a disclaimer, we acknowledge that our findings are based on preconceived, Wes
 ## fig1
 
 ```{r}
+
+country_joined %>%
+  ggplot(aes(x = as.numeric(`Adolescent Birth Rate`)))+
+  geom_density()
 ```
 
 ## fig2
 ```{r}
-
+country_joined %>%
+  ggplot(aes(x = as.numeric(`HDI Rank.x`)))+
+  geom_density()
 ```
 
 ## fig3
