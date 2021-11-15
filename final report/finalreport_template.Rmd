@@ -146,34 +146,33 @@ ggplot(country_joined, aes(x = as.numeric(`GDP`),
     color = "HDI Rank") 
 ```
 
-<<<<<<< HEAD
+
 ```{r GDP-linreg}
-gdp_linreg <- country_joined %>%
-  select(`Adolescent Birth Rate`, `GDP`, `HDI Rank.x`, `GNI Per Capita`, `GDP Annual Growth`) %>%
+country_joined <- country_joined %>%
   filter(!`GDP` == "..") %>%
-  filter(!`Adolescent Birth Rate` == "..")
+  filter(!`Adolescent Birth Rate` == "..") %>%
+  #filter(!`GNI Per Capita` == "..") %>%
+  filter(!`GDP per Capita` == "..") %>%
+  mutate(GDP = as.numeric(`GDP`)) %>%
+  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`)) %>%
+  mutate(HDI_Rank = as.factor(`HDI Rank.x`)) %>%
+  #mutate(GNI_Per_Capita = as.numeric(`GNI per Capita`)) %>%
+  mutate(`GDP per Capita` = str_replace(`GDP per Capita`, ",", "")) %>%
+  mutate(GDP_Per_Capita = as.numeric(`GDP per Capita`))
+  
+
+gdp_linreg <- country_joined %>%
+  select(Adolescent_Birth_Rate, GDP, HDI_Rank, GDP_Per_Capita)
          
 mainfit <- linear_reg() %>%
   set_engine("lm") %>%
-  fit(as.numeric(`Adolescent Birth Rate`) ~ as.numeric(`GDP`) + as.numeric(`HDI Rank.x`) + as.numeric(`GNI Per Capita`), data = gdp_linreg)
+  fit(Adolescent_Birth_Rate ~ GDP + HDI_Rank + GDP_Per_Capita, data = gdp_linreg)
 tidy(mainfit)
 ```
 
 
 **Is life expectancy at birth related to adolescent birth rate?**
 #fig6
-```{r life-exp, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-# country_pivot <- country_joined %>%
-#   pivot_wider( cols = c("Life Expectancy Birth Male", "Life Expectancy Birth Female"),
-#     names_from = gender,
-#     values_from = "Adolescent Birth Rate"
-#   )
-=======
->>>>>>> 6cf5209ec2f9702cfa8f18c26debe74a7fc1787a
-
-
-**Is life expectancy at birth related to adolescent birth rate?**
-## fig6
 ```{r life-exp, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
@@ -184,16 +183,6 @@ ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`),
     y="Adolescent Birth Rate"
   )
 
-```
-```{r}
-ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Male`), 
-                           y = as.numeric(`Adolescent Birth Rate`))) +
-  geom_point()+
-  labs(
-    title= "Is Male Life Expectacy at Birth Related to Adolescent Birth Rate?",
-    x="Male Life Expectacy at Birth",
-    y="Adolescent Birth Rate"
-  )
 ```
 
 
