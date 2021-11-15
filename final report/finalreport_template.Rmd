@@ -297,7 +297,7 @@ tidy(mainfit)
 #Chi Squared Test
 ```{r}
 labour_chisq_statistic <- country_joined %>%
-  specify(Labour_Participation_Female ~ Adolescent_Birth_Rate) %>%
+  specify(as.numeric(`Labour Participation Female`) ~ as.numeric(`Adolescent Birth Rate`)) %>%
   calculate(stat = "Chisq")
 
 GII_chisq_statistic <- country_joined %>%
@@ -305,9 +305,11 @@ GII_chisq_statistic <- country_joined %>%
   calculate(stat = "Chisq")
 ```
 
-Ho: Β1 = 0, There is no correlation between __ and teenage birthrate. 
+Ho: Β1 = 0, There is no correlation between Labour Participation Female and teenage birthrate. 
+Ha: Β1 ≠ 0, There is a correlation between Labour Participation Female and teenage birthrate. 
 
-Ha: Β1 ≠ 0, There is a correlation between __ and teenage birthrate. 
+Ho: Β1 = 0, There is no correlation between Gender Inequality Index and teenage birthrate. 
+Ha: Β1 ≠ 0, There is a correlation between Gender Inequality Index and teenage birthrate. 
 
 # Summary & Next Steps
 
