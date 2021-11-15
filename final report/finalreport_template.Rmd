@@ -16,6 +16,10 @@ link-citations: TRUE
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
+library(tidyr)
+library(readr)
+library(infer)
+library(tidymodels)
 
 knitr::opts_chunk$set(eval = TRUE, echo = FALSE, message = FALSE, warning = FALSE)
 ``` 
@@ -179,6 +183,22 @@ ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`),
   labs(
     title= "Is Female Life Expectacy at Birth Related to Adolescent Birth Rate?",
     x="Female Life Expectacy at Birth",
+    y="Adolescent Birth Rate"
+  )
+
+```
+
+
+**Is HDI in 2019 related to adolescent birth rate?**
+## fig7
+```{r HDI, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
+country_joined %>%
+  ggplot(aes(x= as.numeric(`HDI 2019`), 
+             y= as.numeric(`Adolescent Birth Rate`))) +
+  geom_point() +
+  labs(
+    title= "Is HDI in 2019 Related to Adolescent Birth Rate?",
+    x="2019 HDI",
     y="Adolescent Birth Rate"
   )
 ```
