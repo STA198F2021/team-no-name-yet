@@ -100,10 +100,9 @@ hdi_joined %>%
        x= "Adolescent Birth Rate (per 1,000 women aged 15-19)")
 
 ```
-From this, we see that the middle 50% of countries have a teenage birth rate between __ and __. Considering a high birth rate is 40-50 births per 1,000 women, our boxplot shows a distribution of relatively low and high rates. We also have a few outliers, including __, ___, and ___.
-```{r quantile}
-country_joined %>%
-quantile(as.numeric(`Adolescent Birth Rate`), probs = seq(0, 1, 0.25))
+From this, we see that the middle 50% of countries have a teenage birth rate between 39.1 and 70.5. Considering a high birth rate is 40-50 births per 1,000 women, our boxplot shows a distribution of relatively high rates. We also have a few outliers, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
+```{r quantile, error=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
+quantile(as.numeric(country_joined$`Adolescent Birth Rate`), c(0, 0.25, 0.50, 0.75, 1))
 ```
 
 ## fig3
