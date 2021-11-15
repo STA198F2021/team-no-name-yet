@@ -294,8 +294,15 @@ tidy(mainfit)
 #The 2 most statistically significant variables are Labour Participation Female and Gender Inequality Index. Both fall under the p = 0.05 range
 ```
 
+#Chi Squared Test
 ```{r}
+labour_chisq_statistic <- country_joined %>%
+  specify(Labour_Participation_Female ~ Adolescent_Birth_Rate) %>%
+  calculate(stat = "Chisq")
 
+GII_chisq_statistic <- country_joined %>%
+  specify(Gender_Inequality_Index ~ Adolescent_Birth_Rate) %>%
+  calculate(stat = "Chisq")
 ```
 
 Ho: Β1 = 0, There is no correlation between __ and teenage birthrate. 
