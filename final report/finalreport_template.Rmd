@@ -105,7 +105,9 @@ From this, we see that the middle 50% of countries have a teenage birth rate bet
 quantile(as.numeric(country_joined$`Adolescent Birth Rate`), c(0, 0.25, 0.50, 0.75, 1))
 ```
 
-## fig3
+## Relationships
+After looking at the distribution of birth rate data, our next line of action was to visually see if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our six explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy, 2019 HDI, and Gender Development Index) onto separate scatterplots. 
+
 **Is maternal mortality ratio related to adolescent birth rate?**
 ```{r maternal-mortality, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`), 
@@ -138,12 +140,12 @@ there is a lower rate of adolescent births.
 **Is GDP related to adolescent birth rate?**
 ## fig5
 ```{r GDP, error=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
-ggplot(country_joined, aes(x = as.numeric(`GDP`), 
+ggplot(country_joined, aes(x = log(as.numeric(`GDP Annual Growth`)), 
                            y = as.numeric(`Adolescent Birth Rate`), color = as.numeric(`HDI Rank.x`))) +
   geom_point() +
   geom_smooth() +
   labs(
-    title= "Is GDP Related to Adolescent Birth Rates?",
+    title= "Is GDP Annual Growth Rate Related to Adolescent Birth Rates?",
     x="GDP Level",
     y="Adolescent Birth Rate",
     color = "HDI Rank") 
