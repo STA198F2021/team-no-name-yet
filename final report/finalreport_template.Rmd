@@ -99,9 +99,10 @@ country_joined %>%
 ```
 We see that the middle 50% of countries have a teenage birth rate between 39.1 and 70.5. Considering a high birth rate is 40-50 births per 1,000 women, our box plot shows a distribution of relatively high rates. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
 ```{r quantile, echo=FALSE}
-quantile(as.numeric(country_joined$`Adolescent Birth Rate`), c(0, 0.25, 0.50, 0.75, 1))
-
-#We need to fix this above since it will not let us knit! ^^^^^^^^^^^^^
+quantile_set <- country_joined %>%
+  select(`Adolescent Birth Rate`) %>%
+  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`)) %>%
+  quantile(Adolescent_Birth_Rate, c(0, 0.25, 0.50, 0.75, 1))
 ```
 
 ## Relationships
