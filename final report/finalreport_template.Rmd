@@ -3,13 +3,10 @@ title: "Final Report"
 author: "Isabel Siebrecht, Franklin Feng, & Kaylin Hernandez"
 date: "11/16/21"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 subtitle: 'due November 16, 2021 by 11:59 PM '
-#bibliography: references.bib
-#link-citations: TRUE
-
-#You will need to download another library for references.bib to run! ^^^^^^^^
 ---
 
 ```{r load-packages, echo = FALSE, error = FALSE, message = FALSE, warning = FALSE}
@@ -98,7 +95,7 @@ country_joined %>%
        x= "Adolescent Birth Rate (per 1,000 women aged 15-19)")
 
 ```
-From this, we see that the middle 50% of countries have a teenage birth rate between 39.1 and 70.5. Considering a high birth rate is 40-50 births per 1,000 women, our boxplot shows a distribution of relatively high rates. We also have a few outliers, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
+From this, we see that the middle 50% of countries have a teenage birth rate between 39.1 and 70.5. Considering a high birth rate is 40-50 births per 1,000 women, our box plot shows a distribution of relatively high rates. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
 ```{r quantile}
 #quantile(as.numeric(country_joined$`Adolescent Birth Rate`), c(0, 0.25, 0.50, 0.75, 1))
 
@@ -106,7 +103,7 @@ From this, we see that the middle 50% of countries have a teenage birth rate bet
 ```
 
 ## Relationships
-After looking at the distribution of birth rate data, our next line of action was to visually see if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our six explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy, 2019 HDI, and Gender Development Index) onto separate scatterplots. 
+After looking at the distribution of birth rate data, our next line of action was to visually see if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our six explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy, 2019 HDI, and Gender Development Index) onto separate scatter plots. 
 
 **Is maternal mortality ratio related to adolescent birth rate?**
 ```{r maternal-mortality, fig.height=3, fig.width=7}
@@ -292,20 +289,18 @@ tidy(mainfit)
 
 ## Chi Squared Test
 ```{r}
-'labour_chisq_statistic <- country_joined %>%
-  specify(as.numeric(`Labour Participation Female`) ~ as.nummeric(`Adolescent_Birth_Rate`)) %>%
-  calculate(stat = "Chisq")
+chisq_test(country_joined, as.numeric(`Labour Participation Female`) ~ as.nummeric(`Adolescent_Birth_Rate`))
 
-GII_chisq_statistic <- country_joined %>%
-  specify(Gender_Inequality_Index ~ Adolescent_Birth_Rate) %>%
-  calculate(stat = "Chisq")'
+chisq_test(country_joined, as.numeric(`Gender Inequality Index`) ~ as.nummeric(`Adolescent_Birth_Rate`))
+
 ```
 
 Ho: Β1 = 0, There is no correlation between Labour Participation Female and teenage birthrate. 
 Ha: Β1 ≠ 0, There is a correlation between Labour Participation Female and teenage birthrate. 
 
 Ho: Β1 = 0, There is no correlation between Gender Inequality Index and teenage birthrate. 
-Ha: Β1 ≠ 0, There is a correlation between Gender Inequality Index and teenage birthrate. 
+Ha: Β1 ≠ 0, There is a correlation between Gender Inequality Index and teenage birthrate.
+
 
 ## Summary & Next Steps
 
