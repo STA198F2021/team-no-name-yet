@@ -87,9 +87,6 @@ We pulled our data on adolescent birth rate from the World Health Organization w
 As a disclaimer, we acknowledge that our findings are based on preconceived, Western assumptions of what qualifies as a global indicator of “status.” Thus, we conducted this report on our assumptions of what defines a country’s prosperity and development.  
 
 ## Methodology
-
->>>Needs to be completed!!! Will do as soon as next push
-
 ## Intro to data
 
 To allow the reader a complete understanding of our findings, we first focused on analyzing our main variable of interest, adolescent birth rates. Utilizing data from 195 countries, we produced a density plot and corresponding quantile values below. We would like to note that throughout the report adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.
@@ -102,7 +99,7 @@ country_joined %>%
        x= "Adolescent Birth Rate (per 1,000 Women Aged 15-19)")
 ```
 
-```{r quantile, echo = FALSE}
+```{r quantile, echo = FALSE, warning=FALSE, message=FALSE, error=FALSE}
 quantile_set <- country_joined %>%
   select(`Adolescent Birth Rate`) %>%
   filter(!`Adolescent Birth Rate` == "..") %>%
@@ -111,10 +108,10 @@ quantile_set <- country_joined %>%
   quantile(quantile_set$Adolescent_Birth_Rate, c(0, 0.25, 0.50, 0.75, 1))
 ```
 
-We see that the middle 50% of countries have a teenage birth rate between 39.1 and 70.5. Considering a high birth rate is 40-50 births per 1,000 women, our box plot shows a distribution of relatively high rates. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
+We see that the middle 50% of countries have a teenage birth rate between 13.2 and 70.5. Considering a high birth rate is 40-50 births per 1,000 women, our box plot shows a distribution of relatively high rates. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
 
->>> MIDDLE 50% isn't that 13.2 to 70.5?
 >>> If possible I will fix to eliminate y-axis values + add subtitle
+>> was it actually averaged?? I thought our data was only from 2019??
 
 
 ## Relationships
@@ -143,6 +140,7 @@ The data shows a positive, linear trend, and we see that as maternal mortality i
 >>We can add this to our linear regression, which we will conduct later in this report to test which variables have the most substantial influence over adolescent birth rates.
 
 >>>I don't think this sentence is necessary tbh. ^^
+>> idk i think it sets up for why we use logisitc instead of simply stating all relationships. we're testing to see if there's a relationship here so we can see significance in regression (is that even how u use regression idk)??
 
 **Is Female Educational Attainment Related to Adolescent Birth Rate?**
 
@@ -234,7 +232,11 @@ cor(as.numeric(country_joined$`HDI 2019`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-HDI, also known as the Human Development Index, is a statistic used to rank countries. This plot shows a strong, negative, linear relationship (r=-0.794) between 2019 HDI and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as the HDI increases, the rate of adolescent birth rates decrease. This relationship makes sense because ___. Thus, we will include 2019 HDI in our regression.  
+HDI, also known as the Human Development Index, is a statistic used to rank countries. This plot shows a strong, negative, linear relationship (r=-0.794) between 2019 HDI and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as the HDI increases, the rate of adolescent birth rates decrease. 
+
+>> This relationship makes sense because ___. 
+
+Thus, we will include 2019 HDI in our regression.  
 
 **Is labor force participation rate related to adolescent birth rate?**
 ```{r labor-force, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
@@ -254,7 +256,7 @@ cor(as.numeric(country_joined$`Labour Participation Female`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-From the plot, we only somewhat see a relationship between female labor participation and adolescent birth rate, and our correlation coefficient of 0.303 confirms a weak, positive linear correlation. Roughly, as female labor participation increases, the birth rate per 1,000 women aged 15-19 years old also increases. This is slightly surprising because we predicted that countries with high teenage birth rates would have higher female labor participation levels. We assumed the young women would be at home, mainly because we saw this earlier with female educational attainment. We will also include this variable in our regression.
+From the plot, we only somewhat see a relationship between female labor participation and adolescent birth rate, and our correlation coefficient of 0.303 confirms a weak, positive linear correlation. Roughly, as female labor participation increases, the birth rate per 1,000 women aged 15-19 years old also increases. This is slightly surprising because we predicted that countries with high teenage birth rates would have higher female labor participation levels. We assumed the young women would be at home, mainly because we saw this earlier with female educational attainment. We will also include this variable in our regression.  
 
 **Is the gender develop index related to adolescent birth rate?**
 ```{r gender-inequality, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
@@ -277,6 +279,8 @@ cor(as.numeric(country_joined$`Gender Development Index`),
 The gender development index measures gender inequality through gender-based gaps in education, life expectancy, and incomes, and the closer the value is to 1, the more equal a society is. We see that as the gender development index approaches 1, there is a slight linear decrease (r= -0.4846) in adolescent birth rate (per 1,000 15-19-year-olds). This relationship makes sense because we assume that more equal societies would allow women to make their own reproductive choices. They are also more likely to have resources and healthcare options for women. Thus, we will include this variable in our linear regression analysis.  
 
 # Linear regression
+After looking at the relationships, we decided to run a linear regression analysis in order to determine which predictors had the most influence over teenage pregnancy rates. The general null hypothesis test for every explanatory variable is beta# = 0, which indicates that there is no difference in influence when we control for each one individually. 
+
 **Which variable has the strongest correlation to adolescent birth rate?**
 ```{r total-linear-regression}
 country_joined <- country_joined %>%
@@ -362,5 +366,12 @@ cor(x = as.numeric(country_joined$`Gender Inequality Index`), y = as.numeric(cou
 ```
 Since the two variables with the highest correlation for teen birth rate and gender inequality index and female labour participation, we ran correlations on both to find the exact values. Female labour participation’s correlation was 0.310, indicating a weak correlation. However, the correlation for gender inequality index was 0.827. Since this variable has the strongest correlation of all our variables, this is the issue we propose the majority of funding and resources go into to help lower adolescent birth rate. 
 
+>> we did correlation for these earlier in the relationship section. Is there another type of test or distribution you could run to show the importance of gender inequality index? We just need a final BOOM
+
 ## Summary & Next Steps
+>> referencing the importance of teenage birth rate and our research question, 
+>> just summarize our the relationships we found and which variable we found to be the most significant
+>> also explain why this correlation is important and how researchers/governments can use this knowledge to reduce birth rates
+>> know correlation doesn't mean causation
+>> if you reference international organizations, note that program implementations cannot be generalized acorss the globe based on this data, which is simply a global sample from 2019. Each country (and maybe disaggregate further) needs further reseach and separate analysis.
 
