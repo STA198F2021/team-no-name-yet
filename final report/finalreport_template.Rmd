@@ -74,7 +74,7 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
   inner_join(adolescent_births_clean, by = "Country")
 ```
 
-## Introduction  
+## Introduction
 
 Our group chose to research what influences the rate of teenage pregnancies because we consider premature pregnancies one of the most significant indicators of a country’s development and prosperity. Considering the repercussions of lost economic contributions and increased dependency on costly public programs [https://www.ncbi.nlm.nih.gov/books/NBK219229/], we hope our findings can encourage governments to reduce the rate of teenage pregnancies by focusing on the strongest predictor variables we identify in this report.  
 
@@ -222,7 +222,9 @@ cor(as.numeric(country_joined$`HDI 2019`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-HDI, also known as the Human Development Index, is a statistic used to rank countries. This plot shows a strong, negative, linear relationship (r=-0.794) between 2019 HDI and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as the HDI increases, the rate of adolescent birth rates decrease. This relationship makes sense because HDI is a measure of economic wealth, and this often correlates to better availability of resources including contraceptives, procedures, healthcare, and general well being.  
+HDI, also known as the Human Development Index, is a statistic used to rank countries. This plot shows a strong, negative, linear relationship (r=-0.794) between 2019 HDI and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as the HDI increases, the rate of adolescent birth rates decrease. 
+
+>> This relationship makes sense because ___.  
 
 **Is labor force participation rate related to adolescent birth rate?**
 ```{r labor-force, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
@@ -244,25 +246,25 @@ cor(as.numeric(country_joined$`Labour Participation Female`),
 ```
 From the plot, we only somewhat see a relationship between female labor participation and adolescent birth rate, and our correlation coefficient of 0.303 confirms a weak, positive linear correlation. Roughly, as female labor participation increases, the birth rate per 1,000 women aged 15-19 years old also increases. This is slightly surprising because we predicted that countries with high teenage birth rates would have higher female labor participation levels. We assumed the young women would be at home, mainly because we saw this earlier with female educational attainment.
 
-**Is the gender inequality index related to adolescent birth rate?**
+**Is the gender develop index related to adolescent birth rate?**
 ```{r gender-inequality, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 country_joined %>%
-  ggplot(aes(x= as.numeric(`Gender Inequality Index`), 
+  ggplot(aes(x= as.numeric(`Gender Development Index`), 
              y= as.numeric(`Adolescent Birth Rate`))) +
   geom_point(alpha=0.6) +
   labs(
-    title= "Is Gender Inequality Index Related to Adolescent Birth Rate?",
-    x="Gender Inequality Index",
+    title= "Is Gender Development Index Related to Adolescent Birth Rate?",
+    x="Gender Development Index",
     y="Adolescent Birth Rate"
   )
 ```
 ```{r cor-GDI, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
-cor(as.numeric(country_joined$`Gender Inequality Index`), 
+cor(as.numeric(country_joined$`Gender Development Index`), 
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-The gender inequality index measures gender-based gaps in education, life expectancy, and incomes, and the closer the value is to 1, the more unequal a society is ([United Nations Development Programme](http://hdr.undp.org/en/content/gender-inequality-index-gii)). We see that as the index approaches 1, there is a strong, positive, linear increase (r= 0.8267) in adolescent birth rate (per 1,000 15-19-year-olds). This relationship makes sense because we assume that less equal societies wouldn't allow women to make their own reproductive choices. They are also less likely to have resources and healthcare options for women.   
+The gender development index measures gender inequality through gender-based gaps in education, life expectancy, and incomes, and the closer the value is to 1, the more equal a society is. We see that as the gender development index approaches 1, there is a slight linear decrease (r= -0.4846) in adolescent birth rate (per 1,000 15-19-year-olds). This relationship makes sense because we assume that more equal societies would allow women to make their own reproductive choices. They are also more likely to have resources and healthcare options for women.   
 
 # Linear regression
 After looking to see possible relationships, we decided to run a linear regression analysis in order to determine which predictors had the most influence over teenage pregnancy rates and what that relationship is. The general null hypothesis test for every explanatory variable is beta# = 0, which indicates that there is no difference in influence when we control for each one individually. 
@@ -327,13 +329,13 @@ gdp_linreg <- country_joined %>%
 mainfit <- linear_reg() %>%
   set_engine("lm") %>%
   fit(Adolescent_Birth_Rate ~ GDP + HDI_Rank + GDP_Per_Capita, data = gdp_linreg)
-tidy(mainfit)
+
 ```
 
 ```{r HDI Grouping, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 country_joined %>%
   mutate(HDI_final = as.numeric(`HDI Rank.x`)) %>%
-  mutate(gdp_linreg = cut(
+  mutate(HDI_cat = cut(
     HDI_final,
     breaks = c(-Inf, 66, 119, 156, 189, Inf),
     labels = c(
@@ -349,6 +351,12 @@ country_joined %>%
     # right = TRUE
   ))
 ```
+```{r}
+ggplot(data = country_joined) +
+  geom_point(aes(x = as.numeric(`Gender Inequality Index`), y = as.numeric(`Adolescent_Birth_Rate`), fill = HDI_cat))
+```
+
+
 # Looking closer at [the most significant indicator]
 ```{r}
 cor(x = as.numeric(country_joined$`Labour Participation Female`), y = as.numeric(country_joined$`Adolescent_Birth_Rate`))
