@@ -12,8 +12,6 @@ subtitle: 'due November 16, 2021 by 11:59 PM '
 #You will need to download another library for references.bib to run! ^^^^^^^^
 ---
 
-# Load Packages
-
 ```{r load-packages, echo = FALSE, error = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(dplyr)
@@ -26,7 +24,6 @@ library(tidymodels)
 knitr::opts_chunk$set(eval = TRUE, echo = FALSE, message = FALSE, warning = FALSE)
 ``` 
 
-# Load Data
 ```{r load-data}
 hdi1 <- read.csv("../data/HDI_Table1.csv")
 hdi4 <- read.csv("../data/HDI_Table4.csv")
@@ -37,7 +34,7 @@ adolescent_births <- read.csv("../data/Adolescent_Births.csv")
 contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
 ```
 
-Clean Datasets:
+
 ```{r clean-data}
 hdi1_clean <- slice(hdi1, -c(1:7, 74, 128, 166, 200, 207:270))
 hdi1_clean <- select(hdi1_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11))
@@ -67,7 +64,6 @@ contraceptive_prevalence_clean <- select(contraceptive_prevalence_clean, select 
 names(contraceptive_prevalence_clean) <- c("Country", "Survey Start Year", "Survey End Year", "Age Group", "Contraceptive Any Method", "Contraceptive Modern Method", "Contraceptive Traditional Method")
 ```
 
-Join:
 ```{r join-datasets}
 
 country_joined <- hdi1_clean %>%
@@ -80,7 +76,7 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
   inner_join(adolescent_births_clean, by = "Country")
 ```
 
-# Introduction
+## Introduction
 Our group chose to research what influences the rates of teenage pregnancies because we consider premature pregnancies one of the most significant indicators of a country’s development and prosperity. Considering the repercussions of lost economic contributions and increased dependency on costly public programs [https://www.ncbi.nlm.nih.gov/books/NBK219229/], we hope our findings can encourage governments to reduce the rate of teenage pregnancies by focusing on the strongest predictor variables we identify in this report.  
 
 In essence, we attempt to answer how a country’s quality of life, measured by human and economic resources, correlates to the birth rates for teenagers aged 15 to 19 years old. To answer our question, our explanatory variables of adolescent pregnancy rates are female educational attainment, GDP, life expectancy at birth, HDI, labor force participation rate, and gender inequality index.  
@@ -90,7 +86,7 @@ We pulled our data on adolescent birth rate from the World Health Organization w
 
 As a disclaimer, we acknowledge that our findings are based on preconceived, Western assumptions of what qualifies as a global indicator of “status.” Thus, we conducted this report on our assumptions of what defines a country’s prosperity and development.  
 
-# Methodology
+## Methodology
 
 ## Intro to data
 For context purposes, we found data on 195 countries, and this is what the density plot for adolescent birth rate in our sample looks like. Additionally, throughout the report, adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.
@@ -294,15 +290,15 @@ tidy(mainfit)
 #The 2 most statistically significant variables are Labour Participation Female and Gender Inequality Index. Both fall under the p = 0.05 range
 ```
 
-#Chi Squared Test
+## Chi Squared Test
 ```{r}
-labour_chisq_statistic <- country_joined %>%
-  specify(as.numeric(`Labour Participation Female`) ~ as.numeric(`Adolescent Birth Rate`)) %>%
+'labour_chisq_statistic <- country_joined %>%
+  specify(as.numeric(`Labour Participation Female`) ~ as.nummeric(`Adolescent_Birth_Rate`)) %>%
   calculate(stat = "Chisq")
 
 GII_chisq_statistic <- country_joined %>%
   specify(Gender_Inequality_Index ~ Adolescent_Birth_Rate) %>%
-  calculate(stat = "Chisq")
+  calculate(stat = "Chisq")'
 ```
 
 Ho: Β1 = 0, There is no correlation between Labour Participation Female and teenage birthrate. 
@@ -311,5 +307,5 @@ Ha: Β1 ≠ 0, There is a correlation between Labour Participation Female and te
 Ho: Β1 = 0, There is no correlation between Gender Inequality Index and teenage birthrate. 
 Ha: Β1 ≠ 0, There is a correlation between Gender Inequality Index and teenage birthrate. 
 
-# Summary & Next Steps
+## Summary & Next Steps
 
