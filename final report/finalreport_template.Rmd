@@ -17,11 +17,13 @@ library(tidyr)
 library(readr)
 library(infer)
 library(tidymodels)
+install.packages("ggpubr")
+library("ggpubr")
 
 knitr::opts_chunk$set(eval = TRUE, echo = FALSE, message = FALSE, warning = FALSE)
 ``` 
 
-```{r load-data}
+```{r load-data, echo=FALSE}
 hdi1 <- read.csv("../data/HDI_Table1.csv")
 hdi4 <- read.csv("../data/HDI_Table4.csv")
 hdi5 <- read.csv("../data/HDI_Table5.csv")
@@ -32,7 +34,7 @@ contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
 ```
 
 
-```{r clean-data}
+```{r clean-data, echo=FALSE}
 hdi1_clean <- slice(hdi1, -c(1:7, 74, 128, 166, 200, 207:270))
 hdi1_clean <- select(hdi1_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11))
 names(hdi1_clean) <- c("HDI Rank", "Country", "HDI 2019", "Life Expectancy Birth", "Expected Years Schooling", "Mean Years Schooling", "GNI Per Capita", "GNI Per Capita Minus HDI", "HDI 2018")
@@ -61,7 +63,7 @@ contraceptive_prevalence_clean <- select(contraceptive_prevalence_clean, select 
 names(contraceptive_prevalence_clean) <- c("Country", "Survey Start Year", "Survey End Year", "Age Group", "Contraceptive Any Method", "Contraceptive Modern Method", "Contraceptive Traditional Method")
 ```
 
-```{r join-datasets}
+```{r join-datasets, echo=FALSE}
 
 country_joined <- hdi1_clean %>%
   inner_join(hdi10_clean, by = "Country")%>%
@@ -87,7 +89,7 @@ As a disclaimer, we acknowledge that our findings are based on preconceived, Wes
 
 ## Intro to data
 For context purposes, we found data on 195 countries, and this is what the density plot for adolescent birth rate in our sample looks like. Additionally, throughout the report, adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.
-```{r total-rate, fig.height=3, fig.width=7}
+```{r total-rate, fig.height=3, fig.width=7, echo=FALSE}
 country_joined %>%
   ggplot(aes(x= as.numeric(`Adolescent Birth Rate`))) +
   geom_boxplot() +
@@ -96,8 +98,8 @@ country_joined %>%
 
 ```
 From this, we see that the middle 50% of countries have a teenage birth rate between 39.1 and 70.5. Considering a high birth rate is 40-50 births per 1,000 women, our box plot shows a distribution of relatively high rates. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
-```{r quantile}
-#quantile(as.numeric(country_joined$`Adolescent Birth Rate`), c(0, 0.25, 0.50, 0.75, 1))
+```{r quantile, echo=FALSE}
+quantile(as.numeric(country_joined$`Adolescent Birth Rate`), c(0, 0.25, 0.50, 0.75, 1))
 
 #We need to fix this above since it will not let us knit! ^^^^^^^^^^^^^
 ```
@@ -106,17 +108,22 @@ From this, we see that the middle 50% of countries have a teenage birth rate bet
 After looking at the distribution of birth rate data, our next line of action was to visually see if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our six explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy, 2019 HDI, and Gender Development Index) onto separate scatter plots. 
 
 **Is maternal mortality ratio related to adolescent birth rate?**
-```{r maternal-mortality, fig.height=3, fig.width=7}
-ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`), 
+```{r maternal-mortality, echo=FALSE, fig.height=3, fig.width=7}
+ggplot(country_joined, aes(x = log(as.numeric(`Maternal Mortality Ratio`)), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
   geom_point() +
   labs(title= "Is Maternal Mortality Ratio Related to Adolescent Birth Rate",
        x = "Maternal Mortality Ratio", y = "Adolescent Birth Rate")
 
 ```
+```{r cor-maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
-This data shows a positive trend, as maternal mortality increases, so too does
-adolescent birth rate across countries in 2019.
+cor(log(as.numeric(country_joined$`Maternal Mortality Ratio`)), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
+
+```
+
+This data shows a positive, linear trend, and we see that as maternal mortality increases, so does adolescent birth rate across countries in 2019. After comparing the natural data and the log data, we found that the log relationship between the two variables is was the strongest, and its correlation coefficient is 0.7797. With this, we can add it to our linear regression.
 
 **Is female educational attainment related to adolescent birth rate?**
 ## fig4
