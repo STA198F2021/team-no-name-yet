@@ -3,9 +3,9 @@ title: "Final Report"
 author: "Isabel Siebrecht, Franklin Feng, & Kaylin Hernandez"
 date: "11/16/21"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 subtitle: 'due November 16, 2021 by 11:59 PM '
 ---
 
@@ -32,7 +32,6 @@ hdi10 <- read.csv("../data/HDI_Table10.csv")
 adolescent_births <- read.csv("../data/Adolescent_Births.csv")
 contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
 ```
-
 
 ```{r clean-data, echo=FALSE}
 hdi1_clean <- slice(hdi1, -c(1:7, 74, 128, 166, 200, 207:270))
@@ -77,10 +76,10 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 
 ## Introduction
 
-Our group chose to research what influences the rates of teenage pregnancies because we consider premature pregnancies one of the most significant indicators of a country’s development and prosperity. Considering the repercussions of lost economic contributions and increased dependency on costly public programs [NCBI](https://www.ncbi.nlm.nih.gov/books/NBK219229/), we hope our findings can encourage governments to reduce the rate of teenage pregnancies by focusing on the strongest predictor variables we identify in this report.  
+Our group chose to research what influences the rates of teenage pregnancies because we consider premature pregnancies one of the most significant indicators of a country’s development and prosperity. Considering the repercussions of lost economic contributions and increased dependency on costly public programs ([NCBI](https://www.ncbi.nlm.nih.gov/books/NBK219229/)), we hope our findings can encourage governments to reduce the rate of teenage pregnancies by focusing on the strongest predictor variables we identify in this report.  
 
 In essence, we attempt to answer how a country’s quality of life, measured by human and economic resources, correlates to the birth rates for teenagers aged 15 to 19 years old. To answer our question, our explanatory variables of adolescent pregnancy rates are female educational attainment, GDP annual growth rate, life expectancy at birth, HDI, labor force participation rate, and gender inequality index.  
-Information provided by Youth.gov supports our predictors because they broadly encompass the individual, family, and community that influence teenage pregnancies [Youth.gov](https://youth.gov/youth-topics/pregnancy-prevention/risk-and-protective-factors).  
+Information provided by Youth.gov supports our predictors because they broadly encompass the individual, family, and community that influence teenage pregnancies ([Youth.gov](https://youth.gov/youth-topics/pregnancy-prevention/risk-and-protective-factors)).  
 
 We pulled our data on adolescent birth rate from the World Health Organization who collected the results via various national and international surveys and country reports. We also pulled data from the 2020 Human Development Report provided by the United Nations. This data consisted of female educational attainment (number of years of schooling), GDP, life expectancy at birth, HDI, labor force participation rate, and gender inequality index. The gender equality index measures the gender disparity in a country on a scale from 0 to 1. The greater the value, the greater the measure of inequality.  
 
@@ -91,7 +90,7 @@ As a disclaimer, we acknowledge that our findings are based on preconceived, Wes
 
 To allow the reader a complete understanding of our findings, we first focused on analyzing our main variable of interest, adolescent birth rates. Utilizing data from 195 countries, we produced a density plot and corresponding quantile values below. We would like to note that throughout the report adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.
 
-```{r total-rate, fig.height=3, fig.width=7, echo=FALSE}
+```{r total-rate, fig.height=3, fig.width=7, echo=FALSE, warning=FALSE}
 country_joined %>%
   ggplot(aes(x = as.numeric(`Adolescent Birth Rate`))) +
   geom_boxplot() +
@@ -108,7 +107,7 @@ quantile_set <- country_joined %>%
   quantile(quantile_set$Adolescent_Birth_Rate, c(0, 0.25, 0.50, 0.75, 1))
 ```
 
-We see that the middle 50% of countries have a teenage birth rate between 13.2 and 70.5. Considering a low birth rate is 10-20 births per 1,000 women and a high birth rate is 40-50 births per 1,000 women [Child Trends](https://web.archive.org/web/20160526190803/http://www.childtrends.org/?indicators=fertility-and-birth-rates), our box plot shows a relatively broad distribution rates. Thus, this right-skewed distribution can allow us to compare indicators on both sides of the spectrum. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
+We see that the middle 50% of countries have a teenage birth rate between 13.2 and 70.5. Considering a low birth rate is 10-20 births per 1,000 women and a high birth rate is 40-50 births per 1,000 women ([Child Trends](https://web.archive.org/web/20160526190803/http://www.childtrends.org/?indicators=fertility-and-birth-rates)), our box plot shows a relatively broad distribution rates. Thus, this right-skewed distribution can allow us to compare indicators on both sides of the spectrum. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
 
 >>> If possible I will fix to eliminate y-axis values + add subtitle
 >> was it actually averaged?? I thought our data was only from 2019??
@@ -183,7 +182,7 @@ cor(as.numeric(country_joined$`GDP Annual Growth`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-GDP, also known as Gross Domestic Product, annual growth rate signifies the annual average rate of change of the GDP at market prices based on constant local currency, for a given national economy, during a specified time. This graph shows an unclear relationship between GDP annual growth rate and adolescent birth rate (per 1,000 15-19-year-olds)--on neither the regular or log scale. This was surprising to see because we assumed countries with lower GDP annual growths would have higher adolescent birth rates. To double-check, we calculated the correlation coefficient and found a very weak, negative relationship (-0.1589). However, because there is still a slight correlation and we need an economic variable to compare, we will still include GDP annual growth in our linear regression.    
+Gross Domestic Product (GDP) annual growth rate signifies the yearly average rate of change of GDP at market prices based on constant local currency, for a given national economy, during a specified time ([The Balance](https://www.thebalance.com/u-s-gdp-growth-3306008)). This graph shows an unclear relationship between GDP annual growth rate and adolescent birth rate (per 1,000 15-19-year-olds)--on neither the regular or log scale. This was surprising to see because we assumed countries with lower GDP annual growths would have higher adolescent birth rates. To double-check, we calculated the correlation coefficient and found a very weak, negative relationship (-0.1589). However, because there is still a slight correlation and we need an economic variable to compare, we will still include GDP annual growth in our linear regression.    
 
 **Is life expectancy at birth related to adolescent birth rate?**
 ```{r life-exp, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
