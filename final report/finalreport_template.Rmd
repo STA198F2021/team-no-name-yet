@@ -341,9 +341,12 @@ cat_new <- country_joined %>%
 # Looking further at Gender Inequality Index
 ```{r}
 ggplot(data = cat_new) +
-  geom_point(aes(x = as.numeric(`Gender Inequality Index`), y = as.numeric(`Adolescent_Birth_Rate`), color = HDI_cat))
+  geom_point(aes(x = as.numeric(`Gender Inequality Index`), y = as.numeric(`Adolescent_Birth_Rate`), color = HDI_cat)) +
+  labs(x = "Gender Inequality Index", 
+       y = "Adolescent Birth Rate",
+       color = "HDI Category")
 ```
-
+High HDI reflects a high economic prosperity in a country. We broke the HDI rankings up into four categories. This plot supports the idea that wealthier countries have lower gender equality desparities and lower rates of teen births. 
 
 
 ## Summary & Next Steps
