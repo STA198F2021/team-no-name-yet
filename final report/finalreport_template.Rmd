@@ -143,7 +143,7 @@ cor(as.numeric(country_joined$`Expected Years Schooling Female`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-This graph highlights a negative, linear trend that as the expected years of schooling for women increases, the rate of adolescent births decreases (in 2019). To support this, we found that the correlation coefficient is -0.72793, thus, there is a strong, negative correlation between the two variables. We can also add female educational attainment to our linear regression.
+This graph highlights a negative, linear trend that as the expected years of schooling for women increases, the rate of adolescent births decreases (in 2019). This makes sense because the longer women stay in school, the less likely they are to have children, considering the amount of time and effort it takes to raise a child. To support this, we found that the correlation coefficient is -0.72793, thus, there is a strong, negative correlation between the two variables. We can also add female educational attainment to our linear regression.  
 
 **Is GDP Annual growth rate related to adolescent birth rate?**
 ```{r GDP, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
@@ -164,22 +164,27 @@ cor(as.numeric(country_joined$`GDP Annual Growth`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-Looking at this graph, we see that there is an unclear relationship between GDP annual growth rate--on neither the normal or log scale. To double check, we calculated the correlation coefficient and found a very weak, negative relationship (-0.1589). Thus, we will not include GDP annual growth in our linear regression.  
+Looking at this graph, we see that there is an unclear relationship between GDP annual growth rate and adolescent birth rate (per 1,000 15-19 year olds)--on neither the normal or log scale. This was surprising to see because we assumed countries with lower GDP annual growths would have higher adolescent birth rates. To double check, we calculated the correlation coefficient and found a very weak, negative relationship (-0.1589). Thus, we will not include GDP annual growth in our linear regression.  
 
 **Is life expectancy at birth related to adolescent birth rate?**
-#fig6
-```{r life-exp, fig.height=3, fig.width=7}
-ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth Female`), 
+```{r life-exp, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
   geom_point()+
   labs(
-    title= "Is Female Life Expectacy at Birth Related to Adolescent Birth Rate?",
-    x="Female Life Expectacy at Birth",
+    title= "Is Life Expectacy at Birth Related to Adolescent Birth Rate?",
+    x="Life Expectacy at Birth",
     y="Adolescent Birth Rate"
   )
 
 ```
+```{r cor-life-exp, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
+cor(as.numeric(country_joined$`Life Expectancy Birth`), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
+
+```
+From this graph, we see a negative, linear relationship between life expectancy at birth and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as life expectancy increases, teenage birth rate decreases. This makes sense because women would have less of a need to reproduce if their children are expected to live for a long time. Because we found the correlation coefficient to be -0.7898, we can confirm that this relationship is strong and negative. Thus, we will include life expectancy at birth in our linear regression model.
 
 **Is HDI in 2019 related to adolescent birth rate?**
 ## fig7
