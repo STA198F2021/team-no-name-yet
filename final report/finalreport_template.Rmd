@@ -123,7 +123,7 @@ cor(log(as.numeric(country_joined$`Maternal Mortality Ratio`)),
 
 ```
 
-This data shows a positive, linear trend, and we see that as maternal mortality increases, so does adolescent birth rate across countries in 2019. After comparing the natural data and the log data, we found that the log relationship between the two variables is was the strongest, and its correlation coefficient is 0.7797. With this, we can add it to our linear regression.
+This data shows a positive, linear trend, and we see that as maternal mortality increases, so does adolescent birth rate across countries in 2019. After comparing the natural data and the log data, we found that the log relationship between the two variables is was the strongest, and its correlation coefficient is 0.7797. With this, we can add it to our linear regression.  
 
 **Is female educational attainment related to adolescent birth rate?**
 ## fig4
@@ -154,50 +154,6 @@ ggplot(country_joined, aes(x = log(as.numeric(`GDP Annual Growth`)),
     y="Adolescent Birth Rate",
     color = "HDI Rank") 
 ```
-
-```{r GDP-linreg}
-country_joined <- country_joined %>%
-  filter(!`GDP` == "..") %>%
-  filter(!`Adolescent Birth Rate` == "..") %>%
-  #filter(!`GNI Per Capita` == "..") %>%
-  filter(!`GDP per Capita` == "..") %>%
-  mutate(GDP = as.numeric(`GDP`)) %>%
-  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`)) %>%
-  mutate(HDI_Rank = as.factor(`HDI Rank.x`)) %>%
-  #mutate(GNI_Per_Capita = as.numeric(`GNI per Capita`)) %>%
-  mutate(`GDP per Capita` = str_replace(`GDP per Capita`, ",", "")) %>%
-  mutate(GDP_Per_Capita = as.numeric(`GDP per Capita`))
-  
-
-gdp_linreg <- country_joined %>%
-  select(Adolescent_Birth_Rate, GDP, HDI_Rank, GDP_Per_Capita)
-         
-mainfit <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(Adolescent_Birth_Rate ~ GDP + HDI_Rank + GDP_Per_Capita, data = gdp_linreg)
-tidy(mainfit)
-```
-
-```{r HDI Grouping}
-country_joined %>%
-  mutate(HDI_final = as.numeric(`HDI Rank.x`)) %>%
-  mutate(gdp_linreg = cut(
-    HDI_final,
-    breaks = c(-Inf, 66, 119, 156, 189, Inf),
-    labels = c(
-      "Very High", "High", "Medium", "Low", "Other"
-    )
-    # labels = c(
-    #   "Very High Human Development",
-    #   "High Human Development",
-    #   "Medium Human Development",
-    #   "Low Human Development",
-    #   "Other Human Development",
-    # ),
-    # right = TRUE
-  ))
-```
-
 
 **Is life expectancy at birth related to adolescent birth rate?**
 #fig6
@@ -292,6 +248,50 @@ tidy(mainfit)
 #Country_new is available to be added, but produces N/A values
 
 #The 2 most statistically significant variables are Labour Participation Female and Gender Inequality Index. Both fall under the p = 0.05 range
+```
+
+
+```{r GDP-linreg}
+country_joined <- country_joined %>%
+  filter(!`GDP` == "..") %>%
+  filter(!`Adolescent Birth Rate` == "..") %>%
+  #filter(!`GNI Per Capita` == "..") %>%
+  filter(!`GDP per Capita` == "..") %>%
+  mutate(GDP = as.numeric(`GDP`)) %>%
+  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`)) %>%
+  mutate(HDI_Rank = as.factor(`HDI Rank.x`)) %>%
+  #mutate(GNI_Per_Capita = as.numeric(`GNI per Capita`)) %>%
+  mutate(`GDP per Capita` = str_replace(`GDP per Capita`, ",", "")) %>%
+  mutate(GDP_Per_Capita = as.numeric(`GDP per Capita`))
+  
+
+gdp_linreg <- country_joined %>%
+  select(Adolescent_Birth_Rate, GDP, HDI_Rank, GDP_Per_Capita)
+         
+mainfit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(Adolescent_Birth_Rate ~ GDP + HDI_Rank + GDP_Per_Capita, data = gdp_linreg)
+tidy(mainfit)
+```
+
+```{r HDI Grouping}
+country_joined %>%
+  mutate(HDI_final = as.numeric(`HDI Rank.x`)) %>%
+  mutate(gdp_linreg = cut(
+    HDI_final,
+    breaks = c(-Inf, 66, 119, 156, 189, Inf),
+    labels = c(
+      "Very High", "High", "Medium", "Low", "Other"
+    )
+    # labels = c(
+    #   "Very High Human Development",
+    #   "High Human Development",
+    #   "Medium Human Development",
+    #   "Low Human Development",
+    #   "Other Human Development",
+    # ),
+    # right = TRUE
+  ))
 ```
 
 ## Chi Squared Test
