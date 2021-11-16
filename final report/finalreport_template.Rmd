@@ -114,7 +114,7 @@ We see that the middle 50% of countries have a teenage birth rate between 13.2 a
 
 ## Relationships
 
-After looking at the distribution of birth rate data, we decided to explore if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our six explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy at birth, 2019 HDI index, and gender development index) onto separate scatter plots. The relationships will then be modeled with a linear regression to determine the significance of adolescent birth rates an independent indicator has. 
+After looking at the distribution of birth rate data, we decided to explore if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our seven explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy at birth, 2019 HDI index, and gender development index) onto separate scatter plots. The relationships will then be modeled with a linear regression to determine the significance of adolescent birth rates an independent indicator has. 
 
 **Is Maternal Mortality Ratio Related to Adolescent Birth Rate?**
 
@@ -292,18 +292,19 @@ linreg_total <- country_joined %>%
 mainfit <- linear_reg() %>%
   set_engine("lm") %>%
   fit(Adolescent_Birth_Rate ~ GDP + Maternal_Mortality_Ratio + Mean_Years_Schooling_Female + Life_Expectancy_Birth + HDI_2019 + Labour_Participation_Female + Gender_Inequality_Index , data = linreg_total)
-tidy(mainfit)
+tidy(mainfit, conf.int=TRUE)
 
-#Country_new is available to be added, but produces N/A values
-
-#The 2 most statistically significant variables are Labour Participation Female and Gender Inequality Index. Both fall under the p = 0.05 range
 ```
 
 ## Interpretation
-> which variable(s) was rejected by the null hypothesis by having no difference in influence over birth rate
-> which variable(s) led us to fail to reject the null hypothesis and thus DOES have a difference in influence over birth rate. 
->> what is this relationship/interpret
-> Where do we go from here?
+
+Out of the seven variables we fitted in the linear regression, we see that only two explanatory variables (female labor participation and gender inequality index) have p-values smaller than our alpha 0.05 (2.395e^-05^ and 8.747e^-07^, respectively). Thus, these two variables reject our null hypothesis that there is no difference in influence over all of the explanatory predictors. 
+
+To break this down, in a hypothesis test for female labor participation where H0: beta6 = 0 and Ha: beta6 != 0, our rejection of the null hypothesis indicates an estimated 134.9 increase in adolescent birth rate, holding all other variables constant. Additionally, the 95% confidence interval (3.332e^-01^ , 0.8806) doesn't contain 0.
+
+In a separate hypothesis test for gender inequality index where H0: beta7 = 0 and Ha: beta7 != 0, our rejection of the null hypothesis indicates an estimated 0.606 increase in adolescent birth rate, holding all other variables constant. Additionally, the 95% confidence interval (8.33e^+01^	, 186.5) doesn't contain 0.
+
+Furthermore, considering comparatively higher correlation between gender inequality index and adolescent birth rate, we decided to further analyze this variable in a more detailed scatter plot below. 
 
 ```{r GDP-linreg, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 country_joined <- country_joined %>%
