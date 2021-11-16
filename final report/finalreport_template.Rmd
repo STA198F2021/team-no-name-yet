@@ -3,9 +3,9 @@ title: "Final Report"
 author: "Isabel Siebrecht, Franklin Feng, & Kaylin Hernandez"
 date: "11/16/21"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 subtitle: 'due November 16, 2021 by 11:59 PM '
 ---
 
@@ -333,27 +333,18 @@ mainfit <- linear_reg() %>%
 ```
 
 ```{r HDI Grouping, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-country_joined %>%
+cat_new <- country_joined %>%
   mutate(HDI_final = as.numeric(`HDI Rank.x`)) %>%
   mutate(HDI_cat = cut(
     HDI_final,
     breaks = c(-Inf, 66, 119, 156, 189, Inf),
     labels = c(
-      "Very High", "High", "Medium", "Low", "Other"
-    )
-    # labels = c(
-    #   "Very High Human Development",
-    #   "High Human Development",
-    #   "Medium Human Development",
-    #   "Low Human Development",
-    #   "Other Human Development",
-    # ),
-    # right = TRUE
-  ))
+      "Very High", "High", "Medium", "Low", "Other")))
 ```
+
 ```{r}
-ggplot(data = country_joined) +
-  geom_point(aes(x = as.numeric(`Gender Inequality Index`), y = as.numeric(`Adolescent_Birth_Rate`), fill = HDI_cat))
+ggplot(data = cat_new) +
+  geom_point(aes(x = as.numeric(`Gender Inequality Index`), y = as.numeric(`Adolescent_Birth_Rate`), color = HDI_cat))
 ```
 
 
