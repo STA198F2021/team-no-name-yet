@@ -3,9 +3,9 @@ title: "Final Report"
 author: "Isabel Siebrecht, Franklin Feng, & Kaylin Hernandez"
 date: "11/16/21"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 subtitle: 'due November 16, 2021 by 11:59 PM '
 ---
 
@@ -76,6 +76,7 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 ```
 
 ## Introduction
+
 Our group chose to research what influences the rates of teenage pregnancies because we consider premature pregnancies one of the most significant indicators of a country’s development and prosperity. Considering the repercussions of lost economic contributions and increased dependency on costly public programs [https://www.ncbi.nlm.nih.gov/books/NBK219229/], we hope our findings can encourage governments to reduce the rate of teenage pregnancies by focusing on the strongest predictor variables we identify in this report.  
 
 In essence, we attempt to answer how a country’s quality of life, measured by human and economic resources, correlates to the birth rates for teenagers aged 15 to 19 years old. To answer our question, our explanatory variables of adolescent pregnancy rates are female educational attainment, GDP annual growth rate, life expectancy at birth, HDI, labor force participation rate, and gender inequality index.  
@@ -87,66 +88,94 @@ As a disclaimer, we acknowledge that our findings are based on preconceived, Wes
 
 ## Methodology
 
+>>>Needs to be completed!!! Will do as soon as next push
+
 ## Intro to data
-For context purposes, we found data on 195 countries from the year 2019, and this is what the density plot for adolescent birth rate in our sample looks like. Additionally, throughout the report, adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.
+
+To allow the reader a complete understanding of our findings, we first focused on analyzing our main variable of interest, adolescent birth rates. Utilizing data from 195 countries, we produced a density plot and corresponding quantile values below. We would like to note that throughout the report adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.
+
 ```{r total-rate, fig.height=3, fig.width=7, echo=FALSE}
 country_joined %>%
-  ggplot(aes(x= as.numeric(`Adolescent Birth Rate`))) +
+  ggplot(aes(x = as.numeric(`Adolescent Birth Rate`))) +
   geom_boxplot() +
-  labs(title= "International Adolsecent Birth Rates, 2019",
-       x= "Adolescent Birth Rate (per 1,000 women aged 15-19)")
-
+  labs(title= "Adolescent Birth Rates Worldwide", subtitle = "Averaged Over a 5 Year Period From 2015-2020",
+       x= "Adolescent Birth Rate (per 1,000 Women Aged 15-19)")
 ```
-We see that the middle 50% of countries have a teenage birth rate between 39.1 and 70.5. Considering a high birth rate is 40-50 births per 1,000 women, our box plot shows a distribution of relatively high rates. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
-```{r quantile, echo=FALSE}
+
+```{r quantile, echo = FALSE}
 quantile_set <- country_joined %>%
   select(`Adolescent Birth Rate`) %>%
-  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`)) %>%
-  quantile(Adolescent_Birth_Rate, c(0, 0.25, 0.50, 0.75, 1))
+  filter(!`Adolescent Birth Rate` == "..") %>%
+  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`))
+
+  quantile(quantile_set$Adolescent_Birth_Rate, c(0, 0.25, 0.50, 0.75, 1))
 ```
 
-## Relationships
-After looking at the distribution of birth rate data, we decided to visually see if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our six explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy, 2019 HDI, and Gender Development Index) onto separate scatter plots.  
+We see that the middle 50% of countries have a teenage birth rate between 39.1 and 70.5. Considering a high birth rate is 40-50 births per 1,000 women, our box plot shows a distribution of relatively high rates. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
 
-**Is maternal mortality ratio related to adolescent birth rate?**
+>>> MIDDLE 50% isn't that 13.2 to 70.5?
+>>> If possible I will fix to eliminate y-axis values + add subtitle
+
+
+## Relationships
+
+After looking at the distribution of birth rate data, we decided to explore if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our six explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy at birth, 2019 HDI index, and gender development index) onto separate scatter plots.
+
+**Is Maternal Mortality Ratio Related to Adolescent Birth Rate?**
+
 ```{r maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7}
 ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
-  geom_point(alpha=0.6) +
-  labs(title= "Is Maternal Mortality Ratio Related to Adolescent Birth Rate",
+  geom_point(alpha = 0.6) +
+  labs(title= "Does Maternal Mortality Ratio Affect Adolescent Birth Rate?", subtitle = "Observations From 185 Countries",
        x = "Maternal Mortality Ratio", y = "Adolescent Birth Rate")
 
 ```
 ```{r cor-maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
 cor(as.numeric(country_joined$`Maternal Mortality Ratio`), 
-    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use = "complete.obs")
 
 ```
 
-This data shows a positive, linear trend, and we see that as maternal mortality increases, so does adolescent birth rate across countries in 2019. The maternal mortality ratio signifies the number of maternal deaths per 100,000 live births during the same time. This trend makes sense because we expect countries with high adolescent birth rates to have high maternal mortality ratios. After all, the women are not physically capable of giving birth at that young of an age. The relationship between the two variables is positive and strong, considering its correlation coefficient is 0.7296. We can add this to our linear regression, which we will conduct later in this report to test which variables have the most substantial influence over adolescent birth rates.  
+The data shows a positive, linear trend, and we see that as maternal mortality increases, so does adolescent birth rate across countries. The maternal mortality ratio signifies the number of maternal deaths per 100,000 live births during the same time. We expect countries with high adolescent birth rates to have high maternal mortality ratios. The relationship between the two variables is positive and relatively strong, considering the correlation coefficient is 0.7296. 
 
-**Is female educational attainment related to adolescent birth rate?**
-```{r fem-education, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}}
+>>We can add this to our linear regression, which we will conduct later in this report to test which variables have the most substantial influence over adolescent birth rates.
+
+>>>I don't think this sentence is necessary tbh. ^^
+
+**Is Female Educational Attainment Related to Adolescent Birth Rate?**
+
+```{r fem-education, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 country_joined %>%
-  ggplot(aes(x= as.numeric(`Expected Years Schooling Female`), 
-             y= as.numeric(`Adolescent Birth Rate`))) +
+  filter(!`Adolescent Birth Rate` == "..") %>%
+  filter(!`Mean Years Schooling Female` == "..") %>%
+  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`)) %>%
+  mutate(Mean_Years_Schooling_Female = as.numeric(`Mean Years Schooling Female`)) %>%
+  
+  ggplot(aes(x= Mean_Years_Schooling_Female, y= Adolescent_Birth_Rate)) +
   geom_point(alpha=0.6) +
   labs(
-    title= "Is Female Educational Attainment Related to Adolescent Birth Rate?",
-    x="Expected Years Schooling for Women",
+    title= "Does Female Educational Attainment Affect Adolescent Birth Rate?",
+    x="Mean Years Schooling for Women",
     y="Adolescent Birth Rate"
   )
 ```
 ```{r cor-female-schooling, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
-cor(as.numeric(country_joined$`Expected Years Schooling Female`), 
+cor(as.numeric(country_joined$`Mean Years Schooling Female`), 
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-This graph highlights a strong, negative, linear trend (r= -0.7279) that as the expected years of schooling for women increases, the rate of adolescent births decreases (in 2019). This makes sense because the longer women stay in school, the less likely they will have children, considering the amount of time and effort it takes to raise a child. Thus, we can also add female educational attainment to our linear regression.  
+
+This graph highlights a relatively strong negative correlation (r = -0.704) that for a given country, as the mean years of schooling for women increases, the rate of adolescent births decreases. This logically makes sense because the increase in time spent in school also raises the likelihood of women finding a career in the workforce along with being actively informed about sexual health and safe practices. These factors directly contribute to an overall lower adolescent birth rate.
+
+>>Thus, we can also add female educational attainment to our linear regression.
+
+>>Again could be taken out ^^^
 
 **Is GDP Annual growth rate related to adolescent birth rate?**
+
 ```{r GDP, echo=FALSE, error=FALSE, fig.height=3, fig.width=7, message=FALSE, warning=FALSE}
 ggplot(country_joined, aes(x = as.numeric(`GDP Annual Growth`), 
                            y = as.numeric(`Adolescent Birth Rate`), 
