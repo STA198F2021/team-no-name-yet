@@ -33,7 +33,7 @@ adolescent_births <- read.csv("../data/Adolescent_Births.csv")
 contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
 ```
 
-```{r clean-data, echo=FALSE}
+```{r clean-data, echo=FALSE, message=FALSE, warning=FALSE}
 hdi1_clean <- slice(hdi1, -c(1:7, 74, 128, 166, 200, 207:270))
 hdi1_clean <- select(hdi1_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11))
 names(hdi1_clean) <- c("HDI Rank", "Country", "HDI 2019", "Life Expectancy Birth", "Expected Years Schooling", "Mean Years Schooling", "GNI Per Capita", "GNI Per Capita Minus HDI", "HDI 2018")
@@ -62,7 +62,7 @@ contraceptive_prevalence_clean <- select(contraceptive_prevalence_clean, select 
 names(contraceptive_prevalence_clean) <- c("Country", "Survey Start Year", "Survey End Year", "Age Group", "Contraceptive Any Method", "Contraceptive Modern Method", "Contraceptive Traditional Method")
 ```
 
-```{r join-datasets, echo=FALSE}
+```{r join-datasets, echo=FALSE, message=FALSE, warning=FALSE}
 
 country_joined <- hdi1_clean %>%
   inner_join(hdi10_clean, by = "Country")%>%
@@ -84,16 +84,19 @@ Information provided by Youth.gov supports our predictors because they broadly e
 We pulled our data on adolescent birth rate from the World Health Organization who collected the results via various national and international surveys and country reports. We also pulled data from the 2020 Human Development Report provided by the United Nations. This data consisted of female educational attainment (number of years of schooling), GDP, life expectancy at birth, HDI, labor force participation rate, and gender inequality index. The gender equality index measures the gender disparity in a country on a scale from 0 to 1. The greater the value, the greater the measure of inequality.  
 
 As a disclaimer, we acknowledge that our findings are based on preconceived, Western assumptions of what qualifies as a global indicator of “status.” Thus, we conducted this report on our assumptions of what defines a country’s prosperity and development.  
-
+  
+  
 ## Methodology
+  
 ## Intro to data
-To allow the reader a complete understanding of our findings, we first focused on analyzing our main variable of interest, adolescent birth rates. Utilizing data from 195 countries, we produced a density plot and corresponding quantile values below. We would like to note that throughout the report adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.
+  
+To allow the reader a complete understanding of our findings, we first focused on analyzing our main variable of interest, adolescent birth rates. Utilizing data from 195 countries, we produced a density plot and corresponding quantile values below. We would like to note that throughout the report adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.  
 
 ```{r total-rate, fig.height=3, fig.width=7, echo=FALSE, warning=FALSE}
 country_joined %>%
   ggplot(aes(x = as.numeric(`Adolescent Birth Rate`))) +
   geom_boxplot() +
-  labs(title= "Adolescent Birth Rates Worldwide", subtitle = "Averaged Over a 5 Year Period From 2015-2020",
+  labs(title= "2019 Adolescent Birth Rates Worldwide",
        x= "Adolescent Birth Rate (per 1,000 Women Aged 15-19)")
 ```
 
@@ -106,34 +109,34 @@ quantile_set <- country_joined %>%
   quantile(quantile_set$Adolescent_Birth_Rate, c(0, 0.25, 0.50, 0.75, 1))
 ```
 
-We see that the middle 50% of countries have a teenage birth rate between 13.2 and 70.5. Considering a low birth rate is 10-20 births per 1,000 women and a high birth rate is 40-50 births per 1,000 women ([Child Trends](https://web.archive.org/web/20160526190803/http://www.childtrends.org/?indicators=fertility-and-birth-rates)), our box plot shows a relatively broad distribution rates. Thus, this right-skewed distribution can allow us to compare indicators on both sides of the spectrum. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.
-
->>> If possible I will fix to eliminate y-axis values + add subtitle
->> was it actually averaged?? I thought our data was only from 2019??
-
-
+We see that the middle 50% of countries have a teenage birth rate between 13.2 and 70.5. Considering a low birth rate is 10-20 births per 1,000 women and a high birth rate is 40-50 births per 1,000 women ([Child Trends](https://web.archive.org/web/20160526190803/http://www.childtrends.org/?indicators=fertility-and-birth-rates)), our box plot shows a relatively broad distribution rates. Thus, this right-skewed distribution can allow us to compare indicators on both sides of the spectrum. We also have a few outlines, which are Chad (161.1), Mali (169.1), and Niger (186.5). All three have HDI ranks 187, 184, and 189, respectively.  
+  
+  
 ## Relationships
 
-After looking at the distribution of birth rate data, we decided to explore if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our seven explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy at birth, 2019 HDI index, and gender development index) onto separate scatter plots. The relationships will then be modeled with a linear regression to determine the significance of adolescent birth rates an independent indicator has. 
-
+After looking at the distribution of birth rate data, we decided to explore if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our seven explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy at birth, 2019 HDI index, and gender development index) onto separate scatter plots. The relationships will then be modeled with a linear regression to determine the significance of adolescent birth rates an independent indicator has.  
+  
+  
 **Is Maternal Mortality Ratio Related to Adolescent Birth Rate?**
-
+  
 ```{r maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7}
 ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
   geom_point(alpha = 0.6) +
-  labs(title= "Does Maternal Mortality Ratio Affect Adolescent Birth Rate?", subtitle = "Observations From 185 Countries",
+  labs(title= "Does Maternal Mortality Ratio Affect Adolescent Birth Rate?", 
+       subtitle = "Observations From 185 Countries",
        x = "Maternal Mortality Ratio", y = "Adolescent Birth Rate")
 
 ```
 ```{r cor-maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
 cor(as.numeric(country_joined$`Maternal Mortality Ratio`), 
-    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use = "complete.obs")
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", 
+    use = "complete.obs")
 
 ```
-
-The data shows a positive, linear trend, and we see that as maternal mortality increases, so does adolescent birth rate across countries. The maternal mortality ratio signifies the number of maternal deaths per 100,000 live births during the same time. We expect countries with high adolescent birth rates to have high maternal mortality ratios. The relationship between the two variables is positive and relatively strong, considering the correlation coefficient is 0.7314.  
+  
+The data shows a positive, linear trend, and we see that as maternal mortality increases, so does adolescent birth rate across countries. The maternal mortality ratio signifies the number of maternal deaths per 100,000 live births during the same time. We expect countries with high adolescent birth rates to have high maternal mortality ratios. The relationship between the two variables is positive and relatively strong, considering the correlation coefficient is 0.7314.    
 
 **Is Female Educational Attainment Related to Adolescent Birth Rate?**
 
@@ -158,11 +161,12 @@ cor(as.numeric(country_joined$`Mean Years Schooling Female`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-
+  
 This graph highlights a relatively strong negative correlation (r = -0.7249) that for a given country, as the mean years of schooling for women increases, the rate of adolescent births decreases. This logically makes sense because the increase in time spent in school also raises the likelihood of women finding a career in the workforce along with being actively informed about sexual health and safe practices. These factors directly contribute to an overall lower adolescent birth rate.  
-
+  
+  
 **Is GDP Annual growth rate related to adolescent birth rate?**
-
+  
 ```{r GDP, echo=FALSE, error=FALSE, fig.height=3, fig.width=7, message=FALSE, warning=FALSE}
 ggplot(country_joined, aes(x = as.numeric(`GDP Annual Growth`), 
                            y = as.numeric(`Adolescent Birth Rate`), 
@@ -181,9 +185,11 @@ cor(as.numeric(country_joined$`GDP Annual Growth`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
+  
 Gross Domestic Product (GDP) annual growth rate signifies the yearly average rate of change of GDP at market prices based on constant local currency, for a given national economy, during a specified time ([The Balance](https://www.thebalance.com/u-s-gdp-growth-3306008)). This graph shows an unclear relationship between GDP annual growth rate and adolescent birth rate (per 1,000 15-19-year-olds)--on neither the regular or log scale. This was surprising to see because we assumed countries with lower GDP annual growths would have higher adolescent birth rates. To double-check, we calculated the correlation coefficient and found a very weak, negative relationship (r=-0.1261). However, because there is still a slight correlation and we need an economic variable to compare, we will still include GDP annual growth in our linear regression.  
-
+  
 **Is life expectancy at birth related to adolescent birth rate?**
+
 ```{r life-exp, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
@@ -201,9 +207,12 @@ cor(as.numeric(country_joined$`Life Expectancy Birth`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
+  
 This graph shows a strong, negative, linear relationship (r=-0.8003) between life expectancy at birth and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as life expectancy increases, teenage birth rate decreases. This makes sense because women would have less need to reproduce if their children are expected to live for a long time.      
-
-**Is HDI in 2019 related to adolescent birth rate?**
+  
+  
+**Is HDI in 2019 related to adolescent birth rate?** 
+  
 ```{r HDI, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 country_joined %>%
   ggplot(aes(x= as.numeric(`HDI 2019`), 
@@ -221,9 +230,12 @@ cor(as.numeric(country_joined$`HDI 2019`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-HDI, also known as the Human Development Index, is a statistic used to rank countries. This plot shows a strong, negative, linear relationship (r=-0.8196) between 2019 HDI and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as the HDI increases, the rate of adolescent birth rates decrease. This relationship makes sense because HDI is an indicator of wealth, and the more money generally correlates with more contraceptives, abortions, better maternal and child healthcare, and .  
+  
+HDI, also known as the Human Development Index, is a statistic used to rank countries. This plot shows a strong, negative, linear relationship (r=-0.8196) between 2019 HDI and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as the HDI increases, the rate of adolescent birth rates decrease. This relationship makes sense because HDI is an indicator of wealth, and the more money generally correlates with more contraceptives, abortions, better maternal and child healthcare, etc.  
+
 
 **Is labor force participation rate related to adolescent birth rate?**
+  
 ```{r labor-force, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 country_joined %>%
   ggplot(aes(x= as.numeric(`Labour Participation Female`), 
@@ -241,9 +253,12 @@ cor(as.numeric(country_joined$`Labour Participation Female`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-From the plot, we only somewhat see a relationship between female labor participation and adolescent birth rate, and our correlation coefficient of 0.3103 confirms a weak, positive linear correlation. Roughly, as female labor participation increases, the birth rate per 1,000 women aged 15-19 years old also increases. This is slightly surprising because we predicted that countries with high teenage birth rates would have higher female labor participation levels. We assumed the young women would be at home, mainly because we saw this earlier with female educational attainment.
-
+  
+From the plot, we only somewhat see a relationship between female labor participation and adolescent birth rate, and our correlation coefficient of 0.3103 confirms a weak, positive linear correlation. Roughly, as female labor participation increases, the birth rate per 1,000 women aged 15-19 years old also increases. This is slightly surprising because we predicted that countries with high teenage birth rates would have higher female labor participation levels. We assumed the young women would be at home, mainly because we saw this earlier with female educational attainment.  
+  
+  
 **Is the gender develop index related to adolescent birth rate?**
+
 ```{r gender-inequality, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 country_joined %>%
   ggplot(aes(x= as.numeric(`Gender Development Index`), 
@@ -261,12 +276,16 @@ cor(as.numeric(country_joined$`Gender Development Index`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
+
 The gender development index measures gender inequality through gender-based gaps in education, life expectancy, and incomes, and the closer the value is to 1, the more equal a society is. We see that as the gender development index approaches 1, there is a slight linear decrease (r= -0.5148) in adolescent birth rate (per 1,000 15-19-year-olds). This relationship makes sense because we assume that more equal societies would allow women to make their own reproductive choices. They are also more likely to have resources and healthcare options for women.   
-
+  
+  
 # Linear regression
-After looking to see possible relationships, we decided to run a linear regression analysis in order to determine which predictors had the most influence over teenage pregnancy rates and what that relationship is. The general null hypothesis test for every explanatory variable is beta# = 0, which indicates that there is no difference in influence when we control for each one individually. 
-
+  
+After looking to see possible relationships, we decided to run a linear regression analysis in order to determine which predictors had the most influence over teenage pregnancy rates and what that relationship is. The general null hypothesis test for every explanatory variable is beta# = 0, which indicates that there is no difference in influence when we control for each one individually.  
+  
 **Which variable has the most significant correlation to adolescent birth rate?**
+  
 ```{r total-linear-regression}
 country_joined <- country_joined %>%
   filter(!`GDP` == "..") %>%
@@ -295,17 +314,20 @@ mainfit <- linear_reg() %>%
 tidy(mainfit, conf.int=TRUE)
 
 ```
-
+  
+  
 ## Interpretation
+  
+Out of the seven variables we fitted in the linear regression, we see that only two explanatory variables (female labor participation and gender inequality index) have p-values smaller than our alpha 0.05 (2.395e^-05^ and 8.747e^-07^, respectively). Thus, these two variables reject our null hypothesis that there is no difference in influence over all of the explanatory predictors.  
 
-Out of the seven variables we fitted in the linear regression, we see that only two explanatory variables (female labor participation and gender inequality index) have p-values smaller than our alpha 0.05 (2.395e^-05^ and 8.747e^-07^, respectively). Thus, these two variables reject our null hypothesis that there is no difference in influence over all of the explanatory predictors. 
+To break this down, in a hypothesis test for female labor participation where H0: beta6 = 0 and Ha: beta6 != 0, our rejection of the null hypothesis indicates an estimated 134.9 increase in adolescent birth rate, holding all other variables constant. Additionally, the 95% confidence interval (3.332e^-01^ , 0.8806) doesn't contain 0.  
 
-To break this down, in a hypothesis test for female labor participation where H0: beta6 = 0 and Ha: beta6 != 0, our rejection of the null hypothesis indicates an estimated 134.9 increase in adolescent birth rate, holding all other variables constant. Additionally, the 95% confidence interval (3.332e^-01^ , 0.8806) doesn't contain 0.
+In a separate hypothesis test for gender inequality index where H0: beta7 = 0 and Ha: beta7 != 0, our rejection of the null hypothesis indicates an estimated 0.606 increase in adolescent birth rate, holding all other variables constant. Additionally, the 95% confidence interval (8.33e^+01^	, 186.5) doesn't contain 0.  
 
-In a separate hypothesis test for gender inequality index where H0: beta7 = 0 and Ha: beta7 != 0, our rejection of the null hypothesis indicates an estimated 0.606 increase in adolescent birth rate, holding all other variables constant. Additionally, the 95% confidence interval (8.33e^+01^	, 186.5) doesn't contain 0.
-
-Furthermore, considering comparatively higher correlation between gender inequality index and adolescent birth rate, we decided to further analyze this variable in a more detailed scatter plot below. 
-
+Furthermore, considering comparatively higher correlation between gender inequality index and adolescent birth rate, we decided to further analyze this variable in a more detailed scatter plot below.  
+  
+# Looking further at Gender Inequality Index
+  
 ```{r GDP-linreg, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 country_joined <- country_joined %>%
   filter(!`GDP` == "..") %>%
@@ -339,17 +361,18 @@ cat_new <- country_joined %>%
       "Very High", "High", "Medium", "Low", "Other")))
 ```
 
-# Looking further at Gender Inequality Index
-```{r}
+```{r GII-HDI-birth, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=7, fig.height=3}
 ggplot(data = cat_new) +
   geom_point(aes(x = as.numeric(`Gender Inequality Index`), y = as.numeric(`Adolescent_Birth_Rate`), color = HDI_cat)) +
   labs(x = "Gender Inequality Index", 
        y = "Adolescent Birth Rate",
        color = "HDI Category")
 ```
-HDI reflects economic prosperity in a country, so we broke the HDI rankings up into four categories to visualize the hypothesis that wealth plays a major roll in access to equality. Since gender inequality is such a broad issue we wanted to look at wealth desperation in conjunction. This plot supports the idea that wealthier countries tend to have lower gender equality disparities and lower rates of teen births, and vice versa. Our plot, organized by HDI rank, can help us select which countries will benefit most from our intervention targeting wealth and gender inequality to improve adolescent birth rates.
+ 
+HDI reflects economic prosperity in a country, so we broke the HDI rankings up into four categories to visualize the hypothesis that wealth plays a major roll in access to equality. Since gender inequality is such a broad issue we wanted to look at wealth desperation in conjunction. This plot supports the idea that wealthier countries tend to have lower gender equality disparities and lower rates of teen births, and vice versa. Our plot, organized by HDI rank, can help us select which countries will benefit most from our intervention targeting wealth and gender inequality to improve adolescent birth rates.  
 
-# Summary & Next Steps
+# Summary & Next Steps  
+  
 > referencing the importance of teenage birth rate and our research question, 
 >> just summarize our the relationships we found and which variable we found to be the most significant
 > also explain why this correlation is important and how researchers/governments can use this knowledge to reduce birth rates
