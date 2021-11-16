@@ -88,7 +88,7 @@ As a disclaimer, we acknowledge that our findings are based on preconceived, Wes
 ## Methodology
 
 ## Intro to data
-For context purposes, we found data on 195 countries, and this is what the density plot for adolescent birth rate in our sample looks like. Additionally, throughout the report, adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.
+For context purposes, we found data on 195 countries from the year 2019, and this is what the density plot for adolescent birth rate in our sample looks like. Additionally, throughout the report, adolescent birth rate is measured as the number of births per 1000 women aged 15-19 years old in a given population.
 ```{r total-rate, fig.height=3, fig.width=7, echo=FALSE}
 country_joined %>%
   ggplot(aes(x= as.numeric(`Adolescent Birth Rate`))) +
@@ -108,10 +108,10 @@ quantile(as.numeric(country_joined$`Adolescent Birth Rate`), c(0, 0.25, 0.50, 0.
 After looking at the distribution of birth rate data, our next line of action was to visually see if there was a relationship between our chosen factors and adolescent pregnancy rates. Therefore, we plotted our six explanatory variables (maternal mortality rate, female educational attainment, GDP, life expectancy, 2019 HDI, and Gender Development Index) onto separate scatter plots. 
 
 **Is maternal mortality ratio related to adolescent birth rate?**
-```{r maternal-mortality, echo=FALSE, fig.height=3, fig.width=7}
+```{r maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7}
 ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
-  geom_point() +
+  geom_point(alpha=0.6) +
   labs(title= "Is Maternal Mortality Ratio Related to Adolescent Birth Rate",
        x = "Maternal Mortality Ratio", y = "Adolescent Birth Rate")
 
@@ -130,7 +130,7 @@ This data shows a positive, linear trend, and we see that as maternal mortality 
 country_joined %>%
   ggplot(aes(x= as.numeric(`Expected Years Schooling Female`), 
              y= as.numeric(`Adolescent Birth Rate`))) +
-  geom_point() +
+  geom_point(alpha=0.6) +
   labs(
     title= "Is Female Educational Attainment Related to Adolescent Birth Rate?",
     x="Expected Years Schooling for Women",
@@ -146,7 +146,7 @@ cor(as.numeric(country_joined$`Expected Years Schooling Female`),
 This graph highlights a negative, linear trend that as the expected years of schooling for women increases, the rate of adolescent births decreases (in 2019). This makes sense because the longer women stay in school, the less likely they are to have children, considering the amount of time and effort it takes to raise a child. To support this, we found that the correlation coefficient is -0.72793, thus, there is a strong, negative correlation between the two variables. We can also add female educational attainment to our linear regression.  
 
 **Is GDP Annual growth rate related to adolescent birth rate?**
-```{r GDP, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+```{r GDP, echo=FALSE, error=FALSE, fig.height=3, fig.width=7, message=FALSE, warning=FALSE}
 ggplot(country_joined, aes(x = as.numeric(`GDP Annual Growth`), 
                            y = as.numeric(`Adolescent Birth Rate`), 
                            color = as.numeric(`HDI Rank.x`))) +
@@ -184,11 +184,10 @@ cor(as.numeric(country_joined$`Life Expectancy Birth`),
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-From this graph, we see a negative, linear relationship between life expectancy at birth and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as life expectancy increases, teenage birth rate decreases. This makes sense because women would have less of a need to reproduce if their children are expected to live for a long time. Because we found the correlation coefficient to be -0.7898, we can confirm that this relationship is strong and negative. Thus, we will include life expectancy at birth in our linear regression model.
+From this graph, we see a negative, linear relationship between life expectancy at birth and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as life expectancy increases, teenage birth rate decreases. This makes sense because women would have less of a need to reproduce if their children are expected to live for a long time. Because we found the correlation coefficient to be -0.7898, we can confirm that this relationship is strong and negative. Thus, we will include life expectancy at birth in our linear regression model.  
 
 **Is HDI in 2019 related to adolescent birth rate?**
-## fig7
-```{r HDI, fig.height=3, fig.width=7}
+```{r HDI, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 country_joined %>%
   ggplot(aes(x= as.numeric(`HDI 2019`), 
              y= as.numeric(`Adolescent Birth Rate`))) +
@@ -199,10 +198,15 @@ country_joined %>%
     y="Adolescent Birth Rate"
   )
 ```
+```{r cor-HDI-2019, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+
+cor(as.numeric(country_joined$`HDI 2019`), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
+
+```
 
 **Is labor force participation rate related to adolescent birth rate?**
-## fig8
-```{r labor-force, fig.height=3, fig.width=7}
+```{r labor-force, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 country_joined %>%
   ggplot(aes(x= as.numeric(`Labour Participation Female`), 
              y= as.numeric(`Adolescent Birth Rate`)))+
@@ -214,10 +218,15 @@ country_joined %>%
   )
 ```
 
-**Is the gender develop index related to adolescent birth rate?**
-## fig9
+```{r cor-labor-participation, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
-```{r gender-inequality, fig.height=3, fig.width=7}
+cor(as.numeric(country_joined$`Labour Participation Female`), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
+
+```
+
+**Is the gender develop index related to adolescent birth rate?**
+```{r gender-inequality, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 country_joined %>%
   ggplot(aes(x= as.numeric(`Gender Development Index`), 
              y= as.numeric(`Adolescent Birth Rate`))) +
@@ -229,6 +238,12 @@ country_joined %>%
   )
 ```
 
+```{r cor-GDI, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+
+cor(as.numeric(country_joined$`Gender Development Index`), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
+
+```
 As gender development index increases there is also a trending increase in
 adolescent birth rate. 
 
