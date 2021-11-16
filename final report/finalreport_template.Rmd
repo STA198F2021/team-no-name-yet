@@ -76,7 +76,7 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 
 ## Introduction  
 
-Our group chose to research what influences the rates of teenage pregnancies because we consider premature pregnancies one of the most significant indicators of a country’s development and prosperity. Considering the repercussions of lost economic contributions and increased dependency on costly public programs ([NCBI](https://www.ncbi.nlm.nih.gov/books/NBK219229/)), we hope our findings can encourage governments to reduce the rate of teenage pregnancies by focusing on the strongest predictor variables we identify in this report.  
+Our group chose to research what influences the rate of teenage pregnancies because we consider premature pregnancies one of the most significant indicators of a country’s development and prosperity. Considering the repercussions of lost economic contributions and increased dependency on costly public programs [https://www.ncbi.nlm.nih.gov/books/NBK219229/], we hope our findings can encourage governments to reduce the rate of teenage pregnancies by focusing on the strongest predictor variables we identify in this report.  
 
 In essence, we attempt to answer how a country’s quality of life, measured by human and economic resources, correlates to the birth rates for teenagers aged 15 to 19 years old. To answer our question, our explanatory variables of adolescent pregnancy rates are female educational attainment, GDP annual growth rate, life expectancy at birth, HDI, labor force participation rate, and gender inequality index.  
 Information provided by Youth.gov supports our predictors because they broadly encompass the individual, family, and community that influence teenage pregnancies ([Youth.gov](https://youth.gov/youth-topics/pregnancy-prevention/risk-and-protective-factors)).  
@@ -357,6 +357,7 @@ cor(x = as.numeric(country_joined$`Labour Participation Female`), y = as.numeric
 ```{r}
 cor(x = as.numeric(country_joined$`Gender Inequality Index`), y = as.numeric(country_joined$`Adolescent_Birth_Rate`))
 ```
+
 Since the two variables with the highest correlation for teen birth rate and gender inequality index and female labour participation, we ran correlations on both to find the exact values. Female labour participation’s correlation was 0.310, indicating a weak correlation. However, the correlation for gender inequality index was 0.827. Since this variable has the strongest correlation of all our variables, this is the issue we propose the majority of funding and resources go into to help lower adolescent birth rate. 
 
 > we did correlation for these earlier in the relationship section. Is there another type of test or distribution you could run to show the importance of gender inequality index? We just need a final BOOM
