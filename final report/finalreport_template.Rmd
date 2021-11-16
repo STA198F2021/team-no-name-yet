@@ -109,25 +109,24 @@ After looking at the distribution of birth rate data, our next line of action wa
 
 **Is maternal mortality ratio related to adolescent birth rate?**
 ```{r maternal-mortality, echo=FALSE, fig.height=3, fig.width=7}
-ggplot(country_joined, aes(x = log(as.numeric(`Maternal Mortality Ratio`)), 
+ggplot(country_joined, aes(x = as.numeric(`Maternal Mortality Ratio`), 
                            y = as.numeric(`Adolescent Birth Rate`))) +
   geom_point() +
   labs(title= "Is Maternal Mortality Ratio Related to Adolescent Birth Rate",
-       x = "Log Maternal Mortality Ratio", y = "Adolescent Birth Rate")
+       x = "Maternal Mortality Ratio", y = "Adolescent Birth Rate")
 
 ```
 ```{r cor-maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
-cor(log(as.numeric(country_joined$`Maternal Mortality Ratio`)), 
+cor(as.numeric(country_joined$`Maternal Mortality Ratio`), 
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
 
-This data shows a positive, linear trend, and we see that as maternal mortality increases, so does adolescent birth rate across countries in 2019. After comparing the natural data and the log data, we found that the log relationship between the two variables is was the strongest, and its correlation coefficient is 0.7797. With this, we can add it to our linear regression.  
+This data shows a positive, linear trend, and we see that as maternal mortality increases, so does adolescent birth rate across countries in 2019. The relationship between the two variables is positive and strong, considering its correlation coefficient is 0.7296. With this, we can add it to our linear regression, which we will conduct later in this report to test which variables have the strongest influence over adolescent birth rates.  
 
 **Is female educational attainment related to adolescent birth rate?**
-## fig4
-```{r fem-education, fig.height=3, fig.width=7}
+```{r fem-education, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}}
 country_joined %>%
   ggplot(aes(x= as.numeric(`Expected Years Schooling Female`), 
              y= as.numeric(`Adolescent Birth Rate`))) +
@@ -138,8 +137,13 @@ country_joined %>%
     y="Adolescent Birth Rate"
   )
 ```
-This graph highlights a trend that with more average years of schooling for women,
-there is a lower rate of adolescent births. 
+```{r cor-female-schooling, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+
+cor(as.numeric(country_joined$`Expected Years Schooling Female`), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
+
+```
+This graph highlights a negative, linear trend that as the expected years of schooling for women increases, the rate of adolescent births decreases (in 2019). To support this, we found that the correlation coefficient is -0.72793, thus, there is a strong, negative correlation between the two variables. We can also add female educational attainment to our linear regression.
 
 **Is GDP related to adolescent birth rate?**
 ## fig5
