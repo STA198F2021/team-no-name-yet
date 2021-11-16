@@ -113,7 +113,7 @@ ggplot(country_joined, aes(x = log(as.numeric(`Maternal Mortality Ratio`)),
                            y = as.numeric(`Adolescent Birth Rate`))) +
   geom_point() +
   labs(title= "Is Maternal Mortality Ratio Related to Adolescent Birth Rate",
-       x = "Maternal Mortality Ratio", y = "Adolescent Birth Rate")
+       x = "Log Maternal Mortality Ratio", y = "Adolescent Birth Rate")
 
 ```
 ```{r cor-maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
