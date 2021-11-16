@@ -298,19 +298,18 @@ country_joined %>%
   ))
 ```
 
-## Chi Squared Test
-```{r}
-chisq_test(country_joined, as.numeric(`Labour Participation Female`) ~ as.nummeric(`Adolescent_Birth_Rate`))
-
-chisq_test(country_joined, as.numeric(`Gender Inequality Index`) ~ as.nummeric(`Adolescent_Birth_Rate`))
-
-```
 
 Ho: Β1 = 0, There is no correlation between Labour Participation Female and teenage birthrate. 
 Ha: Β1 ≠ 0, There is a correlation between Labour Participation Female and teenage birthrate. 
+```{r}
+cor(x = as.numeric(country_joined$`Labour Participation Female`), y = as.numeric(country_joined$`Adolescent_Birth_Rate`))
+```
 
 Ho: Β1 = 0, There is no correlation between Gender Inequality Index and teenage birthrate. 
 Ha: Β1 ≠ 0, There is a correlation between Gender Inequality Index and teenage birthrate.
+```{r}
+cor(x = as.numeric(country_joined$`Gender Inequality Index`), y = as.numeric(country_joined$`Adolescent_Birth_Rate`))
+```
 
 
 ## Summary & Next Steps
