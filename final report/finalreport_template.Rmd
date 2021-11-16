@@ -323,20 +323,14 @@ country_joined %>%
     # right = TRUE
   ))
 ```
-
-
-Ho: Β1 = 0, There is no correlation between Labour Participation Female and teenage birthrate. 
-Ha: Β1 ≠ 0, There is a correlation between Labour Participation Female and teenage birthrate. 
 ```{r}
 cor(x = as.numeric(country_joined$`Labour Participation Female`), y = as.numeric(country_joined$`Adolescent_Birth_Rate`))
 ```
 
-Ho: Β1 = 0, There is no correlation between Gender Inequality Index and teenage birthrate. 
-Ha: Β1 ≠ 0, There is a correlation between Gender Inequality Index and teenage birthrate.
 ```{r}
 cor(x = as.numeric(country_joined$`Gender Inequality Index`), y = as.numeric(country_joined$`Adolescent_Birth_Rate`))
 ```
-
+Since the two variables with the highest correlation for teen birth rate and gender inequality index and female labour participation, we ran correlations on both to find the exact values. Female labour participation’s correlation was 0.310, indicating a weak correlation. However, the correlation for gender inequality index was 0.827. Since this variable has the strongest correlation of all our variables, this is the issue we propose the majority of funding and resources go into to help lower adolescent birth rate. 
 
 ## Summary & Next Steps
 
