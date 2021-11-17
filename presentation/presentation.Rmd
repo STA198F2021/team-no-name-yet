@@ -1,6 +1,6 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
+title: "The Indicators That Affect Teen Pregnancy"
+subtitle: "and future implications"
 author: "Team-No-Name-Yet <br> Isabel Siebrecht, Franklin Feng, & Kaylin Hernandez"
 institute: "Duke University"
 date: "`r Sys.Date()`"
