@@ -199,3 +199,55 @@ class: inverse, middle, center
 `xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
 
 - And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
+
+---
+```{r 1}
+
+```
+
+---
+```{r 2}
+
+```
+---
+```{r 3}
+
+```
+---
+```{r 4}
+
+```
+---
+```{r 5}
+
+```
+---
+```{r 6}
+
+```
+---
+```{r 7}
+
+```
+---
+```{r 8}
+
+```
+---
+```{r 9}
+
+```
+---
+```{r 10}
+
+```
+---
+```{r 11}
+
+```
+---
+```{r 12}
+
+```
+---
+# References
