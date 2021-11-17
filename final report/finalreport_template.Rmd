@@ -460,10 +460,7 @@ The gender equality index measures the gender disparity in a country on a scale 
 HDI reflects economic prosperity in a country, so we broke the HDI rankings up into four categories to visualize the hypothesis that wealth plays a major roll in access to equality. Since gender inequality is such a broad issue we wanted to look at wealth desperation in conjunction. This plot supports the idea that wealthier countries tend to have lower gender equality disparities and lower rates of teen births, and vice versa. Our plot, organized by HDI rank, can help us select which countries will benefit most from our intervention targeting wealth and gender inequality to improve adolescent birth rates.  
 
 # Summary & Next Steps  
-  
-> referencing the importance of teenage birth rate and our research question, 
->> just summarize our the relationships we found and which variable we found to be the most significant
-> also explain why this correlation is important and how researchers/governments can use this knowledge to reduce birth rates
-> know correlation doesn't mean causation
-> if you reference international organizations, note that program implementations cannot be generalized acorss the globe based on this data, which is simply a global sample from 2019. Each country (and maybe disaggregate further) needs further reseach and separate analysis.
+
+In summation, although we recognize that correlation does not mean causation, we recommend that the intervention created to reduce the number of adolescent births focus on the communities with the highest rates, countries with low HDI rank, and do so by addressing the gender inequality in these countries. Sine we have a finite amount of resources, it is best to put them towards low HDI countries. Since our highest correlating variable was gender inequality, the most efficient way to help adolescent birth rates decrease will be to try and close this gap. Some ways that can help close the gender equality gap are encouraging girls to stay in school and pursue and education. If girls acquire skills that make not just their bodies, but their minds valuable to society then they will be encouraged to pursue careers and higher degrees, thus waiting to have children until they are older. Women who give birth later in life don't only have less pregnancy related health risks than teen mothers, but they are also more economically stable, and therefore able to give their children a better quality of life. 
+
 
