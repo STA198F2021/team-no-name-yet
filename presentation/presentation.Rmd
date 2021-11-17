@@ -243,7 +243,11 @@ class: inverse, middle, center
 ```
 ---
 ```{r 11}
-
+country_joined %>%
+  ggplot(aes(x = as.numeric(`Adolescent Birth Rate`))) +
+  geom_boxplot() +
+  labs(title= "Adolescent Birth Rates Worldwide", subtitle = "Collected in 2019",
+       x= "Adolescent Birth Rate (per 1,000 Women Aged 15-19)")
 ```
 ---
 ```{r 12}
