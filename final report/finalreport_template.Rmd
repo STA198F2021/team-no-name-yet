@@ -3,9 +3,9 @@ title: "Final Report"
 author: "Isabel Siebrecht, Franklin Feng, & Kaylin Hernandez"
 date: "11/16/21"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 subtitle: 'due November 16, 2021 by 11:59 PM '
 ---
 
@@ -200,7 +200,7 @@ mortality rates.
 
 **Is Female Educational Attainment Related to Adolescent Birth Rate?**
 
-```{r fem-education, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+```{r fem-education dataframe, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 fem_education <- country_joined %>%
   select(`Adolescent Birth Rate`, `Mean Years Schooling Female`, `Mean Years Schooling Male`, `Secondary Education Female`, `Secondary Education Male`) %>%
   filter(!`Adolescent Birth Rate` == "..") %>%
@@ -213,7 +213,7 @@ fem_education <- country_joined %>%
   mutate(Secondary_Education_Male = as.numeric(`Secondary Education Male`))
 ```
 
-```{r}
+```{r fem-education plot, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 ggplot(data = fem_education, mapping = aes(x= Mean_Years_Schooling_Female, y= Adolescent_Birth_Rate)) +
   geom_col(fill = "Skyblue") +
   geom_smooth() +
@@ -239,28 +239,44 @@ increase in time spent in school also raises the likelihood of women finding a
 career in the workforce along with being actively informed about sexual health 
 and safe practices. These factors directly contribute to an overall lower 
 adolescent birth rate.
-  
-```{r fem-education-linreg}
-mainfit <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(Adolescent_Birth_Rate ~ Secondary_Education_Female + Mean_Years_Schooling_Male + Mean_Years_Schooling_Female + Secondary_Education_Male +  Mean_Years_Schooling_Male*Mean_Years_Schooling_Female, data = fem_education)
-tidy(mainfit, conf.int=FALSE)
+
+
+**Is GDP Annual growth rate related to adolescent birth rate?**
+
+```{r GDP-dataset}
+gdp_data <- country_joined %>%
+  select(`GDP`, `GDP Annual Growth`, `GDP per Capita`, `Consumer Price Index`, `GNI Per Capita`, `HDI Rank.x`, `Adolescent Birth Rate`) %>%
+  filter(!`GDP` == "..") %>%
+  filter(!`Consumer Price Index` == "..") %>%
+  filter(!`GNI Per Capita` == "..") %>%
+  filter(!`Adolescent Birth Rate` == "..") %>%
+  mutate(`GDP per Capita` = str_replace(`GDP per Capita`, ",", "")) %>%
+  mutate(`GDP` = str_replace(`GDP`, ",", "")) %>%
+  mutate(`GNI Per Capita` = str_replace(`GNI Per Capita`, ",", "")) %>%
+  mutate(`Consumer Price Index` = str_replace(`Consumer Price Index`, ",", "")) %>%
+  mutate(GDP_num = as.numeric(`GDP`)) %>%
+  mutate(GDP_Annual_Growth = as.numeric(`GDP Annual Growth`)) %>%
+  mutate(GDP_per_Capita = as.numeric(`GDP per Capita`)) %>%
+  mutate(Consumer_Price_Index = as.numeric(`Consumer Price Index`)) %>%
+  mutate(GNI_Per_Capita = as.numeric(`GNI Per Capita`)) %>%
+  #mutate(HDI_Rankx = as.numeric(`HDI Rank.x`)) %>%
+  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`))
 ```
 
   
-**Is GDP Annual growth rate related to adolescent birth rate?**
-  
 ```{r GDP, echo=FALSE, error=FALSE, fig.height=3, fig.width=7, message=FALSE, warning=FALSE}
-ggplot(country_joined, aes(x = as.numeric(`GDP Annual Growth`), 
+ggplot(gdp_data, aes(x = as.numeric(`GDP Annual Growth`), 
                            y = as.numeric(`Adolescent Birth Rate`), 
                            color = as.numeric(`HDI Rank.x`))) +
   geom_point() +
   labs(
-    title= "Is GDP Annual Growth Rate Related to Adolescent Birth Rates?",
+    title= "Does GDP Annual Growth Rate Affect Adolescent Birth Rates?",
+    subtitle = "per 1000 Live Births",
     x="GDP Annual Growth Rate",
     y="Adolescent Birth Rate",
-    color = "HDI Rank") 
+    color = "HDI Rank")
 ```
+
 ```{r cor-GDP, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
 cor(as.numeric(country_joined$`GDP Annual Growth`), 
@@ -268,18 +284,53 @@ cor(as.numeric(country_joined$`GDP Annual Growth`),
 
 ```
   
-Gross Domestic Product (GDP) annual growth rate signifies the yearly average rate of change of GDP at market prices based on constant local currency, for a given national economy, during a specified time ([The Balance](https://www.thebalance.com/u-s-gdp-growth-3306008)). This graph shows an unclear relationship between GDP annual growth rate and adolescent birth rate (per 1,000 15-19-year-olds)--on neither the regular or log scale. This was surprising to see because we assumed countries with lower GDP annual growths would have higher adolescent birth rates. To double-check, we calculated the correlation coefficient and found a very weak, negative relationship (r=-0.1261). However, because there is still a slight correlation and we need an economic variable to compare, we will still include GDP annual growth in our linear regression.  
+```{r GDP-linreg}
+mainfit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(Adolescent_Birth_Rate ~ GDP_num + GDP_Annual_Growth + GDP_per_Capita + Consumer_Price_Index +  GNI_Per_Capita, data = gdp_data)
+tidy(mainfit, conf.int=FALSE)
+```
+  
+We next asked ourselves if strictly economic indicators can be telling in 
+differences in adolescent birth rate. The results were much more muddy than 
+anticipated. For example, we plotted Gross Domestic Product (GDP) annual growth 
+rate, which signifies the yearly average rate of change of GDP at market prices 
+based on constant local currency, for a given national economy, during a 
+specified time ([The Balance](https://www.thebalance.com/u-s-gdp-growth-3306008)).
+The plot shows an unclear relationship between GDP annual growth rate and 
+adolescent birth rate. It is to be noted, however, that the HDI index has a 
+substantial impact on the rate of adolescent births as clearly shown on the plot
+delineated by color.
+
+We further explored the relationships with economic variables such as GDP, 
+Consumer Price Index, GNI (Gross National Income) per Capita using a linear 
+regression model to seek if economic indicators on their own can tell about 
+adolescent birth rates in a given country. GDP Annual Growth and GNI per Capita 
+were the two economic indicators that were the most significant in the model, 
+though both failed to reach the appropriate p-level threshold to be counted as 
+statistically significant.
+
+Finally, we calculated the correlation coefficient and found a very weak, 
+negative relationship (r = -0.1261). We can therefore conclude that just by 
+looking at a given country's economic condition and growth is a fairly poor 
+indicator of the adolescent birth rate. This definitely makes sense since there
+are many developing nations with high GDP growth but still lack advanced 
+infrastructure for healthcare, while there are low growth GDP countries that 
+have reached the post modern classification and have highly robust healthcare
+access.  
+
   
 **Is life expectancy at birth related to adolescent birth rate?**
 
 ```{r life-exp, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth`), 
-                           y = as.numeric(`Adolescent Birth Rate`))) +
-  geom_point(alpha=0.6)+
+                           y = as.numeric(`Adolescent Birth Rate`), color = as.numeric(`Health Expenditure of GDP`))) +
+  geom_point(alpha=0.8)+
   labs(
-    title= "Is Life Expectacy at Birth Related to Adolescent Birth Rate?",
-    x="Life Expectacy at Birth",
-    y="Adolescent Birth Rate"
+    title= "Does Life Expectancy at Birth Affect Adolescent Birth Rate?",
+    subtitle = "Mean Expected Years for a Given Country",
+    x="Life Expectancy at Birth",
+    y="Adolescent Birth Rate", color = "Health Expenditure of GDP"
   )
 
 ```
@@ -291,22 +342,19 @@ cor(as.numeric(country_joined$`Life Expectancy Birth`),
 
 ```
   
-This graph shows a strong, negative, linear relationship (r=-0.8003) between life expectancy at birth and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as life expectancy increases, teenage birth rate decreases. This makes sense because women would have less need to reproduce if their children are expected to live for a long time.      
+This graph shows a strong, negative, linear relationship (r = -0.778) between 
+life expectancy at birth and adolescent birth rate, meaning as life expectancy 
+increases, adolescent birth rate decreases. This makes logical sense because 
+women would have less need to reproduce if their children are expected to have a
+long lifespan. In addition, we applied an overlay of Health Expenditure of GDP 
+to study if this variable affects both life expectancy and adolescent birth 
+rates. As seen, there is not an extremely clear pattern exhibited, but in 
+general the trend tends to be that those countries with a higher devotion of 
+Health Expenditure relative to their GDP came out to longer life expectancies 
+and lower adolescent birth rates.
   
   
-**Is HDI in 2019 related to adolescent birth rate?** 
-  
-```{r HDI, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
-country_joined %>%
-  ggplot(aes(x= as.numeric(`HDI 2019`), 
-             y= as.numeric(`Adolescent Birth Rate`))) +
-  geom_point(alpha=0.6) +
-  labs(
-    title= "Is HDI in 2019 Related to Adolescent Birth Rate?",
-    x="2019 HDI",
-    y="Adolescent Birth Rate"
-  )
-```
+**Is HDI in 2019 related to adolescent birth rate?**
 
 ```{r cor-HDI-2019, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
@@ -315,7 +363,16 @@ cor(as.numeric(country_joined$`HDI 2019`),
 
 ```
   
-HDI, also known as the Human Development Index, is a statistic used to rank countries. This plot shows a strong, negative, linear relationship (r=-0.8196) between 2019 HDI and adolescent birth rate (per 1,000 women aged 15-19 years old), meaning as the HDI increases, the rate of adolescent birth rates decrease. This relationship makes sense because HDI is an indicator of wealth, and the more money generally correlates with more contraceptives, abortions, better maternal and child healthcare, etc.  
+HDI, also known as the Human Development Index, is a statistic used to rank 
+countries. There is clearly a relatively strong negative linear relationship 
+(r = -0.774) between 2019 HDI and adolescent birth rate (per 1,000 women aged 
+15-19 years old), meaning as the HDI increases, the rate of adolescent birth 
+rates decrease. This relationship makes sense because unlike that of other 
+economic indicators like GDP and GNI above, HDI is a more holistic indicator of 
+a country's resources, its condition both economically and health-wise, and the 
+level of democracy that exists. The confluence of these factors helps to build 
+the HDI index and therefore it commands a far better relationship with 
+adolescent birth rates than many other single standing variables.
 
 
 **Is labor force participation rate related to adolescent birth rate?**
@@ -326,7 +383,7 @@ country_joined %>%
              y= as.numeric(`Adolescent Birth Rate`)))+
   geom_point(alpha=0.5) +
   labs(
-    title= "Is Female Labor Participation Related to Adolescent Birth Rate?",
+    title= "Does Female Labor Participation Affect Adolescent Birth Rate?",
     x="Female Labor Participation",
     y="Adolescent Birth Rate"
   )
@@ -339,7 +396,14 @@ cor(as.numeric(country_joined$`Labour Participation Female`),
 
 ```
   
-From the plot, we only somewhat see a relationship between female labor participation and adolescent birth rate, and our correlation coefficient of 0.3103 confirms a weak, positive linear correlation. Roughly, as female labor participation increases, the birth rate per 1,000 women aged 15-19 years old also increases. This is slightly surprising because we predicted that countries with high teenage birth rates would have higher female labor participation levels. We assumed the young women would be at home, mainly because we saw this earlier with female educational attainment.  
+From the plot, we only somewhat see a relationship between female labor 
+participation and adolescent birth rate, and our correlation coefficient of 
+0.3103 confirms a weak, positive linear correlation. Roughly, as female labor 
+participation increases, the birth rate per 1,000 women aged 15-19 years old 
+also increases. This is slightly surprising because we predicted that countries
+with high teenage birth rates would have higher female labor participation 
+levels. We assumed the young women would be at home, mainly because we saw this
+earlier with female educational attainment.  
   
   
 **Is the gender develop index related to adolescent birth rate?**
@@ -363,12 +427,24 @@ cor(as.numeric(country_joined$`Gender Development Index`),
 
 ```
 
-The gender development index measures gender inequality through gender-based gaps in education, life expectancy, and incomes, and the closer the value is to 1, the more equal a society is. We see that as the gender development index approaches 1, there is a slight linear decrease (r= -0.5148) in adolescent birth rate (per 1,000 15-19-year-olds). This relationship makes sense because we assume that more equal societies would allow women to make their own reproductive choices. They are also more likely to have resources and healthcare options for women.   
+The gender development index measures gender inequality through gender-based 
+gaps in education, life expectancy, and incomes, and the closer the value is to 
+1, the more equal a society is. We see that as the gender development index 
+approaches 1, there is a slight linear decrease (r= -0.5148) in adolescent birth
+rate (per 1,000 15-19-year-olds). This relationship makes sense because we 
+assume that more equal societies would allow women to make their own 
+reproductive choices. They are also more likely to have resources and healthcare
+options for women.   
   
   
 # Linear regression
   
-After looking to see possible relationships, we decided to run a linear regression analysis in order to determine which predictors had the most influence over teenage pregnancy rates and what that relationship is. The general null hypothesis test for every explanatory variable is beta# = 0, which indicates that there is no difference in influence when we control for each one individually.  
+After looking to see possible relationships, we decided to run a linear 
+regression analysis in order to determine which predictors had the most 
+influence over teenage pregnancy rates and what that relationship is. The 
+general null hypothesis test for every explanatory variable is $\beta\ = 0$, 
+which indicates that there is no difference in influence when we control for 
+each one individually.  
   
 **Which variable has the most significant correlation to adolescent birth rate?**
   
@@ -404,38 +480,29 @@ tidy(mainfit, conf.int=TRUE)
   
 ## Interpretation
   
-Out of the seven variables we fitted in the linear regression, we see that only two explanatory variables (female labor participation and gender inequality index) have p-values smaller than our alpha 0.05 (2.395e^-05^ and 8.747e^-07^, respectively). Thus, these two variables reject our null hypothesis that there is no difference in influence over all of the explanatory predictors.  
+Out of the seven variables we fitted in the linear regression, we see that only 
+two explanatory variables (female labor participation and gender inequality 
+index) have p-values smaller than our alpha 0.05 (2.395e^-05^ and 8.747e^-07^, 
+respectively). Thus, these two variables reject our null hypothesis that there 
+is no difference in influence over all of the explanatory predictors.  
 
-To break this down, in a hypothesis test for female labor participation where H0: beta6 = 0 and Ha: beta6 != 0, our rejection of the null hypothesis indicates an estimated 134.9 increase in adolescent birth rate, holding all other variables constant. Additionally, the 95% confidence interval (3.332e^-01^ , 0.8806) doesn't contain 0.  
+To break this down, in a hypothesis test for female labor participation where 
+$H0: \beta_6\ = 0$ and $Ha: \beta_6\ != 0$, our rejection of the null hypothesis
+indicates an estimated 134.9 increase in adolescent birth rate, holding all 
+other variables constant. Additionally, the 95% confidence interval 
+($3.332e^-01$, 0.8806) doesn't contain 0.  
 
-In a separate hypothesis test for gender inequality index where H0: beta7 = 0 and Ha: beta7 != 0, our rejection of the null hypothesis indicates an estimated 0.606 increase in adolescent birth rate, holding all other variables constant. Additionally, the 95% confidence interval (8.33e^+01^	, 186.5) doesn't contain 0.  
+In a separate hypothesis test for gender inequality index where 
+$H0: \beta_7\ = 0$ and $Ha: \beta_7\ != 0$, our rejection of the null hypothesis
+indicates an estimated 0.606 increase in adolescent birth rate, holding all 
+other variables constant. Additionally, the 95% confidence interval 
+($8.33e^1$, 186.5) doesn't contain 0.  
 
-Furthermore, considering comparatively higher correlation between gender inequality index and adolescent birth rate, we decided to further analyze this variable in a more detailed scatter plot below.  
+Furthermore, considering comparatively higher correlation between gender 
+inequality index and adolescent birth rate, we decided to further analyze this 
+variable in a more detailed scatter plot below.  
   
 # Looking further at Gender Inequality Index
-  
-```{r GDP-linreg, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-country_joined <- country_joined %>%
-  filter(!`GDP` == "..") %>%
-  filter(!`Adolescent Birth Rate` == "..") %>%
-  #filter(!`GNI Per Capita` == "..") %>%
-  filter(!`GDP per Capita` == "..") %>%
-  mutate(GDP = as.numeric(`GDP`)) %>%
-  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`)) %>%
-  mutate(HDI_Rank = as.factor(`HDI Rank.x`)) %>%
-  #mutate(GNI_Per_Capita = as.numeric(`GNI per Capita`)) %>%
-  mutate(`GDP per Capita` = str_replace(`GDP per Capita`, ",", "")) %>%
-  mutate(GDP_Per_Capita = as.numeric(`GDP per Capita`))
-  
-
-gdp_linreg <- country_joined %>%
-  select(Adolescent_Birth_Rate, GDP, HDI_Rank, GDP_Per_Capita)
-         
-mainfit <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(Adolescent_Birth_Rate ~ GDP + HDI_Rank + GDP_Per_Capita, data = gdp_linreg)
-
-```
 
 ```{r HDI Grouping, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 cat_new <- country_joined %>%
@@ -449,18 +516,42 @@ cat_new <- country_joined %>%
 
 ```{r GII-HDI-birth, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=7, fig.height=3}
 ggplot(data = cat_new) +
-  geom_point(aes(x = as.numeric(`Gender Inequality Index`), y = as.numeric(`Adolescent_Birth_Rate`), color = HDI_cat)) +
-  labs(x = "Gender Inequality Index", 
+  geom_point(aes(x = as.numeric(`Gender Inequality Index`), y = as.numeric(`Adolescent Birth Rate`), color = HDI_cat)) +
+  labs(title = "Gender Inequality Index vs Adolescent Birth Rate",
+       subtitle = "per 1,000 Live Births",
+         x = "Gender Inequality Index", 
        y = "Adolescent Birth Rate",
-       color = "HDI Category")
+       color = "HDI Development Category")
 ```
 
-The gender equality index measures the gender disparity in a country on a scale from 0 to 1. The greater the value, the greater the measure of inequality.
+The gender equality index measures the gender disparity in a country on a scale 
+from 0 to 1. The greater the value, the greater the measure of inequality.
 
-HDI reflects economic prosperity in a country, so we broke the HDI rankings up into four categories to visualize the hypothesis that wealth plays a major roll in access to equality. Since gender inequality is such a broad issue we wanted to look at wealth desperation in conjunction. This plot supports the idea that wealthier countries tend to have lower gender equality disparities and lower rates of teen births, and vice versa. Our plot, organized by HDI rank, can help us select which countries will benefit most from our intervention targeting wealth and gender inequality to improve adolescent birth rates.  
+HDI reflects economic prosperity in a country, so we broke the HDI rankings up 
+into four categories to visualize the hypothesis that wealth plays a major roll 
+in access to equality. Since gender inequality is such a broad issue we wanted 
+to look at wealth desperation in conjunction. This plot supports the idea that 
+wealthier countries tend to have lower gender equality disparities and lower 
+rates of teen births, and vice versa. Our plot, organized by HDI rank, can help 
+us select which countries will benefit most from our intervention targeting 
+wealth and gender inequality to improve adolescent birth rates.  
 
 # Summary & Next Steps  
 
-In summation, although we recognize that correlation does not mean causation, we recommend that the intervention created to reduce the number of adolescent births focus on the communities with the highest rates, countries with low HDI rank, and do so by addressing the gender inequality in these countries. Sine we have a finite amount of resources, it is best to put them towards low HDI countries. Since our highest correlating variable was gender inequality, the most efficient way to help adolescent birth rates decrease will be to try and close this gap. Some ways that can help close the gender equality gap are encouraging girls to stay in school and pursue and education. If girls acquire skills that make not just their bodies, but their minds valuable to society then they will be encouraged to pursue careers and higher degrees, thus waiting to have children until they are older. Women who give birth later in life don't only have less pregnancy related health risks than teen mothers, but they are also more economically stable, and therefore able to give their children a better quality of life. 
+In summation, although we recognize that correlation does not mean causation, 
+we recommend that the intervention created to reduce the number of adolescent 
+births focus on the communities with the highest rates, countries with low HDI 
+rank, and do so by addressing the gender inequality in these countries. Sine 
+we have a finite amount of resources, it is best to put them towards low HDI 
+countries. Since our highest correlating variable was gender inequality, the 
+most efficient way to help adolescent birth rates decrease will be to try and 
+close this gap. Some ways that can help close the gender equality gap are 
+encouraging girls to stay in school and pursue and education. If girls acquire 
+skills that make not just their bodies, but their minds valuable to society then
+they will be encouraged to pursue careers and higher degrees, thus waiting to 
+have children until they are older. Women who give birth later in life don't 
+only have less pregnancy related health risks than teen mothers, but they are 
+also more economically stable, and therefore able to give their children a 
+better quality of life. 
 
 
