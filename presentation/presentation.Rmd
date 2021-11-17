@@ -23,6 +23,8 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+
+knitr::opts_chunk$set(eval = TRUE, echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
 ```{r setup, include=FALSE}
@@ -37,7 +39,54 @@ knitr::opts_chunk$set(
 ```
 
 ```{r load-data, include=FALSE}
-# Load your data here
+hdi1 <- read.csv("../data/HDI_Table1.csv")
+hdi4 <- read.csv("../data/HDI_Table4.csv")
+hdi5 <- read.csv("../data/HDI_Table5.csv")
+hdi8 <- read.csv("../data/HDI_Table8.csv")
+hdi10 <- read.csv("../data/HDI_Table10.csv")
+adolescent_births <- read.csv("../data/Adolescent_Births.csv")
+contraceptive_prevalence <- read.csv("../data/Contraceptive_Prevalence.csv")
+```
+
+```{r clean-data, echo=FALSE, message=FALSE, warning=FALSE}
+hdi1_clean <- slice(hdi1, -c(1:7, 74, 128, 166, 200, 207:270))
+hdi1_clean <- select(hdi1_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11))
+names(hdi1_clean) <- c("HDI Rank", "Country", "HDI 2019", "Life Expectancy Birth", "Expected Years Schooling", "Mean Years Schooling", "GNI Per Capita", "GNI Per Capita Minus HDI", "HDI 2018")
+
+hdi4_clean <- slice(hdi4, -c(1:7, 74, 128, 166, 200, 207:264))
+hdi4_clean <- select(hdi4_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17, X.19, X.21, X.23))
+names(hdi4_clean) <- c("HDI Rank", "Country", "Gender Development Index", "Gender Development Index Group", "HDI Female", "HDI Male", "Life Expectancy Birth Female", "Life Expectancy Birth Male", "Expected Years Schooling Female", "Expected Years Schooling Male", "Mean Years Schooling Female", "Mean Years Schooling Male", "Estimated GNI per Capita Female", "Estimated GNI per Capita Male")
+
+hdi5_clean <- slice(hdi5, -c(1:7, 74, 128, 166, 200, 207:270))
+hdi5_clean <- select(hdi5_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17))
+names(hdi5_clean) <- c("HDI Rank", "Country", "Gender Inequality Index", "Gender Inequality Index Rank", "Maternal Mortality Ratio", "Adolescent Birth Rate", "Seats Parliament Female", "Secondary Education Female", "Secondary Education Male", "Labour Participation Female", "Labour Participation Male")
+
+hdi8_clean <- slice(hdi8, -c(1:7, 74, 128, 166, 200, 207:264))
+hdi8_clean <- select(hdi8_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17, X.19, X.21, X.23, X.25, X.27, X.29 : X.33))
+names(hdi8_clean) <- c("HDI Rank", "Country", "Infants Breastfed", "Lack DTP Immunization", "Lack Measles Immunization", "Child Malnutrition", "Mortality Rate Infant", "Mortality Rate Under 5", "Mortality Rate Female", "Mortality Rate Male", "Mortality Rate Noncommunicable Female", "Mortality Rate Noncommunicable Male", "Malaria Incidence", "TB Incidence", "HIV Prevalence", "Healthy Life Expectancy at Birth", "Health Expenditure of GDP")
+
+hdi10_clean <- slice(hdi10, -c(1:7, 74, 128, 166, 200, 207:260))
+hdi10_clean <- select(hdi10_clean, select = -c(X.1, X.3, X.5, X.7, X.9, X.11, X.13, X.15, X.17, X.19, X.21, X.23))
+names(hdi10_clean) <- c("HDI Rank", "Country", "GDP", "GDP per Capita", "GDP Annual Growth", "Labour Share", "Gross Fixed Capital Formation of GDP", "General Government Consumption of GDP", "General Government Consumption Annual Growth", "Total Tax Revenue of GDP", "Taxes Income Profits Capital Gains of TTR", "External Debt Stock of GNI", "Total Debt Service of GNI", "Consumer Price Index")
+
+adolescent_births_clean <- select(adolescent_births, select = c(ParentLocation, Location, Period, IsLatestYear, FactValueNumeric, Value))
+names(adolescent_births_clean) <- c("World Region", "Country", "Period", "Is Latest Year", "Adolescent Births", "Adolescent Births Text")
+
+contraceptive_prevalence_clean <- slice(contraceptive_prevalence, -c(1:8))
+contraceptive_prevalence_clean <- select(contraceptive_prevalence_clean, select = c(X, X.2, X.3, X.4, X.5, X.6, X.19))
+names(contraceptive_prevalence_clean) <- c("Country", "Survey Start Year", "Survey End Year", "Age Group", "Contraceptive Any Method", "Contraceptive Modern Method", "Contraceptive Traditional Method")
+```
+
+```{r join-datasets, echo=FALSE, message=FALSE, warning=FALSE}
+
+country_joined <- hdi1_clean %>%
+  inner_join(hdi10_clean, by = "Country")%>%
+  inner_join(hdi4_clean, by = "Country")%>%
+  inner_join(hdi5_clean, by = "Country")%>%
+  inner_join(hdi8_clean, by = "Country")
+
+contraceptives_joined <- contraceptive_prevalence_clean %>%
+  inner_join(adolescent_births_clean, by = "Country")
 ```
 
 ```{r style-slides, echo = FALSE}
