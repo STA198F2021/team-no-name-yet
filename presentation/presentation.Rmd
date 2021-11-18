@@ -270,6 +270,11 @@ country_joined %>%
   labs(title= "Adolescent Birth Rates Worldwide", subtitle = "Collected in 2019",
        x= "Adolescent Birth Rate (per 1,000 Women Aged 15-19)")
 ```
+
+- Middle 50% of countries has 13.4 to 72.9 teen birth per 1,000 teen women
+- Right-skewed distribution can allow us to compare indicators on both sides of the spectrum.
+
+
 ---
 ```{r 5}
 
@@ -300,7 +305,17 @@ country_joined %>%
 ```
 ---
 ```{r 12}
-
+ggplot(data = cat_new) +
+  geom_point(aes(x = as.numeric(`Gender Inequality Index`), y = as.numeric(`Adolescent Birth Rate`), color = HDI_cat)) +
+  labs(title = "Gender Inequality Index vs Adolescent Birth Rate",
+       subtitle = "per 1,000 Live Births",
+         x = "Gender Inequality Index", 
+       y = "Adolescent Birth Rate",
+       color = "HDI Development Category")
 ```
+
+- Wealthier countries tend to have lower gender equality disparities and lower rates of teen births, and vice versa
+- We will get the most out of the intervention by targeting wealth and gender inequality to improve adolescent birth rates in low HDI counties 
+
 ---
 # References
