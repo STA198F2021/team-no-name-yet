@@ -129,7 +129,7 @@ DISCLAIMER: Western assumptions may have biased our report and analysis
 # Intro to Data
 
 ```{r hdr, echo = FALSE, out.width = "40%", fig.align = "center", fig.cap = "Image credit: United Nations Development Programme."}
-include_graphics("img/watercolour_sys02_img32_percolate.jpg")
+include_graphics("img/hdr 2020.jpeg")
 ```
 
 ---
