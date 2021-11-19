@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Presentation title</title>
+    <title>The Indicators That Affect Teen Pregnancy</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Team name   Names of team members" />
-    <meta name="date" content="2021-10-06" />
-    <script src="libs/header-attrs-2.9/header-attrs.js"></script>
+    <meta name="author" content="Team-No-Name-Yet   Isabel Siebrecht, Franklin Feng, &amp; Kaylin Hernandez" />
+    <meta name="date" content="2021-11-18" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Presentation title
-## Presentation subtitle (if any)
-### Team name <br> Names of team members
+# The Indicators That Affect Teen Pregnancy
+## and future implications
+### Team-No-Name-Yet <br> Isabel Siebrecht, Franklin Feng, &amp; Kaylin Hernandez
 ### Duke University
-### 2021-10-06
+### 2021-11-18
 
 ---
+
+
+
+
 
 
 
@@ -70,22 +74,12 @@ or text in two columns `\(^*\)`
 ## Code
 
 
-```r
-# a boring regression
-model &lt;- lm(dist ~ speed, data = cars)
-tidy(model)
-```
-
 ```
 ## # A tibble: 2 × 5
 ##   term        estimate std.error statistic  p.value
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 (Intercept)   -17.6      6.76      -2.60 1.23e- 2
 ## 2 speed           3.93     0.416      9.46 1.49e-12
-```
-
-```r
-glance(model)
 ```
 
 ```
@@ -252,12 +246,102 @@ class: inverse, middle, center
 
 - Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
 
-- You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
+- You are welcomed to use the default styling of the slides. In fact, that's what I expect the majority of you will do. You will differentiate yourself with the content of your presentation.
 
 - But some of you might want to play around with slide styling. The 
 `xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
 
 - And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
+
+---
+## Overview
+- In this project, we chose to research what factors in our world influence the rate of teenage pregnancies.  
+  
+  
+- Premature pregnancies have been found to: 
+  - reduce economic contributions,  
+  - increase dependency on costly public programs, &amp;   
+  - predict a country’s development and prosperity.*  
+  
+--
+  
+**Research question:**  
+How does a country’s quality of life, measured by human and economic resources, correlate to the birth rates for teenagers aged 15 to 19 years old?  
+  
+--
+  
+  
+DISCLAIMER: Western assumptions may have biased our report and analysis
+  
+  
+  
+[*] National Research Council (US) Panel on Adolescent Pregnancy and Childbearing
+  
+---
+# Methodology and Exploration
+---
+# Overview of adolescent birth rate
+&lt;img src="presentation_files/figure-html/4-1.png" width="70%" /&gt;
+
+- Middle 50% of countries has 13.4 to 72.9 teen birth per 1,000 teen women
+- Right-skewed distribution can allow us to compare indicators on both sides of the spectrum.
+---
+# Maternal Mortality &amp; Teen Birth Rate
+&lt;img src="presentation_files/figure-html/maternal-mortality-1.png" width="70%" /&gt;
+
+
+```
+## [1] 0.7175514
+```
+
+- Strong, positive, linear relationship  
+  - r= 0.731  
+  
+- As maternal mortality increases, so does adolescent birth rate across countries.  
+   
+- We expect countries with higher adolescent birth rates to have high maternal mortality ratios due to premature bodies and lack of access to modern healthcare (among other factors).  
+
+---
+# Female Education Attainment &amp; Teen Birth Rate
+
+
+&lt;img src="presentation_files/figure-html/fem-education plot-1.png" width="70%" /&gt;
+
+
+```
+## [1] -0.7041979
+```
+  
+- Relatively strong, negative, linear correlation  
+  - r = -0.7249  
+  
+- As the mean years of schooling for women increases, the rate of adolescent births decreases. 
+  
+- Makes sense because the increase in time spent in school increases the likelihood of a woman finding a career in the workforce along with being actively informed about sexual health and safe practices.  
+  
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+
+
+&lt;img src="presentation_files/figure-html/12-1.png" width="70%" /&gt;
+
+- Wealthier countries tend to have lower gender equality disparities and lower rates of teen births, and vice versa
+- We will get the most out of the intervention by targeting wealth and gender inequality to improve adolescent birth rates in low HDI counties 
+
+---
+# References
+- National Research Council (US) Panel on Adolescent Pregnancy and Childbearing; Hofferth SL, Hayes CD, editors. Risking the Future: Adolescent Sexuality, Pregnancy, and Childbearing, Volume II: Working Papers and Statistical Appendices. Washington (DC): National Academies Press (US); 1987. CHAPTER 6, SOCIAL AND ECONOMIC CONSEQUENCES OF TEENAGE CHILDBEARING. Available from: https://www.ncbi.nlm.nih.gov/books/NBK219229/  
+-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
