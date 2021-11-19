@@ -345,8 +345,54 @@ cor(as.numeric(country_joined$`Mean Years Schooling Female`),
 ---
 # GDP Annual Rate & Teen Birth Rate
 
-```{r 7}
+```{r GDP-dataset}
+gdp_data <- country_joined %>%
+  select(`GDP`, `GDP Annual Growth`, `GDP per Capita`, `Consumer Price Index`, `GNI Per Capita`, `HDI Rank.x`, `Adolescent Birth Rate`) %>%
+  filter(!`GDP` == "..") %>%
+  filter(!`Consumer Price Index` == "..") %>%
+  filter(!`GNI Per Capita` == "..") %>%
+  filter(!`Adolescent Birth Rate` == "..") %>%
+  mutate(`GDP per Capita` = str_replace(`GDP per Capita`, ",", "")) %>%
+  mutate(`GDP` = str_replace(`GDP`, ",", "")) %>%
+  mutate(`GNI Per Capita` = str_replace(`GNI Per Capita`, ",", "")) %>%
+  mutate(`Consumer Price Index` = str_replace(`Consumer Price Index`, ",", "")) %>%
+  mutate(GDP_num = as.numeric(`GDP`)) %>%
+  mutate(GDP_Annual_Growth = as.numeric(`GDP Annual Growth`)) %>%
+  mutate(GDP_per_Capita = as.numeric(`GDP per Capita`)) %>%
+  mutate(Consumer_Price_Index = as.numeric(`Consumer Price Index`)) %>%
+  mutate(GNI_Per_Capita = as.numeric(`GNI Per Capita`)) %>%
+  #mutate(HDI_Rankx = as.numeric(`HDI Rank.x`)) %>%
+  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`))
+```
 
+  
+```{r GDP, echo=FALSE, error=FALSE, fig.height=3, fig.width=7, message=FALSE, warning=FALSE}
+ggplot(gdp_data, aes(x = as.numeric(`GDP Annual Growth`), 
+                           y = as.numeric(`Adolescent Birth Rate`), 
+                           color = as.numeric(`HDI Rank.x`))) +
+  geom_point() +
+  labs(
+    title= "Does GDP Annual Growth Rate Affect Adolescent Birth Rates?",
+    subtitle = "per 1000 Live Births",
+    x="GDP Annual Growth Rate",
+    y="Adolescent Birth Rate",
+    color = "HDI Rank")
+```
+
+```{r cor-GDP, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+
+cor(as.numeric(country_joined$`GDP Annual Growth`), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
+
+```
+
+---
+# Linear Regression Economic Indicators
+```{r GDP-linreg}
+mainfit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(Adolescent_Birth_Rate ~ GDP_num + GDP_Annual_Growth + GDP_per_Capita + Consumer_Price_Index +  GNI_Per_Capita, data = gdp_data)
+tidy(mainfit, conf.int=FALSE)
 ```
 
 ---
