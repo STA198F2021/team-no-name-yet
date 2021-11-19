@@ -265,35 +265,30 @@ class: inverse, middle, center
 How does a country’s quality of life, measured by human and economic resources, correlate to the birth rates for teenagers aged 15 to 19 years old?  
   
 --
-  
+The main explanatory variables we chose are:Maternal mortality ratio, Female educational attainment, GDP annual growth rate, Life expectancy at birth, HDI index, Labor force participation rate, and Gender inequality index.
+
+--
   
 DISCLAIMER: Western assumptions may have biased our report and analysis
-  
-  
   
 [*] National Research Council (US) Panel on Adolescent Pregnancy and Childbearing
   
 ---
-# Methodology and Exploration
+# Intro to Data
 ---
 # Overview of adolescent birth rate
-.pull-left[
-```{r 4}
+```{r 4-overview, echo=FALSE}
 country_joined %>%
   ggplot(aes(x = as.numeric(`Adolescent Birth Rate`))) +
   geom_boxplot() +
   labs(title= "Adolescent Birth Rates Worldwide", subtitle = "Collected in 2019",
        x= "Adolescent Birth Rate (per 1,000 Women Aged 15-19)")
 ```
-]
-
-.pull-right[
 - Middle 50% of countries has 13.4 to 72.9 teen birth per 1,000 teen women
-- Right-skewed distribution can allow us to compare indicators on both sides of the spectrum.]
+- Right-skewed
 ---
 # Maternal Mortality & Teen Birth Rate
-.pull-left[
-```{r maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7}
+```{r maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 mortalities <- country_joined %>%
   mutate(Maternal_Mortality_Adj = as.numeric(`Maternal Mortality Ratio`) / 100) %>%
   filter(!is.na(Maternal_Mortality_Adj))
@@ -313,19 +308,9 @@ cor(as.numeric(country_joined$`Maternal Mortality Ratio`),
     use = "complete.obs")
 
 ```
-]
-
-.pull-right[
-- Strong, positive, linear relationship  
-  - r= 0.731  
-  
-- As maternal mortality increases, so does adolescent birth rate across countries.  
-   
-- We expect countries with higher adolescent birth rates to have high maternal mortality ratios due to premature bodies and lack of access to modern healthcare (among other factors).]. 
 
 ---
 # Female Education Attainment & Birth Rate
-.pull-left[
 ```{r fem-education dataframe, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 fem_education <- country_joined %>%
   select(`Adolescent Birth Rate`, `Mean Years Schooling Female`, `Mean Years Schooling Male`, `Secondary Education Female`, `Secondary Education Male`) %>%
@@ -356,66 +341,98 @@ ggplot(data = fem_education, mapping = aes(x= Mean_Years_Schooling_Female, y= Ad
 cor(as.numeric(country_joined$`Mean Years Schooling Female`), 
     as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 ```
-]  
-
-.pull-right[
-- Relatively strong, negative, linear correlation  
-  - r = -0.7249  
-  
-- As the mean years of schooling for women increases, the rate of adolescent births decreases. 
-  
-- Makes sense because the increase in time spent in school increases the likelihood of a woman finding a career in the workforce along with being actively informed about sexual health and safe practices.]  
   
 ---
 # GDP Annual Rate & Teen Birth Rate
-.pull-left[
+
 ```{r 7}
 
 ```
-]
 
-.pull-right[
-]
 ---
 # Life Expectancy & Teen Birth Rate
-.pull-left[
-```{r 8}
+```{r life-exp, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+ggplot(country_joined, aes(x = as.numeric(`Life Expectancy Birth`), 
+                           y = as.numeric(`Adolescent Birth Rate`), color = as.numeric(`Health Expenditure of GDP`))) +
+  geom_point(alpha=0.8)+
+  labs(
+    title= "Does Life Expectancy at Birth Affect Adolescent Birth Rate?",
+    subtitle = "Mean Expected Years for a Given Country",
+    x="Life Expectancy at Birth",
+    y="Adolescent Birth Rate", color = "Health Expenditure of GDP"
+  )
 
 ```
-]
 
-.pull-right[
-]
+```{r cor-life-exp, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+
+cor(as.numeric(country_joined$`Life Expectancy Birth`), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
+
+```
+
 ---
+
 # HDI & Teen Birth Rate
-.pull-left[
-```{r 9}
+```{r 9-HDI}
+ggplot(country_joined, aes(x = as.numeric(`HDI 2019`), 
+                           y = as.numeric(`Adolescent Birth Rate`))) +
+  geom_point(alpha=0.8)+
+  labs(
+    title= "Is 2019 HDI Related to Adolescent birth rate?",
+    x="2019 HDI",
+    y="Adolescent Birth Rate"
+  )
+```
+
+```{r cor-HDI-2019, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+
+cor(as.numeric(country_joined$`HDI 2019`), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-]
 
-.pull-right[
-]
 ---
 # Female Labor Participate & Birth Rate
-.pull-left[
-```{r 8}
-
+```{r 10-labor, echo=FALSE}
+country_joined %>%
+  ggplot(aes(x= as.numeric(`Labour Participation Female`), 
+             y= as.numeric(`Adolescent Birth Rate`)))+
+  geom_point(alpha=0.5) +
+  labs(
+    title= "Does Female Labor Participation Affect Adolescent Birth Rate?",
+    x="Female Labor Participation",
+    y="Adolescent Birth Rate"
+  )
 ```
-]
 
-.pull-right[
-]
+```{r cor-labor-participation, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+
+cor(as.numeric(country_joined$`Labour Participation Female`), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
+```
+
 ---
 # Gender Inequality Index & Birth Rate
-.pull-left[
-```{r 8}
+```{r gender-inequality, fig.height=3, fig.width=7, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+country_joined %>%
+  ggplot(aes(x= as.numeric(`Gender Inequality Index`), 
+             y= as.numeric(`Adolescent Birth Rate`))) +
+  geom_point(alpha=0.6) +
+  labs(
+    title= "Is Gender Development Index Related to Adolescent Birth Rate?",
+    x="Gender Development Index",
+    y="Adolescent Birth Rate"
+  )
+```
+
+```{r cor-GDI, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+
+cor(as.numeric(country_joined$`Gender Inequality Index`), 
+    as.numeric(country_joined$`Adolescent Birth Rate`), method = "pearson", use="complete.obs")
 
 ```
-]
 
-.pull-right[
-]
 ---
 # Regression
 ---
@@ -446,4 +463,10 @@ ggplot(data = cat_new) +
 ---
 # References
 - National Research Council (US) Panel on Adolescent Pregnancy and Childbearing; Hofferth SL, Hayes CD, editors. Risking the Future: Adolescent Sexuality, Pregnancy, and Childbearing, Volume II: Working Papers and Statistical Appendices. Washington (DC): National Academies Press (US); 1987. CHAPTER 6, SOCIAL AND ECONOMIC CONSEQUENCES OF TEENAGE CHILDBEARING. Available from: https://www.ncbi.nlm.nih.gov/books/NBK219229/  
--
+  
+- Youth.gov. (n.d.). Risk and Protective Factors. Youth.gov. Retrieved November 2021, from https://youth.gov/youth-topics/pregnancy-prevention/risk-and-protective-factors. 
+  
+- Child Trends Databank. (2015). Fertility and birth rates. Available at: http://www.childtrends.org/?indicators=fertility-and-birth-rates - See more at: http://www.childtrends.org/?indicators=fertility-and-birth-rates#sthash.cwLt7kU4.dpuf
+  
+- Amadeo, K. (2021, November 11). US Real GDP Growth Rate by Year Compared to Inflation and Unemployment. The Balance. Retrieved November 2021, from https://www.thebalance.com/u-s-gdp-growth-3306008. 
+  
