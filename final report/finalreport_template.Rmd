@@ -355,6 +355,16 @@ and lower adolescent birth rates.
   
   
 **Is HDI in 2019 related to adolescent birth rate?**
+```{r, warning=FALSE, echo=FALSE, message=FALSE}
+ggplot(country_joined, aes(x = as.numeric(`HDI 2019`), 
+                           y = as.numeric(`Adolescent Birth Rate`))) +
+  geom_point(alpha=0.8)+
+  labs(
+    title= "Is 2019 HDI Related to Adolescent birth rate?",
+    x="2019 HDI",
+    y="Adolescent Birth Rate"
+  )
+```
 
 ```{r cor-HDI-2019, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
 
