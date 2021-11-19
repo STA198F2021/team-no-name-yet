@@ -1,6 +1,6 @@
 ---
-title: "The Indicators That Affect Teen Pregnancy"
-subtitle: "and future implications"
+title: "Indicators That Affect Teen Pregnancy"
+subtitle: "& Future Implications"
 author: "Team-No-Name-Yet <br> Isabel Siebrecht, Franklin Feng, & Kaylin Hernandez"
 institute: "Duke University"
 date: "`r Sys.Date()`"
@@ -21,8 +21,14 @@ output:
 library(tidyverse)
 library(tidymodels)
 library(palmerpenguins)
+#Do we need this package ^^
 library(knitr)
 library(xaringanthemer)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(readr)
+library(infer)
 
 knitr::opts_chunk$set(eval = TRUE, echo = FALSE, message = FALSE, warning = FALSE)
 ```
@@ -91,7 +97,7 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 
 ```{r style-slides, echo = FALSE}
 style_xaringan(
-  title_slide_background_image = "img/watercolour_sys02_img34_teacup-ocean.jpg"
+  title_slide_background_image = "Intro Slide.jpeg"
 )
 ```
 
