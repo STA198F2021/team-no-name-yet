@@ -20,8 +20,6 @@ output:
 # Remove any packages from this list that you're not using
 library(tidyverse)
 library(tidymodels)
-library(palmerpenguins)
-#Do we need this package ^^
 library(knitr)
 library(xaringanthemer)
 library(dplyr)
@@ -99,166 +97,11 @@ contraceptives_joined <- contraceptive_prevalence_clean %>%
 
 ```{r style-slides, echo = FALSE}
 style_xaringan(
-  title_slide_background_image = "img/Intro Slide.jpeg"
+  title_slide_background_image = "img/Intro Slide Final.jpeg"
 )
 ```
 
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-## xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-## Layouts
-
-You can use plain text
-
-- or bullet points
-
-.pull-left[
-or text in two columns $^*$
-]
-.pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
-]
-
----
-
-## Code
-
-```{r boring-regression}
-# a boring regression
-model <- lm(dist ~ speed, data = cars)
-tidy(model)
-glance(model)
-```
-
----
-
-## Plots
-
-```{r recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-penguins_modified <- penguins %>%
-  mutate(species = fct_other(species, keep = "Adelie"))
-```
-
-```{r plot-penguins, echo = FALSE, warning = FALSE, fig.alt = "Body mass vs. flipper lenght of Palmer Penguins for species Adelie and all the others combined together. There is a relatively strong, positive relationship between the two variables. The Adelie penguins are clustered together but they don't exhibit a different trend than the rest of the penguins."}
-# Code hidden with echo = FALSE
-# Uses modified penguins dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(penguins_modified, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
-  geom_point() + 
-  theme_minimal()
-```
-
----
-
-## Plot and text
-
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
-```
-]
-
----
-
-class: inverse, middle, center
-
-# A new section...
-
----
-
-## Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r penguins-table, echo = FALSE}
-kable(head(penguins), format = "html")
-```
-
----
-
-## Images
-
-```{r castle, echo = FALSE, out.width = "40%", fig.align = "center", fig.cap = "Image credit: Danielle Navarro, Percolate."}
-include_graphics("img/watercolour_sys02_img32_percolate.jpg")
-```
-
-Or you can also include a full page image. See next slide.
-
----
-
-background-image: url(img/watercolour_sys02_img32_percolate.jpg)
-
----
-
-## Math Expressions
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
-
-```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
-
----
-
-class: inverse, middle, center
-
-# Wrap up
-
----
-
-## Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcomed to use the default styling of the slides. In fact, that's what I expect the majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
-
----
-## Overview
+## Overview and Motivations
 - In this project, we chose to research what factors in our world influence the rate of teenage pregnancies.  
   
   
@@ -273,7 +116,8 @@ class: inverse, middle, center
 How does a country’s quality of life, measured by human and economic resources, correlate to the birth rates for teenagers aged 15 to 19 years old?  
   
 --
-The main explanatory variables we chose are:Maternal mortality ratio, Female educational attainment, GDP annual growth rate, Life expectancy at birth, HDI index, Labor force participation rate, and Gender inequality index.
+
+The main explanatory variables we chose are: Maternal Mortality Ratio, Female Educational Attainment, GDP Annual Growth Rate, Life Expectancy at Birth, HDI Index, Labor Force Participation Rate, and Gender Inequality Index.
 
 --
   
@@ -283,8 +127,14 @@ DISCLAIMER: Western assumptions may have biased our report and analysis
   
 ---
 # Intro to Data
+
+```{r hdr, echo = FALSE, out.width = "40%", fig.align = "center", fig.cap = "Image credit: United Nations Development Programme."}
+include_graphics("img/watercolour_sys02_img32_percolate.jpg")
+```
+
 ---
-# Overview of adolescent birth rate
+# Adolescent Birth Rate
+
 ```{r 4-overview, echo=FALSE}
 country_joined %>%
   ggplot(aes(x = as.numeric(`Adolescent Birth Rate`))) +
@@ -293,7 +143,6 @@ country_joined %>%
        x= "Adolescent Birth Rate (per 1,000 Women Aged 15-19)")
 ```
 - Middle 50% of countries has 13.4 to 72.9 teen birth per 1,000 teen women
-- Right-skewed
 ---
 # Maternal Mortality & Teen Birth Rate
 ```{r maternal-mortality, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
@@ -393,7 +242,12 @@ cor(as.numeric(country_joined$`GDP Annual Growth`),
 
 ```
 
+---
+
 # Linear Regression Economic Indicators
+
+- Our variables in the model are: GDP by purchasing power parity $^*$, GDP annual growth, GDP per capita, Consumer Price Index, and GNI (Gross national income) per capita
+
 ```{r GDP-linreg}
 mainfit <- linear_reg() %>%
   set_engine("lm") %>%
@@ -402,6 +256,10 @@ mainfit <- linear_reg() %>%
 
 kable(tidy(mainfit, conf.int = FALSE), format = "html")
 ```
+
+.footnote[
+[*] PPP is an economic theory that compares different countries' currencies through a "basket of goods" approach. Equation is $S=P1/P2$
+]
 
 ---
 # Life Expectancy & Teen Birth Rate
@@ -489,8 +347,39 @@ cor(as.numeric(country_joined$`Gender Inequality Index`),
 
 ---
 # Regression
+- Our variables in the model are: Maternal Mortality Ratio, Female Education Attainment, GDP, Life Expectancy at Birth, HDI Index, Female Labour Participation, and Gender Inequality Index
+
+```{r total-linear-regression}
+country_joined <- country_joined %>%
+  filter(!`GDP` == "..") %>%
+  filter(!`Adolescent Birth Rate` == "..") %>%
+  filter(!`Maternal Mortality Ratio` == "..") %>%
+  filter(!`Mean Years Schooling Female` == "..") %>%
+  filter(!`Labour Participation Female` == "..") %>%
+  filter(!`Gender Inequality Index` == "..") %>%
+  mutate(GDP = as.numeric(`GDP`)) %>%
+  mutate(Adolescent_Birth_Rate = as.numeric(`Adolescent Birth Rate`)) %>%
+  mutate(Country_new = as.factor(`Country`)) %>%
+  mutate(`Maternal Mortality Ratio` = str_replace(`Maternal Mortality Ratio`, ",", "")) %>%
+  mutate(Maternal_Mortality_Ratio = as.numeric(`Maternal Mortality Ratio`)) %>%
+  mutate(Mean_Years_Schooling_Female = as.numeric(`Mean Years Schooling Female`)) %>%
+  mutate(Life_Expectancy_Birth = as.numeric(`Life Expectancy Birth`)) %>%
+  mutate(HDI_2019 = as.numeric(`HDI 2019`)) %>%
+  mutate(Labour_Participation_Female = as.numeric(`Labour Participation Female`)) %>%
+  mutate(Gender_Inequality_Index = as.numeric(`Gender Inequality Index`))
+
+linreg_total <- country_joined %>%
+  select(Country_new, Adolescent_Birth_Rate, GDP, Maternal_Mortality_Ratio, Mean_Years_Schooling_Female, Life_Expectancy_Birth, HDI_2019, Labour_Participation_Female, Gender_Inequality_Index)
+         
+mainfit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(Adolescent_Birth_Rate ~ GDP + Maternal_Mortality_Ratio + Mean_Years_Schooling_Female + Life_Expectancy_Birth + HDI_2019 + Labour_Participation_Female + Gender_Inequality_Index , data = linreg_total)
+
+kable(tidy(mainfit, conf.int=TRUE), format = "html")
+
+```
+
 ---
-# GII & Future Implications
 ```{r HDI Grouping, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 cat_new <- country_joined %>%
   mutate(HDI_final = as.numeric(`HDI Rank.x`)) %>%
@@ -501,7 +390,8 @@ cat_new <- country_joined %>%
       "Very High", "High", "Medium", "Low", "Other")))
 ```
 
-```{r 12}
+# GII & Future Implications
+```{r gender-inequality-plot}
 ggplot(data = cat_new) +
   geom_point(aes(x = as.numeric(`Gender Inequality Index`), y = as.numeric(`Adolescent Birth Rate`), color = HDI_cat)) +
   labs(title = "Gender Inequality Index vs Adolescent Birth Rate",
@@ -510,17 +400,18 @@ ggplot(data = cat_new) +
        y = "Adolescent Birth Rate",
        color = "HDI Development Category")
 ```
-
-- Wealthier countries tend to have lower gender equality disparities and lower rates of teen births, and vice versa
-- We will get the most out of the intervention by targeting wealth and gender inequality to improve adolescent birth rates in low HDI counties 
-
+- Wealthier countries tend to have lower gender equality disparities and teen birth rates, and vice versa
 ---
+
 # References
-- National Research Council (US) Panel on Adolescent Pregnancy and Childbearing; Hofferth SL, Hayes CD, editors. Risking the Future: Adolescent Sexuality, Pregnancy, and Childbearing, Volume II: Working Papers and Statistical Appendices. Washington (DC): National Academies Press (US); 1987. CHAPTER 6, SOCIAL AND ECONOMIC CONSEQUENCES OF TEENAGE CHILDBEARING. Available from: https://www.ncbi.nlm.nih.gov/books/NBK219229/  
-  
-- Youth.gov. (n.d.). Risk and Protective Factors. Youth.gov. Retrieved November 2021, from https://youth.gov/youth-topics/pregnancy-prevention/risk-and-protective-factors. 
-  
+
+- Amadeo, K. (2021, November 11). US Real GDP Growth Rate by Year Compared to Inflation and Unemployment. The Balance. Retrieved November 2021, from https://www.thebalance.com/u-s-gdp-growth-3306008.
+
 - Child Trends Databank. (2015). Fertility and birth rates. Available at: http://www.childtrends.org/?indicators=fertility-and-birth-rates - See more at: http://www.childtrends.org/?indicators=fertility-and-birth-rates#sthash.cwLt7kU4.dpuf
-  
-- Amadeo, K. (2021, November 11). US Real GDP Growth Rate by Year Compared to Inflation and Unemployment. The Balance. Retrieved November 2021, from https://www.thebalance.com/u-s-gdp-growth-3306008. 
+
+- Human Development Report 2020. Human Development Reports, UNITED NATIONS DEVELOPMENT PROGRAMME. Retrieved November 2021, from http://hdr.undp.org/en/2020-report 
+
+- National Research Council (US) Panel on Adolescent Pregnancy and Childbearing; Hofferth SL, Hayes CD, editors. Risking the Future: Adolescent Sexuality, Pregnancy, and Childbearing, Volume II: Working Papers and Statistical Appendices. Washington (DC): National Academies Press (US); 1987. CHAPTER 6, SOCIAL AND ECONOMIC CONSEQUENCES OF TEENAGE CHILDBEARING. Available from: https://www.ncbi.nlm.nih.gov/books/NBK219229/
+
+- Youth.gov. (n.d.). Risk and Protective Factors. Youth.gov. Retrieved November 2021, from https://youth.gov/youth-topics/pregnancy-prevention/risk-and-protective-factors.
   
